@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>用户登录</title>
+    <meta name="description" content="login page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/plug/beyond/img/favicon.png" type="image/x-icon">
+    <link href="/plug/beyond/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/plug/beyond/css/font-awesome.min.css" rel="stylesheet" />
+    <link id="beyond-link" href="/plug/beyond/css/beyond.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="login-container animated fadeInDown">
+        <form action="{:url('user/login_handler')}" autocomplete="off" id="accountForm" method="post">
+            <div class="loginbox bg-white" style="height:290px;">
+                <div class="loginbox-title">现在登录</div>
+                <div class="form-group loginbox-textbox">
+                    <div class="input-group">
+                        <span class="input-group-addon"> <i class="fa fa-user"></i></span>
+                        <input type="text" name="username" class="form-control"  placeholder="邮箱">
+                    </div>
+                </div>
+                <div class="form-group loginbox-textbox">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="密码">
+                    </div>
+                </div>
+                <div class="form-group loginbox-textbox">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-external-link"></i></span>
+                        <input type="text" name="verify" class="form-control" style="width:100px;" placeholder="验证码" id="verify">
+                        <img src="/admin/captcha" alt="captcha" style="cursor:pointer;" onclick="javascript:this.src=this.src+'?_id='+Math.random();document.getElementById('verify').value='';"/>
+                    </div>
+                </div>
+                <div class="loginbox-textbox">
+
+                </div>
+                <div class="loginbox-submit">
+                    <input type="submit" class="btn btn-primary btn-block" value="登录">
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/plug/beyond/js/jquery-2.0.3.min.js"></script>
+    <script src="/plug/beyond/js/bootstrap.min.js"></script>
+    <script src="/plug/beyond/js/validation/bootstrapValidator.js"></script>
+    <script src="/plug/layui/build/layui.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var layer = layui.layer,
+            device = layui.device();
+            console.log(device);
+            $('form').bootstrapValidator({
+                excluded: [':disabled'],
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    username: {
+                        validators: {
+                            notEmpty: {
+                                message: '请输入正确的邮箱地址'
+                            },
+                            emailAddress: {
+                                message: '输入不是有效的邮箱地址'
+                            }
+                        }
+                    },
+                    password: {
+                        validators: {
+                            notEmpty: {
+                                message: '请输入密码'
+                            }
+                        }
+                    },
+                    verify: {
+                        validators: {
+                            notEmpty: {
+                                message: '请输入验证码'
+                            }
+                        }
+                    }
+                }
+            });
+            $('.loginbox-submit input[type="submit"]').click(function(e) {
+                e.preventDefault();
+                var bootstrapValidator = $("form").data('bootstrapValidator');
+                bootstrapValidator.validate();
+                if(bootstrapValidator.isValid()){
+                    var index = layer.load(2,{
+                        shard:[0.9,"#000"]
+                    });
+                    $.post($('form').attr('action'),$('form').serialize(),function(result){
+                        layer.close(index);
+                        if(result.status==0){
+                             layer.alert(result.msg,{icon:5});
+                        }else{
+                            layer.alert(result.msg,{icon:6,end:function(){
+                                window.location.href=result.redirect;
+                            }});
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -8,7 +8,9 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var admin = require('./routes/admin');
+var admin = require('./routes/admin'),
+config = require('config-lite');    //读取配置文件
+
 
 var app = express();
 
@@ -28,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'files')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 
 //开启session
+/*
 app.use(session({
   resave:false,//添加这行
   saveUninitialized: true,//添加这行
@@ -35,6 +38,8 @@ app.use(session({
   key: 'jswei30',//cookie name
   cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
 }));
+ */
+app.use(session(config.session));
 
 //配置路由
 app.use('/', index);

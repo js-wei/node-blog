@@ -1,10 +1,36 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+,md5 = require('md5'),
+router = express.Router(),
+Admin = require('../model/admin.js');
 
 /* GET admin listing. */
 router.get('/', function(req, res, next) {
     res.render('admin/user/login',{title:'admin'});
 });
+
+router.post('/login_handler',(req, res, next)=>{
+    if(!req.body.verify){
+         res.json({"status":0, "msg":"请输入验证码"});
+    }
+
+    if(req.session.checkcode!=req.body.verify){
+        res.json({"status":0, "msg":"验证码输入错误"});
+    }
+
+    Admin.findOne({'name':req.body.username},(err,result)=>{
+        if(err){
+            res.json({"status":0, "msg":err});
+            return;
+        }
+        if(result==null){
+            res.json({"status":0, "msg":"请输入正确的账号"});
+            return;
+        }
+        res.json({"status":1, "msg":"登录成功"});
+        console.log(result);
+    });
+});
+
 
 router.get('/png',function(req,res,next){
   var pnglib = require('pnglib'),

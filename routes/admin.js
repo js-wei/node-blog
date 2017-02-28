@@ -109,8 +109,8 @@ router.use(function (req, res, next) {
   res.locals.title="仪表盘";
   res.locals.title1="仪表盘";
   if(req.session._name=='' || req.session._name==null){
-      res.redirect('/admin');
-      res.end(200);
+      //res.redirect('/admin');
+      //res.end(200);
   }
   next();
 });

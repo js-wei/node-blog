@@ -30,21 +30,13 @@ app.use(express.static(path.join(__dirname, 'files')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 
 //开启session
-/*
-app.use(session({
-  resave:false,//添加这行
-  saveUninitialized: true,//添加这行
-  secret:'jswei30',
-  key: 'jswei30',//cookie name
-  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
-}));
- */
 app.use(session(config.session));
 
 //配置路由
 app.use('/', index);
 app.use('/users', users);
 app.use('/admin', admin);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

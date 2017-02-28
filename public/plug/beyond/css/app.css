@@ -1,0 +1,5 @@
+/*ul.points介绍样式*/
+.points{padding-left:16px;margin-left:0px;list-style:decimal;}
+.databox-right>.databox-text>a {display: inline-block;color: #2dc3e8;font-size:14px;}
+.table-striped>tbody>tr:nth-child(odd)>td,.table-striped>tbody>tr:nth-child(even)>td{text-overflow:ellipsis;-o-text-overflow:ellipsis;-webkit-text-overflow:ellipsis;-moz-text-overflow:ellipsis;white-space:nowrap;}
+.table-striped>tbody>tr>td{cursor:pointer;}

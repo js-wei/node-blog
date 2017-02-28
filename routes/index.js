@@ -11,14 +11,17 @@ router.get('/', function(req, res, next) {
     password:md5('123456'),
     logindate:new Date().getTime(),
     loginip:'127.0.0.1',
-    statusL:0
+    status:0
   });
+  var msg = '';
   user.save(function (err, res) {
       if (err) {
-          console.log("Error:" + err);
+          msg =  err.message;
+          console.log(err.errors);
+          console.log(err.message);
       }
   });
-  res.render('index', { title: 'Express'});
+  res.render('index', { title: 'Express',err:msg});
 });
 
 module.exports = router;

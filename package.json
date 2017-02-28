@@ -14,6 +14,7 @@
     "express": "~4.14.1",
     "mongoose": "^4.8.4",
     "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.2"
+    "serve-favicon": "~2.3.2",
+    "silly-datetime": "^0.1.2"
   }
 }

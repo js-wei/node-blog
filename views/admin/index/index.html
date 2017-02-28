@@ -1,0 +1,244 @@
+<%include ../public/header.html%>
+<%include ../public/left.html%>
+<!-- Page Body -->
+<div class="page-body">
+  <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="databox radius-bordered databox-shadowed databox-graded">
+                <div class="databox-left bg-themesecondary">
+                    <div class="databox-piechart">
+                        <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="50" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)" style="width: 47px; height: 47px; line-height: 47px;"><i class="stat-icon icon-lg fa fa-tasks"></i><canvas width="47" height="47"></canvas></div>
+                    </div>
+                </div>
+                <div class="databox-right">
+                    <span class="databox-number themesecondary">14</span>
+                    <div class="databox-text darkgray"><a href="{:Url('column/index')}">栏目</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="databox radius-bordered databox-shadowed databox-graded">
+                <div class="databox-left bg-themethirdcolor">
+                    <div class="databox-piechart">
+                        <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="15" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.2)" style="width: 47px; height: 47px; line-height: 47px;"><i class="stat-icon  icon-lg fa fa-comments"></i><canvas width="47" height="47"></canvas></div>
+                    </div>
+                </div>
+                <div class="databox-right">
+                    <span class="databox-number themethirdcolor">1</span>
+                    <div class="databox-text darkgray"><a href="{:Url('comment/index')}">新评论</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="databox radius-bordered databox-shadowed databox-graded">
+                <div class="databox-left bg-themeprimary">
+                    <div class="databox-piechart">
+                        <div id="users-pie" data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="76" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)" style="width: 47px; height: 47px; line-height: 47px;"> <i class="fa fa-users"></i><canvas width="47" height="47"></canvas></div>
+                    </div>
+                </div>
+                <div class="databox-right">
+                    <span class="databox-number themeprimary">98</span>
+                    <div class="databox-text darkgray"><a href="{:Url('user/index')}">新用户</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="databox radius-bordered databox-shadowed databox-graded">
+                <div class="databox-left bg-themesecondary">
+                    <div class="databox-piechart">
+                        <div id="users-pie" data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="76" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)" style="width: 47px; height: 47px; line-height: 47px;"> <i class="fa fa-shopping-cart"></i><canvas width="47" height="47"></canvas></div>
+                    </div>
+                </div>
+                <div class="databox-right">
+                    <span class="databox-number themesecondary">98</span>
+                    <div class="databox-text darkgray"><a href="{:Url('order/index')}">订单</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+	        <div class="well with-header  with-footer">
+	            <div class="header bg-blue">
+	                系统详细信息
+	            </div>
+	            <table class="table table-hover">
+	                <thead class="bordered-darkorange">
+	                    <tr>
+	                        <th>
+	                            名称
+	                        </th>
+	                        <th>
+	                            详情
+	                        </th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr>
+	                        <td style="width:120px;">
+	                            操作系统
+	                        </td>
+	                        <td>
+	                            <%=type%>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            服务器
+	                        </td>
+	                        <td>
+	                           NodeJS
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                           Node版本
+	                        </td>
+	                        <td>
+	                            <%=node%>
+	                        </td>
+	                    </tr>
+                      <tr>
+	                        <td>
+	                           总内存
+	                        </td>
+	                        <td>
+	                            <%=totalmem%>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            闲置内存
+	                        </td>
+	                        <td>
+	                            <%=freemem%>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            系统时间
+	                        </td>
+	                        <td id="sys-time">
+                              <%=time%>
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	            <div class="footer">
+	                <code>系统信息只做参考</code>
+	            </div>
+	        </div>
+	    </div>
+	     <div class="col-xs-12 col-md-6">
+	        <div class="well with-header  with-footer">
+	            <div class="header bg-success">
+	                程序详细信息
+	            </div>
+	            <table class="table table-hover">
+	                <thead class="bordered-darkorange">
+	                    <tr>
+	                        <th>
+	                            名称
+	                        </th>
+	                        <th>
+	                            详情
+	                        </th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr>
+	                        <td style="width:120px;">
+	                            网站域名
+	                        </td>
+	                        <td>
+	                            {$os.host}
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            网站名称
+	                        </td>
+	                        <td>
+	                            {$site.title}
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                           网站关键词
+	                        </td>
+	                        <td>
+	                            {$site.keywords}
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            网站描述
+	                        </td>
+	                        <td>
+	                            {$site.description|mb_substr=0,150}<if condition="strlen($site['description']) gt 150">...</if>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            轮播图
+	                        </td>
+	                        <td>
+	                            <eq name="site.carousel" value="1"><label class="label label-success">已开启</label><else /><label class="label label-danger">未开启</label></eq>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            轮播图调用数
+	                        </td>
+	                        <td>
+	                            {$site.sum}
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            友情链接
+	                        </td>
+	                        <td>
+	                           <eq name="site.flink" value="1"><label class="label label-success">已开启</label><else /><label class="label label-danger">未开启</label></eq>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            分享
+	                        </td>
+	                        <td>
+	                            <eq name="site.is_shard" value="1"><label class="label label-success">已开启</label><else /><label class="label label-danger">未开启</label></eq>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            联系方式
+	                        </td>
+	                        <td>
+	                           固话:<notempty name="site.tel">{$site.tel}<else />未填写</notempty>  手机:<notempty name="site.phone">{$site.phone}<else />未填写</notempty>  传真: <notempty name="site.fax">{$site.fax}<else />未填写</notempty>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            联系地址
+	                        </td>
+	                        <td>
+	                           {$site.address}
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            版权信息
+	                        </td>
+	                        <td>
+	                            {$site.icp}{$site.copyright}
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	            <div class="footer">
+	                <code>程序配置可以在设置中完成</code>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+</div>
+<%include ../public/footer.html%>

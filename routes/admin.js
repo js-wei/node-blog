@@ -136,20 +136,41 @@ router.get('/index',(req,res)=>{
 
 //网站配置
 router.get('/config',(req,res)=>{
-    var Config = require('../model/Config.js');
-
-    // Config.findOne({},(err,data){
-    //
-    // });
-    res.render('admin/config/index');
+    var Config = require('../model/Config');
+    res.locals.title=res.locals.title1="网站配置";
+    Config.findOne({},(err,data)=>{
+        res.render('admin/config/index',{config:data});
+    });
 });
+//修改网站配置
+router.post('/config',(req,res)=>{
+    var Config = require('../model/Config');
+    var id = req.body.id;
+    var data = req.body;
+    delete data["id"];
+    var config = new Config(data);    //实例化对象
 
-
-
-
-
-
-
+    if(!id){
+      config.save((err,result)=>{
+        if(err){
+          res.json({'status':0,'msg':'操作失败'});
+          return;
+        }
+        res.json({'status':1,'msg':'操作成功','redirect':'/admin/config'});
+        return;
+      });
+    }else{
+      delete config['_id'];
+      config.update({'_id':ObjectId(id)},{$set:{'email':'524314430@qq.com'}},(err,result)=>{
+          if(err){
+            res.json({'status':0,'msg':'操作失败'});
+            return;
+          }
+          res.json({'status':1,'msg':'操作成功','redirect':'/admin/config'});
+          return;
+      });
+    }
+});
 
 
 

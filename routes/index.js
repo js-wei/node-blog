@@ -16,9 +16,7 @@ router.get('/', function(req, res, next) {
   var msg = '';
   user.save(function (err, res) {
       if (err) {
-          msg =  err.message;
           console.log(err.errors);
-          console.log(err.message);
       }
   });
   res.render('index', { title: 'Express',err:msg});

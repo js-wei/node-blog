@@ -21,6 +21,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/admin/config">
+                        <i class="menu-icon fa fa-cogs"></i>
+                        <span class="menu-text">网站配置</span>
+                    </a>
+                </li>
+                <li>
                    <a href="#" class="menu-dropdown">
                        <i class="menu-icon fa  fa-krw"></i>
                        <span class="menu-text">文档管理</span>
@@ -87,3 +93,16 @@
                 <!--Header Buttons End-->
             </div>
             <!-- /Page Header -->
+
+<script type="text/javascript">
+  (function(){
+      var li = $('li.active').parent('ul.submenu').parent('li');
+      //$('li.active .open').find('ul.submenu>li:first').addClass('active');
+      li.addClass('open');
+  })();
+  function getQueryString(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) return unescape(r[2]); return null;
+  }
+</script>

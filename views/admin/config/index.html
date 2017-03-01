@@ -6,15 +6,15 @@
     <form id="togglingForm" action="/admin/config" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
         <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">网站标题<sup>*</sup></label>
-            <div class="col-md-6 col-md-6 col-lg-6">
+            <div class="col-md-6  col-lg-6">
                 <input type="text" name="title" value="<%if(config){%><%= config.title%><%}%>" class="form-control" id="name" placeholder="网站标题"/>
                 <input type="hidden" name="id" value="<%if(config){%><%= config._id%><%}%>">
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">网站域名<sup>*</sup></label>
-            <div class="col-md-6 col-md-6 col-lg-6">
-                <input type="text" name="url" value="<%if(config){%><%= config.url%><%}%>" class="form-control" id="url" placeholder="网站域名"/>
+            <div class="col-md-6  col-lg-6">
+                <input type="url" name="url" data-fv-uri="true" value="<%if(config){%><%= config.url%><%}%>" data-bv-uri-message="请输入正确的网址" class="form-control" id="url" placeholder="网站域名"/>
             </div>
         </div>
         <div class="form-group">
@@ -31,7 +31,7 @@
         </div>
        <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">网站LOGO</label>
-            <div class="col-lg-2">
+            <div class="col-lg-4">
                 <div>
                     <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="logo" id="fileImg" multiple="multiple" size="16" value="上传" class="table_btn"/></div>
                     <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
@@ -74,7 +74,7 @@
         </div>
         <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">轮播个数</label>
-            <div class="col-md-6 col-lg-2">
+            <div class="col-md-6 col-lg-3">
                 <input type="text" name="num" value="<%if(config){%><%= config.num%><%}%>" class="form-control" id="num" placeholder="轮播个数"/>
                 <div class="text-danger">
                   *0代表全部,负数不显示,正数显示个数
@@ -83,25 +83,25 @@
         </div>
         <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">联系固话</label>
-            <div class="col-md-6 col-lg-2">
+            <div class="col-md-6 col-lg-3">
                 <input type="text" name="tel" value="<%if(config){%><%= config.tel%><%}%>" class="form-control" id="tel" placeholder="联系固话"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">联系手机</label>
-            <div class="col-md-6 col-lg-2">
+            <div class="col-md-6 col-lg-3">
                 <input type="text" name="phone" value="<%if(config){%><%= config.phone%><%}%>" class="form-control" id="phone" placeholder="联系手机"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">联系传真</label>
-            <div class="col-md-6 col-lg-2">
+            <div class="col-md-6 col-lg-3">
                 <input type="text" name="fax" value="<%if(config){%><%= config.fax%><%}%>" class="form-control" id="fax" placeholder="联系传真"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">联系邮箱</label>
-            <div class="col-md-6 col-lg-2">
+            <div class="col-md-6 col-lg-3">
                 <input type="text" name="email" value="<%if(config){%><%= config.email%><%}%>" class="form-control" id="email" placeholder="联系邮箱"/>
             </div>
         </div>
@@ -223,9 +223,6 @@
                     validators: {
                         notEmpty: {
                             message: '请输入域名'
-                        },
-                        url:{
-                            message: '输入格式域名格式不正确'
                         }
                     }
                 }

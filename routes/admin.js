@@ -107,8 +107,8 @@ router.get('/captcha',function(req,res,next){
 //使用路由中间件,判断是否登录
 router.use(function (req, res, next) {
   if(req.session._name=='' || req.session._name==null){
-      res.redirect('/admin');
-      res.end(200);
+      //res.redirect('/admin');
+      //res.end(200);
   }
   next();
 });

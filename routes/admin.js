@@ -1,7 +1,6 @@
 var express = require('express')
 ,md5 = require('md5'),
-router = express.Router(),
-Admin = require('../model/admin.js');
+router = express.Router();
 
 
 
@@ -20,6 +19,7 @@ router.get("/logout",function(req,res){    // 到达 /logout 路径则登出， 
  * @type {[type]}
  */
 router.post('/login_handler',(req, res, next)=>{
+    var Admin = require('../model/admin.js')
     req.session.error = "";
     if(!req.body.verify){
          req.session.error="请输入验证码";
@@ -106,20 +106,19 @@ router.get('/captcha',function(req,res,next){
 
 //使用路由中间件,判断是否登录
 router.use(function (req, res, next) {
-  res.locals.title="仪表盘";
-  res.locals.title1="仪表盘";
   if(req.session._name=='' || req.session._name==null){
       res.redirect('/admin');
       res.end(200);
   }
   next();
 });
-
+//仪表盘
 router.get('/index',(req,res)=>{
   var os=require('os');
   var sd = require('silly-datetime');
   var time=sd.format(new Date(), 'YYYY-MM-DD HH:mm');
-
+  res.locals.title="仪表盘";
+  res.locals.title1="仪表盘";
   var data = {
       'endianness':os.endianness(), //字节顺序 高位优先返回BE,低位优先的返回LE
       'freemem':Math.ceil(os.freemem()/1024/1034)+"M",      //闲置内存
@@ -135,6 +134,15 @@ router.get('/index',(req,res)=>{
   res.render('admin/index/index',data);
 });
 
+//网站配置
+router.get('/config',(req,res)=>{
+    var Config = require('../model/Config.js');
+
+    // Config.findOne({},(err,data){
+    //
+    // });
+    res.render('admin/config/index');
+});
 
 
 

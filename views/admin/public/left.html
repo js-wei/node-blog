@@ -14,13 +14,13 @@
             <!-- Sidebar Menu -->
             <ul class="nav sidebar-menu">
                 <!--Dashboard-->
-                <li class="active">
+                <li <%if(locals.url=='/admin/index'){%>class="active"<%}%>>
                     <a href="/admin/index">
                         <i class="menu-icon glyphicon glyphicon-home"></i>
                         <span class="menu-text">仪表盘</span>
                     </a>
                 </li>
-                <li>
+                <li <%if(locals.url=='/admin/config'){%>class="active"<%}%>>
                     <a href="/admin/config">
                         <i class="menu-icon fa fa-cogs"></i>
                         <span class="menu-text">网站配置</span>
@@ -96,9 +96,9 @@
 
 <script type="text/javascript">
   (function(){
-      var li = $('li.active').parent('ul.submenu').parent('li');
+      //var li = $('li.active').parent('ul.submenu').parent('li');
       //$('li.active .open').find('ul.submenu>li:first').addClass('active');
-      li.addClass('open');
+      //li.addClass('open');
   })();
   function getQueryString(name) {
       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");

@@ -1,7 +1,7 @@
 var express = require('express')
 ,md5 = require('md5'),
 router = express.Router(),
-mongoose = require('mongoose');;
+mongoose = require('mongoose');
 
 
 
@@ -107,6 +107,7 @@ router.get('/captcha',function(req,res,next){
 
 //使用路由中间件,判断是否登录
 router.use(function (req, res, next) {
+  res.locals.url=req.originalUrl;
   if(req.session._name=='' || req.session._name==null){
       //res.redirect('/admin');
       //res.end(200);
@@ -128,7 +129,7 @@ router.get('/index',(req,res)=>{
       'release':os.release(),     //操作系统版本
       'totalmem':Math.ceil(os.totalmem()/1024/1034)+"M",   //系统总内存
       'type':os.type(),           //操作系统名称，基于linux的返回linux,基于苹果的返回Darwin,基于windows的返回Windows_NT
-      'uptime': Math.ceil(os.uptime()/3600),
+      'uptime': Math.ceil(os.uptime()/3600)+"小时",
       'node':process.version,
       'time':time
   };
@@ -137,27 +138,29 @@ router.get('/index',(req,res)=>{
 
 //网站配置
 router.get('/config',(req,res)=>{
-    var Config = require('../model/Config');
+    var Config = require('../model/config');
     res.locals.title=res.locals.title1="网站配置";
-    var id = mongoose.Types.ObjectId('58b4f389b4596c212c08d725');
-    Config.findOne({_id:id},(err,data)=>{
-        console.log(data);
-        res.render('admin/config/index',{config:data});
+    var id = mongoose.Types.ObjectId('58b81a40e9a8670a6851d35d');
+    Config.findById('58b81a40e9a8670a6851d35d',(err,data)=>{
+        res.render('admin/config/index',{config:data,_id:id});
     });
 });
 //修改网站配置
 router.post('/config',(req,res)=>{
-    var Config = require('../model/Config');
-    var id = req.body.id;
+    var Config = require('../model/config');
+    var id = mongoose.Types.ObjectId(req.body.id);
     var data = req.body;
     delete data["id"];
     var config = new Config(data);    //实例化对象
 
     if(!id){
       config.save((err,result)=>{
-        console.log(err);
         if(err){
-          res.json({'status':0,'msg':'操作失败'});
+          var msg='';
+          for(i in err.errors){
+              msg += ","+err.errors[i].message;
+          }
+          res.json({'status':0,'msg':msg.substring(1)});
           return;
         }
         res.json({'status':1,'msg':'操作成功','redirect':'/admin/config'});
@@ -165,7 +168,7 @@ router.post('/config',(req,res)=>{
       });
     }else{
       delete config['_id'];
-      config.update({'_id':'ObjectId(id)'},{$set:{'email':'524314430@qq.com'}},(err,result)=>{
+      Config.update({_id:id},{$set:data},(err,result)=>{
           if(err){
             res.json({'status':0,'msg':'操作失败'});
             return;

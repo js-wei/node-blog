@@ -1,4 +1,4 @@
-var mongoose = require('./db.js');
+var mongoose = require('./db');
 //网站配置model
 var ConfigSchema = new mongoose.Schema({
   title:{type:String,required:true},
@@ -10,6 +10,8 @@ var ConfigSchema = new mongoose.Schema({
   phone:{type:String},
   email:{type:String},
   address:{type:String},
+  flink:{type:Number,default:0},
+  is_shard:{type:Number,default:0},
   code:{type:String,deafult:''},                               //统计代码
   shard:{type:String,deafult:''},                             //分享代码
   conact:{type:String,default:''},                            //联系方式

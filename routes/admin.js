@@ -1,6 +1,7 @@
 var express = require('express')
 ,md5 = require('md5'),
-router = express.Router();
+router = express.Router(),
+mongoose = require('mongoose');;
 
 
 
@@ -138,7 +139,9 @@ router.get('/index',(req,res)=>{
 router.get('/config',(req,res)=>{
     var Config = require('../model/Config');
     res.locals.title=res.locals.title1="网站配置";
-    Config.findOne({},(err,data)=>{
+    var id = mongoose.Types.ObjectId('58b4f389b4596c212c08d725');
+    Config.findOne({_id:id},(err,data)=>{
+        console.log(data);
         res.render('admin/config/index',{config:data});
     });
 });
@@ -152,6 +155,7 @@ router.post('/config',(req,res)=>{
 
     if(!id){
       config.save((err,result)=>{
+        console.log(err);
         if(err){
           res.json({'status':0,'msg':'操作失败'});
           return;
@@ -161,7 +165,7 @@ router.post('/config',(req,res)=>{
       });
     }else{
       delete config['_id'];
-      config.update({'_id':ObjectId(id)},{$set:{'email':'524314430@qq.com'}},(err,result)=>{
+      config.update({'_id':'ObjectId(id)'},{$set:{'email':'524314430@qq.com'}},(err,result)=>{
           if(err){
             res.json({'status':0,'msg':'操作失败'});
             return;

@@ -77,7 +77,7 @@
 	                            操作系统
 	                        </td>
 	                        <td>
-	                            <%=type%>
+	                            <%=os.type%>
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -93,7 +93,7 @@
 	                           Node版本
 	                        </td>
 	                        <td>
-	                            <%=node%>
+	                            <%=os.node%>
 	                        </td>
 	                    </tr>
                       <tr>
@@ -109,7 +109,7 @@
 	                           总内存
 	                        </td>
 	                        <td>
-	                            <%=totalmem%>
+	                            <%=os.totalmem%>
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -117,7 +117,7 @@
 	                            闲置内存
 	                        </td>
 	                        <td>
-	                            <%=freemem%>
+	                            <%=os.freemem%>
 	                        </td>
 	                    </tr>
                       <tr>
@@ -125,7 +125,7 @@
                               开机时间
                           </td>
                           <td>
-                              <%=uptime%>
+                              <%=os.uptime%>
                           </td>
                       </tr>
 	                    <tr>
@@ -133,7 +133,7 @@
 	                            系统时间
 	                        </td>
 	                        <td id="sys-time">
-                              <%=time%>
+                              <%=os.time%>
 	                        </td>
 	                    </tr>
 	                </tbody>
@@ -165,7 +165,7 @@
 	                            网站域名
 	                        </td>
 	                        <td>
-	                            {$os.host}
+	                           <%=site.url%>
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -173,7 +173,7 @@
 	                            网站名称
 	                        </td>
 	                        <td>
-	                            {$site.title}
+	                             <%=site.title%>
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -181,7 +181,7 @@
 	                           网站关键词
 	                        </td>
 	                        <td>
-	                            {$site.keywords}
+	                            <%=site.keywords%>
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -189,7 +189,7 @@
 	                            网站描述
 	                        </td>
 	                        <td>
-	                            {$site.description|mb_substr=0,150}<if condition="strlen($site['description']) gt 150">...</if>
+                              <%=site.description%>
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -197,7 +197,11 @@
 	                            轮播图
 	                        </td>
 	                        <td>
-	                            <eq name="site.carousel" value="1"><label class="label label-success">已开启</label><else /><label class="label label-danger">未开启</label></eq>
+                             <%if(site.carousel!=1){%>
+                                <label class="label label-success">已开启</label>
+                            <%}else{%>
+                              <label class="label label-danger">未开启</label>
+                            <%}%>
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -205,23 +209,31 @@
 	                            轮播图调用数
 	                        </td>
 	                        <td>
-	                            {$site.sum}
+	                            <%=site.num%>
 	                        </td>
 	                    </tr>
 	                    <tr>
 	                        <td>
 	                            友情链接
 	                        </td>
-	                        <td>
-	                           <eq name="site.flink" value="1"><label class="label label-success">已开启</label><else /><label class="label label-danger">未开启</label></eq>
+                          <td>
+                             <%if(site.flink!=1){%>
+                                <label class="label label-success">已开启</label>
+                             <%}else{%>
+                              <label class="label label-danger">未开启</label>
+                             <%}%>
 	                        </td>
 	                    </tr>
 	                    <tr>
 	                        <td>
 	                            分享
 	                        </td>
-	                        <td>
-	                            <eq name="site.is_shard" value="1"><label class="label label-success">已开启</label><else /><label class="label label-danger">未开启</label></eq>
+                          <td>
+                             <%if(site.is_shard!=1){%>
+                                <label class="label label-success">已开启</label>
+                            <%}else{%>
+                              <label class="label label-danger">未开启</label>
+                            <%}%>
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -229,7 +241,9 @@
 	                            联系方式
 	                        </td>
 	                        <td>
-	                           固话:<notempty name="site.tel">{$site.tel}<else />未填写</notempty>  手机:<notempty name="site.phone">{$site.phone}<else />未填写</notempty>  传真: <notempty name="site.fax">{$site.fax}<else />未填写</notempty>
+	                           固话:<%if(site.tel!=''){%><%=site.tel%>  <%}else{%> 未填写<%}%>
+                             手机:<%if(site.phone!=''){%><%=site.phone%>  <%}else{%> 未填写<%}%>
+                             传真:<%if(site.fax!=''){%><%=site.fax%>  <%}else{%> 未填写<%}%>
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -237,7 +251,7 @@
 	                            联系地址
 	                        </td>
 	                        <td>
-	                           {$site.address}
+	                           <%=site.address%>
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -245,13 +259,13 @@
 	                            版权信息
 	                        </td>
 	                        <td>
-	                            {$site.icp}{$site.copyright}
+                              <%=site.icp%><%=site.copyright%>
 	                        </td>
 	                    </tr>
 	                </tbody>
 	            </table>
 	            <div class="footer">
-	                <code>程序配置可以在设置中完成</code>
+	                <code>程序配置可以在设置中完成</code><a href="/admin/config">设置</a>
 	            </div>
 	        </div>
 	    </div>

@@ -26,6 +26,12 @@
                         <span class="menu-text">网站配置</span>
                     </a>
                 </li>
+                <li <%if(locals.url.indexOf('colunm')>-1){%>class="active"<%}%>>
+                    <a href="/admin/colunm">
+                        <i class="menu-icon fa fa-list"></i>
+                        <span class="menu-text">栏目管理</span>
+                    </a>
+                </li>
                 <li>
                    <a href="#" class="menu-dropdown">
                        <i class="menu-icon fa  fa-krw"></i>
@@ -34,13 +40,13 @@
                    </a>
                    <ul class="submenu">
                        <li>
-                           <a href="tables-simple.html">
+                           <a href="/admin/list:id">
                               <i class="menu-icon fa  fa-list"></i>
                                <span class="menu-text">文档列表</span>
                            </a>
                        </li>
                        <li>
-                           <a href="tables-data.html">
+                           <a href="/admin/recover:id">
                                <i class="menu-icon fa  fa-trash-o"></i>
                                <span class="menu-text">回收站</span>
                            </a>

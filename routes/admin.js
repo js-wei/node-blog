@@ -133,7 +133,14 @@ router.get('/index',(req,res)=>{
       'node':process.version,
       'time':time
   };
-  res.render('admin/index/index',data);
+  var Config = require('../model/config');
+  Config.findOne({},(e,r)=>{
+    if(e){
+        res.end(e);
+    }
+    res.render('admin/index/index',{os:data,site:r});
+  });
+
 });
 
 //网站配置
@@ -141,14 +148,14 @@ router.get('/config',(req,res)=>{
     var Config = require('../model/config');
     res.locals.title=res.locals.title1="网站配置";
     var id = mongoose.Types.ObjectId('58b81a40e9a8670a6851d35d');
-    Config.findById('58b81a40e9a8670a6851d35d',(err,data)=>{
+    Config.findOne({},(err,data)=>{
         res.render('admin/config/index',{config:data,_id:id});
     });
 });
 //修改网站配置
 router.post('/config',(req,res)=>{
     var Config = require('../model/config');
-    var id = mongoose.Types.ObjectId(req.body.id);
+    var id = req.body.id;
     var data = req.body;
     delete data["id"];
     var config = new Config(data);    //实例化对象
@@ -156,12 +163,7 @@ router.post('/config',(req,res)=>{
     if(!id){
       config.save((err,result)=>{
         if(err){
-          var msg='';
-          for(i in err.errors){
-              msg += ","+err.errors[i].message;
-          }
-          res.json({'status':0,'msg':msg.substring(1)});
-          return;
+            res.json({'status':0,'msg':"操作失败"});
         }
         res.json({'status':1,'msg':'操作成功','redirect':'/admin/config'});
         return;
@@ -177,6 +179,73 @@ router.post('/config',(req,res)=>{
           return;
       });
     }
+});
+//栏目列表
+router.get('/colunm',(req,res)=>{
+    res.locals.title=res.locals.title1="栏目管理";
+    var Colunm = require('../model/colunm');
+    Colunm.find({},(e,r)=>{
+        if(e){
+            res.end(e);
+            return;
+        }
+        res.render('admin/colunm/index',{count:r.length,list:r});
+    });
+});
+
+//添加栏目
+router.get('/add_colunm/:_id',(req,res)=>{
+  var helper = require('../model/helper');
+   res.locals.title=res.locals.title1="添加栏目";
+   var id = req.params._id?req.params._id:'';
+   var Colunm = require('../model/colunm');
+   if(id){
+     Colunm.find({},(e,r)=>{
+        if(e){
+            res.end(e);
+            return;
+        }
+        Colunm.find({},(e,r1)=>{
+            if(e){
+                res.end(e);
+                return;
+            }
+            var cl = helper.unlimitForLevel(r1);
+            console.log(cl);
+            res.render('admin/colunm/add',{id:id,info:r,clist:cl});
+        });
+
+     });
+   }
+});
+//添加栏目
+router.post('/add_colunm',(req,res)=>{
+    var Colunm = require('../model/colunm'),
+    data = req.body,
+    id = parseInt(req.body.id);
+    delete data['id'];
+    if(!id){
+        var colunm = new Colunm(data);
+        colunm.save((e,r)=>{
+            if(e){
+                res.json({'status':0,'msg':'添加失败,请重试'});
+            }
+            res.json({'status':1,'msg':'添加成功','redirect':'/admin/colunm'});
+        });
+    }else{
+        Colunm.update({_id:id},{$set:data},(e,r)=>{
+          if(e){
+              res.json({'status':0,'msg':'修改失败,请重试'});
+          }
+          res.json({'status':1,'msg':'修改成功','redirect':'/admin/colunm'});
+        });
+    }
+});
+
+
+//状态管理
+router.get('/status:id:t',(req,res)=>{
+
 });
 
 

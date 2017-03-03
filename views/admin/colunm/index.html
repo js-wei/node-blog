@@ -1,0 +1,148 @@
+<%include ../public/header.html%>
+<%include ../public/left.html%>
+<link href="/plug/beyond/css/dataTables.bootstrap.css" rel="stylesheet" />
+<div class="widget">
+    <div class="widget-header">
+        <span class="widget-caption pull-left"><i class="fa fa-columns"></i>&nbsp;<%=locals.title%></span>
+        <div class="widget-buttons">
+            <a href="#" data-toggle="maximize">
+                <i class="fa fa-expand"></i>
+            </a>
+            <a href="#" data-toggle="collapse">
+                <i class="fa fa-minus"></i>
+            </a>
+            <!-- <a href="#" data-toggle="dispose">
+                <i class="fa fa-times"></i>
+            </a> -->
+        </div>
+    </div>
+    <div class="widget-body">
+    	<div class="col-xs-4 col-md-6">
+            <a href="/admin/add_colunm/0" class="btn btn-success">添加栏目</a>
+            <a href="/admin/status" data-role="forbidden" class="btn btn-warning status">选中禁用</a>
+            <a href="/admin/status" data-role="enable" class="btn btn-info status">选中启用</a>
+            <a href="/admin/status" data-role="delete-all" class="btn btn-danger status">选中删除</a>
+        </div>
+        <div class="clearfix"></div>
+        <hr>
+        <table class="table table-striped table-bordered table-hover" id="simpledatatable">
+            <thead>
+                <tr>
+                    <th style="width:80px">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="group-checkable">
+                                <span class="text"></span>
+                            </label>
+                        </div>
+                    </th>
+                    <th>
+                      	栏目名
+                    </th>
+                    <th>
+                        栏目标识
+                    </th>
+                    <th>
+                        添加时间
+                    </th>
+                    <th>
+                        状态
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <%for(i in list){%>
+                  <tr>
+                      <td>
+                          <div class="checkbox">
+                              <label>
+                                  <input type="checkbox" class="checkboxes" value="{$vo.id}">
+                                  <span class="text"></span>
+                              </label>
+                          </div>
+                      </td>
+                      <td style="padding-left:0px;">
+                          <%=list[i].title%>
+                      </td>
+                      <td>
+                          <%=list[i].name%>
+                      </td>
+                      <td>
+                          <%= time(list[i].date)%>
+                      </td>
+                      <td class="center ">
+                          <%if(!list[i].status){%>
+                              <span class="text-success">正常</span>
+                          <%}else{%>
+                              <span class="text-danger">禁用</span>
+                          <%}%>
+                      </td>
+                      <td>
+                      	<a href="/admin/add/<%=list[i]._id%>">编辑</a>
+                        <%if(!list[i].status){%>
+                          <a href="/admin/status" data-role="forbidden" data-id="<%=list[i]._id%>" class="status">禁用</a>
+                        <%}else{%>
+                            <a href="/admin/status" data-role="enable" data-id="<%=list[i]._id%>" class="status">启用</a>
+                        <%}%>
+                      	<a href="/admin/status" data-role="delete"  data-id="<%=list[i]._id%>" class="status">删除</a>
+                      </td>
+                  </tr>
+                <%}%>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$('#simpledatatable').dataTable({
+	        "sDom": "Tflt",
+	        "iDisplayLength": <%=count%>,
+	        "oTableTools": {
+	            "aButtons": [
+	                "copy", "csv", "xls","pdf"
+	            ],
+	            "sSwfPath": "//cdn.bootcss.com/datatables-tabletools/2.1.5/swf/copy_csv_xls_pdf.swf"
+	        },
+	        "language": {
+	            "search": "",
+	            "sLengthMenu": "_MENU_",
+	            "oPaginate": {
+	                "sPrevious": "Prev",
+	                "sNext": "Next"
+	            }
+	        },
+	        "aoColumns": [
+	          { "bSortable": false },
+	          null,
+	          null,
+	          { "bSortable": false },
+	          null,
+	          { "bSortable": false }
+	        ],
+	        "aaSorting": []
+	    });
+	    $('#simpledatatable .group-checkable').change(function () {
+	        var set = $(".checkboxes");
+	        var checked = $(this).is(":checked");
+	        $(set).each(function () {
+	            if (checked) {
+	                $(this).prop("checked", true);
+	                $(this).parents('tr').addClass("active");
+	            } else {
+	                $(this).prop("checked", false);
+	                $(this).parents('tr').removeClass("active");
+	            }
+	        });
+
+	    });
+	    $('#simpledatatable tbody tr .checkboxes').change(function () {
+	        $(this).parents('tr').toggleClass("active");
+	    });
+	    $('#simpledatatable_length').remove();
+    	$('.DTTT.btn-group').css('right','0px');
+	});
+</script>
+<%include ../public/footer.html%>

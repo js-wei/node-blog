@@ -1,0 +1,443 @@
+<%include ../public/header.html%>
+<%include ../public/left.html%>
+<div class="widget  radius-bordered">
+    <div class="widget-header">
+        <span class="widget-caption">栏目操作</span>
+    </div>
+    <div class="widget-body">
+        <form id="togglingForm" action="/admin/add_colunm" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+            <div class="form-group">
+                <label class="col-lg-1 col-md-3 control-label">父级栏目<sup>*</sup></label>
+                <div class="col-lg-3">
+                    <select class="span4 m-wrap" name="fid">
+                        <option value="0">顶级栏目</option>
+                        <!-- <option value="{$cate.id}" <notempty name="info"><eq name="cate.id" value="$info.fid">selected</eq></notempty> >{$cate.html}{$cate.title}</option> -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">栏目标题<sup>*</sup></label>
+                <div class="col-lg-4">
+                    <input type="text" name="title" value="<%=info.title%>" class="form-control" id="name" placeholder="栏目标题"/>
+                    <button type="button" id="Pinyin" class="btn btn-info mt10">拼音</button>
+                    <input type="hidden" name="id" value="<%=id%>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">栏目英文名<sup>*</sup></label>
+                <div class="col-lg-4">
+                    <input type="text" name="name" value="<%=info.name%>" class="form-control" id="title" placeholder="栏目英文名" required data-bv-notempty-message="请输入栏目英文标识"/>
+                    <ul class="points text-warning">
+                        <li>主要用于生成栏目名称</li>
+                        <li>填写将会生成</li>
+                        <li>很重要<sup class="text-danger">应重视</sup></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">文档关键词</label>
+                <div class="col-lg-4">
+                    <textarea name="keywords" class="form-control" rows="5" placeholder="文档关键词"><%=info.keywords%></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">栏目说明</label>
+                <div class="col-lg-4">
+                    <textarea name="description" class="form-control" rows="6" placeholder="栏目说明"><%=info.description%></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">栏目图标</label>
+                <div class="col-lg-3">
+                    <input name="ico" class="form-control" value="<%=info.ico%>"  placeholder="栏目图标"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">栏目颜色</label>
+                <div class="col-lg-3">
+                   <input type="text" id="text-field" name="forecolor" class="form-control colorpicker" value="<%=info.forecolor%>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">图片</label>
+                <div class="col-lg-3">
+                    <div>
+                        <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="image" id="fileImg" size="16" value="上传" class="table_btn"/></div>
+                        <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
+                        <div class="btn btn-danger btn-xs" onclick="noMasterImg()"><i class="fa fa-trash-o" style="cursor:pointer;display:block"></i></div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div>
+                        <%if(id!=''){%>
+                          <img src="<%=info.image%>" id="images_preview" width="380" height="auto">
+                          <input type="hidden" value="<%=info.image%>" name="image" id="reply_img">
+                        <%}else{%>
+                          <img src="" id="images_preview" width="380" height="auto" style="display:none;">
+                          <input type="hidden"  name="image" id="reply_img">
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">栏目类型</label>
+                <div class="col-lg-6">
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="type" type="radio" value="1" class="colored-success" <%if(info.type==1){%>checked="checked"<%}%><%if(id){%>checked="checked"<%}%>>
+                            <span class="text">列表</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="type" type="radio" value="2" class="colored-danger" <%if(info.type==2){%>checked="checked"<%}%>>
+                            <span class="text">下载</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="type" type="radio" value="3" class="colored-danger" <%if(info.type==3){%>checked="checked"<%}%>>
+                            <span class="text">单页</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="type" type="radio" value="4" class="colored-danger" <%if(info.type==4){%>checked="checked"<%}%>>
+                            <span class="text">表单</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="type" type="radio" value="5" class="colored-danger" <%if(info.type==5){%>checked="checked"<%}%>>
+                            <span class="text">封面</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label class="pull-left">
+                            <input name="type" type="radio" value="6" class="colored-danger" <%if(info.type==6){%>checked="checked"<%}%>>
+                            <span class="text">跳转</span>
+                            <input type="url"  style="width:220px;height:30px;padding-left:10px;<%if(info.type==6){%>display:block;<%}else{%>display:none;<%}%>" data-bv-uri-message="请输入正确的网址" name="uri" id="uri" placeholder="跳转页地址(eg:http://baidu.com)" value="<%=info.uri%>">
+                        </label>
+                    </div>
+                    <div class="radio hide">
+                        <label>
+                            <input name="type" type="radio" class="colored-blueberry">
+                            <span class="text"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">栏目位置</label>
+                <div class="col-lg-6">
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="position" type="radio" value="1" class="colored-success" <%if(info.position==1){%>checked="checked"<%}%><%if(id){%>checked="checked"<%}%>>
+                            <span class="text">头部</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="position" type="radio" value="2" class="colored-danger" <%if(info.position==2){%>checked="checked"<%}%>>
+                            <span class="text">中间</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="position" type="radio" value="3" class="colored-danger" <%if(info.position==3){%>checked="checked"<%}%>>
+                            <span class="text">左边</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="position" type="radio" value="4" class="colored-danger" <%if(info.position==4){%>checked="checked"<%}%>>
+                            <span class="text">右边</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label class="pull-left">
+                            <input name="position" type="radio" value="5" class="colored-danger" <%if(info.position==5){%>checked="checked"<%}%>>
+                            <span class="text">底部</span>
+                        </label>
+                    </div>
+                    <div class="radio hide">
+                        <label>
+                            <input name="position" type="radio" class="colored-blueberry">
+                            <span class="text"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">栏目模板</label>
+                <div class="col-lg-4">
+                    <input name="tpl" value="<%if(info.tpl!=''){%><%=info.tpl%><%}else{%>0<%}%>" class="form-control" placeholder="栏目模板"/>
+                    <div class="text-danger">*0默认模板;1使用栏目英文名;其他自定义(非开发人员谨慎使用)</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">最终页面</label>
+                <div class="col-lg-6">
+                   <div class="radio pull-left">
+                        <label>
+                            <input name="last" type="radio" value="0" class="colored-success" <%if(info.last==0){%>checked="checked"<%}%><%if(id){%>checked="checked"<%}%>>
+                            <span class="text">否(显示成列表)</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="last" type="radio" value="1" class="colored-danger" <%if(info.last==1){%>checked="checked"<%}%>>
+                            <span class="text">是(显示成内容页)</span>
+                            <!-- <input type="text" style="width:210px;height:20px;padding-left:10px;margin-left:10px;display:none;" value="<notempty name='info'></notempty>" placeholder="最终显示模板,默认:default.html" name="last_tpl" id="last_tpl"> -->
+                        </label>
+                    </div>
+                    <div class="radio hide">
+                        <label>
+                            <input name="last" type="radio" class="colored-blueberry">
+                            <span class="text"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">排序</label>
+                <div class="col-lg-2">
+                    <input name="sorts" value="<%=info.sorts%>" class="form-control" placeholder="栏目排序"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">显示状态</label>
+                <div class="col-lg-6">
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="show" type="radio" value="0" class="colored-success" <%if(info.show==0){%>checked="checked"<%}%> <%if(id){%>checked="checked"<%}%>>
+                            <span class="text">是</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="show" type="radio" value="1" class="colored-danger" <%if(info.show==1){%>checked="checked"<%}%>>
+                            <span class="text">否</span>
+                        </label>
+                    </div>
+                    <div class="radio hide">
+                        <label>
+                            <input name="show" type="radio" class="colored-blueberry">
+                            <span class="text"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">栏目状态</label>
+                <div class="col-lg-6">
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="status" type="radio" value="0" class="colored-success" <%if(info.last==0){%>checked="checked"<%}%> <%if(id){%>checked="checked"<%}%>>
+                            <span class="text">是</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="status" type="radio" value="1" class="colored-danger" <%if(info.last==0){%>checked="checked"<%}%>>
+                            <span class="text">否</span>
+                        </label>
+                    </div>
+                    <div class="radio hide">
+                        <label>
+                            <input name="status" type="radio" class="colored-blueberry">
+                            <span class="text"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <hr class="wide" />
+            <div class="form-group">
+                <div class="col-lg-4 col-lg-offset-1">
+                    <button type="submit" class="btn btn-danger col-lg-2">提交</button>
+                    <button type="button" class="btn btn-warning col-lg-2 ml10" onclick="window.history.go(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/plug/beyond/js/validation/bootstrapValidator.js"></script>
+<script src="/plug/jquery.han2pin.min.js"></script>
+<script src="/plug/beyond/js/colorpicker/jquery.minicolors.js"></script>
+<link rel="stylesheet" href="/plug/Uploadify/uploadify.css" />
+<script type="text/javascript" src="/plug/Uploadify/jquery.uploadify.min.js"></script>
+
+<script type="text/javascript">
+    $(function(){
+        $('#Pinyin').click(function(){
+            if($('#name').val()==''){
+                layer.alert('请输入栏目名称',{icon:5});
+                return false;
+            }else{
+                $('#title').val($.trimAll($('#name').toPinyin()));
+                $('.control-name').hide();
+            }
+        });
+        $('.colorpicker').each(function () {
+            $(this).minicolors({
+                control: $(this).attr('data-control') || 'hue',
+                defaultValue: $(this).attr('data-defaultValue') || '',
+                inline: $(this).attr('data-inline') === 'true',
+                letterCase: $(this).attr('data-letterCase') || 'lowercase',
+                opacity: $(this).attr('data-opacity'),
+                position: $(this).attr('data-position') || 'bottom left',
+                change: function (hex, opacity) {
+                    if (!hex) return;
+                    if (opacity) hex += ', ' + opacity;
+                    try {
+                        console.log(hex);
+                    } catch (e) { }
+                },
+                theme: 'bootstrap'
+            });
+
+        });
+        $('input[name="type"]').click(function(){
+            var val=$(this).val();
+            if(val==6){
+                $('#uri').show();
+            }else{
+                $('#uri').val('').hide();
+                $('i[data-bv-field="uri"]').remove();
+            }
+        });
+        $('#togglingForm').bootstrapValidator({
+            message: '验证没有通过',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            submitHandler: function (validator, form, submitButton) {
+                var index = layer.load(2,{
+                    shade: [0.4,'#000'] //0.1透明度的白色背景
+                });
+                $.post(form.attr('action'),form.serialize(),function(data){
+                    layer.close(index);
+                    if(data.status==1){
+                        layer.alert(data.msg,{icon:6,end:function(){
+                            location.href = data.redirect;
+                        }});
+                    }else {
+                        layer.alert(data.msg,{icon:5});
+                    }
+                });
+            },
+            fields: {
+                title: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入栏目名称'
+                        }
+                    }
+                },
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入栏目英文名'
+                        }
+                    }
+                },
+                uri:{
+                    validators: {
+                        notEmpty: {
+                            message: '请输入网址'
+                        }
+                    }
+                },
+                last_tpl:{
+                    validators: {
+                        notEmpty: {
+                            message: '请输入最终显示模板'
+                        }
+                    }
+                }
+            }
+        })
+        .find('button[data-toggle]')
+        .on('click', function () {
+            var $target = $($(this).attr('data-toggle'));
+            $target.toggle();
+            if (!$target.is(':visible')) {
+                $('#togglingForm').data('bootstrapValidator').disableSubmitButtons(false);
+            }
+        });
+    });
+    function imgView(pic_url){
+        if(pic_url == 'master'){
+            pic_url = $('#reply_img').val();
+        }
+        if(pic_url==''){
+            layer.alert('你还没有上传图片',{icon:5});
+            return false;
+        }
+        layer.open({
+            type: 1,
+            title: '查看图片',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['500px', '400px'], //宽高
+            content: "<div style='max-width:500px; max-height:400px; overflow:auto;'><img style='max-width:500px; max-height:400px; overflow:auto;' src='"+pic_url+"'  /></div>"
+        });
+    }
+
+    //照片
+    $("#fileImg").uploadify({
+        fileTypeDesc    : '图片文件',
+        fileTypeExts    : '*.png;*.jpg;*.jpeg;*.gif;',
+        buttonText      : '选择图片',
+        buttonClass     : 'upload_button',
+        fileObjName     : 'image',          //上传文件接收名
+        swf             : '/plug/Uploadify/uploadify.swf',
+        uploader        : "/Uploadify/uploadimg",
+        multi           : false,
+        onUploadSuccess : function(file, data, response) {
+            $("#reply_img").val(data);
+            $("#images_preview").attr('src',data);
+            $('#images_preview').show();
+            $('#img_b').show();
+            $('#img_c').show();
+        }
+    });
+    function noMasterImg(){
+        $src = $("#images_preview").attr('src');
+        if($src==''){
+            layer.alert('您好没有上传图片',{icon:5});
+            return false;
+        }
+        $.post("/Uploadify/delmg",{src:$src},function(data){
+            if(data.status==1){
+                layer.msg(data.msg,{icon:1});
+                $("#reply_img").val('');
+                $('#images_preview').attr('src','');
+                $('#img_c').hide();
+                $('#images_preview').hide();
+            }else{
+                layer.alert(data.msg,{icon:5});
+            }
+        });
+    }
+    function deleteImage(obj) {
+        var url = $(obj).attr('data-path');
+        if(url==''){
+            layer.alert('删除图片不存在',{icon:2});
+        }
+        var index = layer.load(2, {
+            shade: [0.4,'#fff'] //0.1透明度的白色背景
+        });
+        $.post("/Uploadify/delmg",{src:url},function(data){
+            if(data.status==1){
+                layer.msg(data.msg,{icon:1,end:function () {
+                    layer.closeAll();
+                    $(obj).parent('span.imageDiv').remove();
+                }});
+            }else{
+                layer.msg(data.msg,{icon:5});
+            }
+        });
+    }
+</script>
+<%include ../public/footer.html%>

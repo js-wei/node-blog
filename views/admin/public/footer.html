@@ -9,8 +9,201 @@
 <script src="/plug/beyond/js/bootstrap.min.js"></script>
 <!--Beyond Scripts-->
 <script src="/plug/beyond/js/beyond.min.js"></script>
+<script src="/plug/beyond/js/datatable/jquery.dataTables.min.js"></script>
+<script src="/plug/beyond/js/datatable/ZeroClipboard.js"></script>
+<script src="/plug/beyond/js/datatable/dataTables.tableTools.min.js"></script>
+<script src="/plug/beyond/js/datatable/dataTables.bootstrap.min.js"></script>
 </body>
 <!--  /Body -->
 <script type="text/javascript">
+   $(window).bind("load", function() {
+       /*Sets Themed Colors Based on Themes*/
+       themeprimary = getThemeColorFromCss('themeprimary');
+       themesecondary = getThemeColorFromCss('themesecondary');
+       themethirdcolor = getThemeColorFromCss('themethirdcolor');
+       themefourthcolor = getThemeColorFromCss('themefourthcolor');
+       themefifthcolor = getThemeColorFromCss('themefifthcolor');
+   });
+   $(function(){
+      $('.logout').on('click',function(e) {
+         e.preventDefault();
+         var index = layer.load(2, {
+             shard: [0.9, "#000"]
+         });
+         $.get($(this).attr('href'), function(result) {
+             layer.close(index);
+             if (result.status == 0) {
+                 layer.alert(result.msg,{ icon: 5});
+             } else {
+                 layer.alert(result.msg, {icon: 6, end: function() {
+                         window.location.href = result.redirect;
+                }});
+             }
+         });
+      });
+      $('.status').on('click',function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            var type = $(this).attr('data-role');
+            var id = $(this).attr('data-id');
+            var q='';
+            $('.checkboxes').each(function(){
+                if($(this).is(':checked')){
+                    q += ','+$(this).val();
+                }
+            });
+            q = q.substr(1);
+            if(id!= undefined){
+                if(type=='delete'){
+                    layer.confirm('您确定要删除吗?删除后将不能恢复!', {
+                      btn: ['是的确定','不没想好'] //按钮
+                    }, function(){
+                        var index = layer.load(2, {
+                            shard: [0.6, "#000"]
+                        });
+                        $.post(url,{id:id,type:type,aid:"{:input('aid')}",p:"{:input('p')}"},function(result){
+                            layer.close(index);
+                            layer.alert(result.msg, {
+                                icon: 6,
+                                end: function() {
+                                    if(result.redirect!=''){
+                                        window.location.href=result.redirect;
+                                    }else{
+                                        window.location.reload();
+                                     }
+                                }
+                            });
+                        });
+                    });
+                }else{
+                    var index = layer.load(2, {
+                        shard: [0.6, "#000"]
+                    });
+                    $.post(url,{id:id,type:type,aid:"{:input('aid')}",p:"{:input('p')}"},function(result){
+                        layer.close(index);
+                        layer.alert(result.msg, {
+                            icon: 6,
+                            end: function() {
+                                if(result.redirect!=''){
+                                    window.location.href=result.redirect;
+                                }else{
+                                    window.location.reload();
+                                 }
+                            }
+                        });
+                    });
+                }
+              }else{
+                  if(type=='delete-all'){
+                      layer.confirm('您确定要删除吗?删除后将不能恢复!', {
+                        btn: ['是的确定','不没想好'] //按钮
+                      }, function(){
+                          if(q!=''){
+                              var index = layer.load(2, {
+                                  shard: [0.6, "#000"]
+                              });
+                              $.post(url,{id:q,type:type,aid:"{:input('aid')}",p:"{:input('p')}"},function(result){
+                                  layer.close(index);
+                                  if (result.status==1) {
+                                      layer.alert(result.msg, {
+                                          icon: 6,
+                                          end: function() {
+                                              if(result.redirect!=''){
+                                                  window.location.href=result.redirect;
+                                              }else{
+                                                  window.location.reload();
+                                              }
+                                          }
+                                      });
+                                  }else{
+                                      layer.alert(result.msg,{icon:5});
+                                  }
+                              });
+                          }else{
+                              layer.close(index);
+                              layer.alert('请选择需要操作项',{icon:5});
+                          }
+                      });
+                  }else{
+                      var index = layer.load(2, {
+                          shard: [0.6, "#000"]
+                      });
+                      $.post(url,{id:q,type:type,aid:"{:input('aid')}",p:"{:input('p')}"},function(result){
+                          layer.close(index);
+                          layer.alert(result.msg, {
+                              icon: 6,
+                              end: function() {
+                                  if(result.redirect!=''){
+                                      window.location.href=result.redirect;
+                                  }else{
+                                      window.location.reload();
+                                   }
+                              }
+                          });
+                      });
+                  }
+              }
+          });
+          $('#simpledatatable tbody tr .checkboxes').change(function () {
+              $(this).parents('tr').toggleClass("active");
+          });
+          $('#simpledatatable_length').remove();
+          $('.DTTT.btn-group').css('right','0px');
+          $('input[type="search"]').attr('placeholder', '请输入标题/发布者');
+          $('.dataTables_filter').css({"position":"relative","height":"40px"});
+          $('.dataTables_filter label').append("<button class=\"btn btn-info ml10 search\">搜索</button>").css({
+              "position":"absolute",
+              "left":"0px"
+          });
+          $('.search').on('click',function(e){
+              e.preventDefault();
+              alert(1);
+          });
+          $('.tips').on('click',function(e){
+    	    	e.preventDefault();
+    	    	var type = $(this).attr('data-type');
+    	    	var data = $(this).attr('data-role');
+    	    	type = type?type:'0';
+    	    	switch(type){
+    	    		case '0':
+    	    			layer.tips(data,$(this), {
+      					  tips: [1, '#c00'],
+      					  time: 4000
+      					});
+    	    			break;
+    	    		case '1':
+    	    			$.post('{:Url("gather/code")}',{id:data},function(result){
+      	    				layer.open({
+        						  type: 1,
+        						  title: '新闻采集规则查询',
+        						  skin: 'layui-layer-rim', //加上边框
+        						  shadeClose: true,
+        						  shade: 0.8,
+        						  area: ['50%', '500px'],
+        						  content: result
+        						});
+    	    			});
+    	    			break;
+    	    		case '2':
+    	    			layer.open({
+      					  type: 1,
+      					  skin: 'layui-layer-rim', //加上边框
+      					  area: ['550px', '250px'], //宽高
+      					  content: '<div class="mt10 ml10">'+data+'</div>'
+      					});
+    	    			break;
+    	    		case '3':
+    	    			var image = $(this).children('img').attr('src');
+    	    			layer.open({
+      					  type: 1,
+      					  title:'查看图片',
+      					  skin: 'layui-layer-rim', //加上边框
+      					  area: ['650px', '340px'], //宽高
+      					  content: '<div class="mt10 ml10"><img src="'+image+'"></div>'
+      					});
+    	    			break;
+    	    	}
+    	 });
+   });
 </script>
 </html>

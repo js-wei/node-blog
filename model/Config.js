@@ -14,7 +14,6 @@ var ConfigSchema = new mongoose.Schema({
   is_shard:{type:Number,default:0},
   code:{type:String,deafult:''},                               //统计代码
   shard:{type:String,deafult:''},                             //分享代码
-  conact:{type:String,default:''},                            //联系方式
   fax:{type:String,default:''},                              //传真
   copyright:{type:String,default:''},                       //版权信息
   icp:{type:String,default:''} ,                           //备案号

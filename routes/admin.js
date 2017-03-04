@@ -199,22 +199,20 @@ router.get('/add_colunm/:_id',(req,res)=>{
    res.locals.title=res.locals.title1="添加栏目";
    var id = req.params._id?req.params._id:'';
    var Colunm = require('../model/colunm');
+   var _temp=[];
    if(id){
      Colunm.find({},(e,r)=>{
         if(e){
             res.end(e);
             return;
         }
-        Colunm.find({},(e,r1)=>{
+        Colunm.find({},"_id title fid",(e,r1)=>{
             if(e){
                 res.end(e);
                 return;
             }
-            var cl = helper.unlimitForLevel(r1);
-            console.log(cl);
-            res.render('admin/colunm/add',{id:id,info:r,clist:cl});
+            res.render('admin/colunm/add',{id:id,info:r,clist:helper.sonsTree(r1)});
         });
-
      });
    }
 });

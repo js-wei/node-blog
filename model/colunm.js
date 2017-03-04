@@ -18,4 +18,5 @@ var ColunmSchema = new mongoose.Schema({
     status:{type:Boolean,default:true},
     date:{type:String,default:new Date().getTime()}
 },{versionKey:false});
+
 module.exports = mongoose.model('Colunm',ColunmSchema);

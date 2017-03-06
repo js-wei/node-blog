@@ -12,7 +12,7 @@
                     <select class="span4 m-wrap" name="fid">
                         <option value="">顶级栏目</option>
                         <%for(i in clist){%>
-                            <option value="<%=clist[i]._id%>" <%if(clist[i]._id==info._id){%>selected<%}%>>
+                            <option value="<%=clist[i]._id%>" <%if(clist[i]._id==info.fid){%>selected='selected'<%}%>>
                               <%=clist[i].html%><%=clist[i].title%>
                             </option>
                         <%}%>
@@ -24,13 +24,13 @@
                 <div class="col-lg-4">
                     <input type="text" name="title" value="<%=info.title%>" class="form-control" id="name" placeholder="栏目标题"/>
                     <button type="button" id="Pinyin" class="btn btn-info mt10">拼音</button>
-                    <input type="hidden" name="id" value="<%=id%>">
+                    <input type="hidden" name="id" value="<%=_id%>">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-2 control-label">栏目英文名<sup>*</sup></label>
+                <label class="col-lg-2 control-label">栏目标识<sup>*</sup></label>
                 <div class="col-lg-4">
-                    <input type="text" name="name" value="<%=info.name%>" class="form-control" id="title" placeholder="栏目英文名" required data-bv-notempty-message="请输入栏目英文标识"/>
+                    <input type="text" name="name" value="<%=info.name%>" class="form-control" id="title" placeholder="栏目标识" required data-bv-notempty-message="请输入栏目英文标识"/>
                     <ul class="points text-warning">
                         <li>主要用于生成栏目名称</li>
                         <li>填写将会生成</li>
@@ -72,7 +72,7 @@
                         <div style="clear:both;"></div>
                     </div>
                     <div>
-                        <%if(id!=null){%>
+                        <%if(info.header!='' || info.header!=null){%>
                           <img src="<%=info.image%>" id="images_preview" width="380" height="auto">
                           <input type="hidden" value="<%=info.image%>" name="image" id="reply_img">
                         <%}else{%>
@@ -87,7 +87,7 @@
                 <div class="col-lg-6">
                     <div class="radio pull-left">
                         <label>
-                            <input name="type" type="radio" value="1" class="colored-success" <%if(info.type==1){%>checked="checked"<%}%><%if(id){%>checked="checked"<%}%>>
+                            <input name="type" type="radio" value="1" class="colored-success" <%if(info.type==1){%>checked="checked"<%}%><%if(info._id==null){%>checked="checked"<%}%>>
                             <span class="text">列表</span>
                         </label>
                     </div>
@@ -135,7 +135,7 @@
                 <div class="col-lg-6">
                     <div class="radio pull-left">
                         <label>
-                            <input name="position" type="radio" value="1" class="colored-success" <%if(info.position==1){%>checked="checked"<%}%><%if(id){%>checked="checked"<%}%>>
+                            <input name="position" type="radio" value="1" class="colored-success" <%if(info.position==1){%>checked="checked"<%}%><%if(info._id==null){%>checked="checked"<%}%>>
                             <span class="text">头部</span>
                         </label>
                     </div>
@@ -183,7 +183,7 @@
                 <div class="col-lg-6">
                    <div class="radio pull-left">
                         <label>
-                            <input name="last" type="radio" value="0" class="colored-success" <%if(info.last==0){%>checked="checked"<%}%><%if(id){%>checked="checked"<%}%>>
+                            <input name="last" type="radio" value="0" class="colored-success" <%if(info.last==0){%>checked="checked"<%}%><%if(_id==''){%>checked="checked"<%}%>>
                             <span class="text">否(显示成列表)</span>
                         </label>
                     </div>
@@ -213,13 +213,13 @@
                 <div class="col-lg-6">
                     <div class="radio pull-left">
                         <label>
-                            <input name="show" type="radio" value="0" class="colored-success" <%if(info.show==0){%>checked="checked"<%}%> <%if(id){%>checked="checked"<%}%>>
+                            <input name="show" type="radio" value="true" class="colored-success" <%if(info.show){%>checked="checked"<%}%> <%if(_id==''){%>checked="checked"<%}%>>
                             <span class="text">是</span>
                         </label>
                     </div>
                     <div class="radio pull-left">
                         <label>
-                            <input name="show" type="radio" value="1" class="colored-danger" <%if(info.show==1){%>checked="checked"<%}%>>
+                            <input name="show" type="radio" value="false" class="colored-danger" <%if(!info.show){%>checked="checked"<%}%>>
                             <span class="text">否</span>
                         </label>
                     </div>
@@ -236,13 +236,13 @@
                 <div class="col-lg-6">
                     <div class="radio pull-left">
                         <label>
-                            <input name="status" type="radio" value="0" class="colored-success" <%if(info.last==0){%>checked="checked"<%}%> <%if(id){%>checked="checked"<%}%>>
+                            <input name="status" type="radio" value="true" class="colored-success" <%if(info.status){%>checked="checked"<%}%> <%if(_id==''){%>checked="checked"<%}%>>
                             <span class="text">是</span>
                         </label>
                     </div>
                     <div class="radio pull-left">
                         <label>
-                            <input name="status" type="radio" value="1" class="colored-danger" <%if(info.last==0){%>checked="checked"<%}%>>
+                            <input name="status" type="radio" value="false" class="colored-danger" <%if(!info.status){%>checked="checked"<%}%>>
                             <span class="text">否</span>
                         </label>
                     </div>

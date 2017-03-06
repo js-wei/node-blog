@@ -45,6 +45,7 @@
             e.preventDefault();
             var url = $(this).attr('href');
             var type = $(this).attr('data-role');
+            var m = $(this).attr('data-model');
             var id = $(this).attr('data-id');
             var q='';
             $('.checkboxes').each(function(){
@@ -61,16 +62,16 @@
                         var index = layer.load(2, {
                             shard: [0.6, "#000"]
                         });
-                        $.post(url,{id:id,type:type,aid:"{:input('aid')}",p:"{:input('p')}"},function(result){
+                        $.post(url,{id:id,type:type,_id:"<%=_id%>",p:"<%=_p%>",m:m},function(result){
                             layer.close(index);
                             layer.alert(result.msg, {
                                 icon: 6,
                                 end: function() {
-                                    if(result.redirect!=''){
-                                        window.location.href=result.redirect;
-                                    }else{
-                                        window.location.reload();
-                                     }
+                                    // if(result.redirect!=''){
+                                    //     window.location.href=result.redirect;
+                                    // }else{
+                                    //     window.location.reload();
+                                    // }
                                 }
                             });
                         });
@@ -79,16 +80,16 @@
                     var index = layer.load(2, {
                         shard: [0.6, "#000"]
                     });
-                    $.post(url,{id:id,type:type,aid:"{:input('aid')}",p:"{:input('p')}"},function(result){
+                    $.post(url,{id:id,type:type,_id:"<%=_id%>",p:"<%=_p%>",m:m},function(result){
                         layer.close(index);
                         layer.alert(result.msg, {
                             icon: 6,
                             end: function() {
-                                if(result.redirect!=''){
+                                if(result.redirect!=null){
                                     window.location.href=result.redirect;
                                 }else{
                                     window.location.reload();
-                                 }
+                                }
                             }
                         });
                     });
@@ -102,13 +103,13 @@
                               var index = layer.load(2, {
                                   shard: [0.6, "#000"]
                               });
-                              $.post(url,{id:q,type:type,aid:"{:input('aid')}",p:"{:input('p')}"},function(result){
+                              $.post(url,{id:q,type:type,_id:"<%=_id%>",p:"<%=_p%>",m:m},function(result){
                                   layer.close(index);
                                   if (result.status==1) {
                                       layer.alert(result.msg, {
                                           icon: 6,
                                           end: function() {
-                                              if(result.redirect!=''){
+                                              if(result.redirect!=null){
                                                   window.location.href=result.redirect;
                                               }else{
                                                   window.location.reload();
@@ -128,16 +129,16 @@
                       var index = layer.load(2, {
                           shard: [0.6, "#000"]
                       });
-                      $.post(url,{id:q,type:type,aid:"{:input('aid')}",p:"{:input('p')}"},function(result){
+                      $.post(url,{id:q,type:type,_id:"<%=_id%>",p:"<%=_p%>",m:m},function(result){
                           layer.close(index);
                           layer.alert(result.msg, {
                               icon: 6,
                               end: function() {
-                                  if(result.redirect!=''){
+                                  if(result.redirect!=null){
                                       window.location.href=result.redirect;
                                   }else{
                                       window.location.reload();
-                                   }
+                                  }
                               }
                           });
                       });

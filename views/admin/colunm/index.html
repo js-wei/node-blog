@@ -19,9 +19,9 @@
     <div class="widget-body">
     	<div class="col-xs-4 col-md-6">
             <a href="/admin/add_colunm/0" class="btn btn-success">添加栏目</a>
-            <a href="/admin/status" data-role="forbidden" class="btn btn-warning status">选中禁用</a>
-            <a href="/admin/status" data-role="enable" class="btn btn-info status">选中启用</a>
-            <a href="/admin/status" data-role="delete-all" class="btn btn-danger status">选中删除</a>
+            <a href="/admin/status" data-role="forbidden" data-model='<%=m%>' class="btn btn-warning status">选中禁用</a>
+            <a href="/admin/status" data-role="enable"  data-model='<%=m%>'class="btn btn-info status">选中启用</a>
+            <a href="/admin/status" data-role="delete-all" data-model='<%=m%>' class="btn btn-danger status">选中删除</a>
         </div>
         <div class="clearfix"></div>
         <hr>
@@ -59,7 +59,7 @@
                       <td>
                           <div class="checkbox">
                               <label>
-                                  <input type="checkbox" class="checkboxes" value="{$vo.id}">
+                                  <input type="checkbox" class="checkboxes" value="<%=list[i]._id%>">
                                   <span class="text"></span>
                               </label>
                           </div>
@@ -74,20 +74,20 @@
                           <%= time(list[i].date)%>
                       </td>
                       <td class="center ">
-                          <%if(!list[i].status){%>
+                          <%if(list[i].status){%>
                               <span class="text-success">正常</span>
                           <%}else{%>
                               <span class="text-danger">禁用</span>
                           <%}%>
                       </td>
                       <td>
-                      	<a href="/admin/add/<%=list[i]._id%>">编辑</a>
-                        <%if(!list[i].status){%>
-                          <a href="/admin/status" data-role="forbidden" data-id="<%=list[i]._id%>" class="status">禁用</a>
+                      	<a href="/admin/add_colunm/<%=list[i]._id%>">编辑</a>
+                        <%if(list[i].status){%>
+                          <a href="/admin/status" data-role="forbidden" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">禁用</a>
                         <%}else{%>
-                            <a href="/admin/status" data-role="enable" data-id="<%=list[i]._id%>" class="status">启用</a>
+                            <a href="/admin/status" data-role="enable" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">启用</a>
                         <%}%>
-                      	<a href="/admin/status" data-role="delete"  data-id="<%=list[i]._id%>" class="status">删除</a>
+                      	<a href="/admin/status" data-role="delete"  data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">删除</a>
                       </td>
                   </tr>
                 <%}%>

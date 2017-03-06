@@ -10,7 +10,7 @@ do {
         }
     }
 } while (pids.size>len);
- */
+*/
 
 
 //根据最后一个找到整个家族
@@ -47,13 +47,12 @@ exports.sonsTree=(arr,id='',mar=10,t='--')=>{
     forFn(arr,id,lev);
     return temp;
 }
-//console.log(sonsTree(data,0));
+
 html=(l,t='--')=>{
   var _r='';
   for (var i = 0; i <l; i++) {
     _r += t;
   }
-  console.log(l);
   return _r;
 };
 exports.getDom=()=>{

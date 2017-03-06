@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "assert": "^1.4.1",
     "body-parser": "~1.16.0",
     "captchapng": "0.0.1",
     "cookie-parser": "~1.4.3",

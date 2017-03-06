@@ -2,7 +2,7 @@ var express = require('express')
 ,md5 = require('md5'),
 router = express.Router(),
 mongoose = require('mongoose'),
-mversion=require('../model/version');
+mongodb=require('../model/mongodb');
 
 /* GET admin listing. */
 router.get('/', function(req, res, next) {
@@ -139,9 +139,9 @@ router.get('/index',(req,res)=>{
       'uptime': Math.ceil(os.uptime()/3600)+"小时",
       'node':process.version,
       'time':time,
-	  'dbversion':new mversion().l
+	    'version':mongodb.version,
+      'size':mongodb.size
   };
-  console.log(data);
   var Config = require('../model/config');
   Config.findOne({},(e,r)=>{
     if(e){
@@ -250,7 +250,6 @@ router.post('/add_colunm',(req,res)=>{
             return;
         });
     }else{
-        console.log(data);
         Colunm.update({_id:id},{$set:data},(e,r)=>{
           if(e){
               res.json({'status':0,'msg':'修改失败,请重试'});

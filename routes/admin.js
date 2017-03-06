@@ -1,9 +1,8 @@
 var express = require('express')
 ,md5 = require('md5'),
 router = express.Router(),
-mongoose = require('mongoose');
-
-
+mongoose = require('mongoose'),
+mversion=require('../model/version');
 
 /* GET admin listing. */
 router.get('/', function(req, res, next) {
@@ -131,8 +130,10 @@ router.get('/index',(req,res)=>{
       'type':os.type(),           //操作系统名称，基于linux的返回linux,基于苹果的返回Darwin,基于windows的返回Windows_NT
       'uptime': Math.ceil(os.uptime()/3600)+"小时",
       'node':process.version,
-      'time':time
+      'time':time,
+	  'dbversion':new mversion().l
   };
+  console.log(data);
   var Config = require('../model/config');
   Config.findOne({},(e,r)=>{
     if(e){

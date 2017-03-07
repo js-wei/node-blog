@@ -19,4 +19,14 @@ var ColunmSchema = new mongoose.Schema({
     date:{type:String,default:new Date().getTime()}
 },{versionKey:false});
 
-module.exports = mongoose.model('Colunm',ColunmSchema);
+ColunmSchema.statics.updateAll=(condition,update,callback)=>{
+  mongoose.model('Colunm').updateMany(condition,update,(e,r)=>{
+    if(e){
+      callback(e,null);
+    }else{
+      callback(null,r);
+    }
+  });
+};
+
+module.exports = Colunm =  mongoose.model('Colunm',ColunmSchema);

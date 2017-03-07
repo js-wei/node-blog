@@ -183,13 +183,13 @@
                 <div class="col-lg-6">
                    <div class="radio pull-left">
                         <label>
-                            <input name="last" type="radio" value="0" class="colored-success" <%if(info.last==0){%>checked="checked"<%}%><%if(_id==''){%>checked="checked"<%}%>>
+                            <input name="last" type="radio" value="0" class="colored-success" <%if(!info.last){%>checked="checked"<%}%><%if(_id==null){%>checked="checked"<%}%>>
                             <span class="text">否(显示成列表)</span>
                         </label>
                     </div>
                     <div class="radio pull-left">
                         <label>
-                            <input name="last" type="radio" value="1" class="colored-danger" <%if(info.last==1){%>checked="checked"<%}%>>
+                            <input name="last" type="radio" value="1" class="colored-danger" <%if(info.last){%>checked="checked"<%}%>>
                             <span class="text">是(显示成内容页)</span>
                             <!-- <input type="text" style="width:210px;height:20px;padding-left:10px;margin-left:10px;display:none;" value="<notempty name='info'></notempty>" placeholder="最终显示模板,默认:default.html" name="last_tpl" id="last_tpl"> -->
                         </label>

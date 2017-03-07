@@ -67,11 +67,11 @@
                             layer.alert(result.msg, {
                                 icon: 6,
                                 end: function() {
-                                    // if(result.redirect!=''){
-                                    //     window.location.href=result.redirect;
-                                    // }else{
-                                    //     window.location.reload();
-                                    // }
+                                    if(result.redirect!=null){
+                                        window.location.href=result.redirect;
+                                    }else{
+                                        window.location.reload();
+                                    }
                                 }
                             });
                         });

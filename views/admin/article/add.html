@@ -1,0 +1,192 @@
+<%include ../public/header.html%>
+<%include ../public/left.html%>
+<div class="widget  radius-bordered">
+    <div class="widget-header">
+        <span class="widget-caption">文档操作</span>
+    </div>
+    <div class="widget-body">
+        <form id="togglingForm" action="/add_handler" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+            <div class="form-group">
+                <label class="col-lg-1 control-label">选择栏目<sup>*</sup></label>
+                <div class="col-lg-3">
+                    <select class="span4 m-wrap" name="column_id">
+                        <option value="0">顶级文档</option>
+                        <%for(i in clist){%>
+                            <option value="<%=clist[i]._id%>" <%if(clist[i]._id==info.fid){%>selected='selected'<%}%>>
+                              <%=clist[i].html%><%=clist[i].title%>
+                            </option>
+                        <%}%>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">文档标题<sup>*</sup></label>
+                <div class="col-lg-4">
+                    <input type="text" name="title" value="<notempty name="info">{$info.title}</notempty>" class="form-control" id="name" placeholder="文档标题"/>
+                    <input type="hidden" name="id" value="<notempty name='info'>{$info.id}</notempty>">
+                    <input type="hidden" name="aid" value="{$column.id}">
+                    <input type="hidden" name="p" value="{:input('p')}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">发布者</label>
+                <div class="col-lg-4">
+                    <input type="text" name="author" value="<notempty name="info">{$info.author}</notempty>" class="form-control" placeholder="发布者"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">图片</label>
+                <div class="col-lg-3">
+                    <div>
+                        <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="image" id="fileImg" size="16" value="上传" class="table_btn"/></div>
+                        <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
+                        <div class="btn btn-danger btn-xs" onclick="noMasterImg()"><i class="fa fa-trash-o" style="cursor:pointer;display:block"></i></div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div>
+                        <notempty name="info.image">
+                            <img src="{$info.image}" id="images_preview" width="380" height="auto">
+                            <input type="hidden" value="{$info.image}" name="image" id="reply_img">
+                            <else />
+                            <img src="" id="images_preview" width="380" height="auto" style="display:none;">
+                            <input type="hidden"  name="image" id="reply_img">
+                        </notempty>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">文档关键词</label>
+                <div class="col-lg-4">
+                    <textarea name="keywords" class="form-control" rows="5" placeholder="文档关键词"><notempty name="info">{$info.keywords}<else />{$column.description}</notempty></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">文档说明</label>
+                <div class="col-lg-4">
+                    <textarea name="description" class="form-control" rows="5" placeholder="文档说明"><notempty name="info">{$info.description}<else />{$column.description}</notempty></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">文档类型</label>
+                <div class="col-lg-6">
+                    <div class="checkbox checkbox-inline">
+                        <label>
+                            <input type="checkbox" name="attr[com]" value="1" class="colored-success" <notempty name="info"><eq name="info.com" value="1">checked="checked"</eq></notempty>>
+                            <span class="text">推荐</span>
+                        </label>
+                    </div>
+                    <div class="checkbox hide">
+                        <label>
+                            <input type="checkbox" name="attr[com]" class="colored-success" >
+                            <span class="text">推荐</span>
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <label>
+                            <input type="checkbox" name="attr[hot]" value="1" class="colored-success" <notempty name="info"><eq name="info.hot" value="1">checked="checked"</eq></notempty>>
+                            <span class="text">最热</span>
+                            <input type="hidden" name="attr[none]" value="1" class="colored-success" >
+                        </label>
+                    </div>
+                    <div class="checkbox hide">
+                        <label>
+                            <input type="checkbox" name="attr[hot]" class="colored-success" >
+                            <span class="text">最热</span>
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <label>
+                            <input type="checkbox" name="attr[new]" value="1" class="colored-success" <notempty name="info"><eq name="info.new" value="1">checked="checked"</eq></notempty>>
+                            <span class="text">最新</span>
+                        </label>
+                    </div>
+                    <div class="checkbox hide">
+                        <label>
+                            <input type="checkbox" name="attr[new]" class="colored-success" >
+                            <span class="text">最新</span>
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <label>
+                            <input type="checkbox" name="attr[head]" value="1" class="colored-success" <notempty name="info"><eq name="info.head" value="1">checked="checked"</eq></notempty>>
+                            <span class="text">头条</span>
+                        </label>
+                    </div>
+                    <div class="checkbox hide">
+                        <label>
+                            <input type="checkbox" name="attr[head]" class="colored-success" >
+                            <span class="text">头条</span>
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <label>
+                            <input type="checkbox" name="attr[top]" value="1" class="colored-success" <notempty name="info"><eq name="info.top" value="1">checked="checked"</eq></notempty>>
+                            <span class="text">置顶</span>
+                        </label>
+                    </div>
+                    <div class="checkbox hide">
+                        <label>
+                            <input type="checkbox" name="attr[top]" class="colored-success" >
+                            <span class="text">置顶</span>
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <label>
+                            <input type="checkbox" name="attr[img]" value="1" class="colored-success" <notempty name="info"><eq name="info.img" value="1">checked="checked"</eq></notempty>>
+                            <span class="text">图文</span>
+                        </label>
+                    </div>
+                    <div class="checkbox hide">
+                        <label>
+                            <input type="checkbox" name="attr[img]" class="colored-success" >
+                            <span class="text">图文</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">文档内容</label>
+                <div class="col-lg-4">
+                     <textarea name="content" class="form-control" rows="5" placeholder="主要内容"><notempty name="info">{$info.content}</notempty></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">排序</label>
+                <div class="col-lg-2">
+                    <input name="sort" value="<notempty name='info'>{$info.sort}<else />100</notempty>" class="form-control" placeholder="文档排序"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">文档状态</label>
+                <div class="col-lg-6">
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="status" type="radio" value="0" class="colored-success" <notempty name="info"><eq name="info.status" value="0">checked="checked"</eq><else />checked="checked"</notempty>>
+                            <span class="text">是</span>
+                        </label>
+                    </div>
+                    <div class="radio pull-left">
+                        <label>
+                            <input name="status" type="radio" value="1" class="colored-danger" <notempty name="info"><eq name="info.status" value="1">checked="checked"</eq></notempty>>
+                            <span class="text">否</span>
+                        </label>
+                    </div>
+                    <div class="radio hide">
+                        <label>
+                            <input name="status" type="radio" class="colored-blueberry">
+                            <span class="text"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <hr class="wide" />
+            <div class="form-group">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <button type="submit" class="btn btn-danger col-lg-2">提交</button>
+                    <button type="button" class="btn btn-warning col-lg-2 ml10" onclick="window.history.go(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<%include ../public/footer.html%>

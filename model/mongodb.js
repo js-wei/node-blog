@@ -12,11 +12,12 @@ function size(callback){
 }
 //版本
 function version(callback){
-	MongoClient.connect('mongodb://localhost:27017/admin', function(err, db) {
-			db.collection('system.version').findOne({},function(err, doc) {
-				callback(doc.version+'.*');
-				db.close();
-			});
+	//直接调用命令
+	var child_process = require('child_process');
+	var command = 'mongo --eval "db.version()"';
+	child_process.exec(command, function (err, stdout, stderr) {
+			var ver = stdout.split('\r\n');
+	    callback(ver[3]);
 	});
 }
 

@@ -74,3 +74,48 @@ exports.getDom=()=>{
   }
   //console.log(temp.join(""));
 };
+/*
+var options = {
+     currentPage:<%=page.num%>,
+     totalPages:<%=page.pageCount%>,
+     numberOfPages:<%=page.numberOf%>,
+     version:3,
+     pageUrl: function(type, page, current){
+       return "<%=_url%>?p="+page;
+     },
+}
+$('.pages').bootstrapPaginator(options);
+ */
+//分页方法
+exports.pagination  =(obj,callback,req=null)=>{
+    var mdel='';
+    if(req){
+      var m = req.path.replace(/\//g,'');
+      if(m.indexOf('_')>-1){
+        m = m.split('_')[1];
+      }
+      mdel = require('../model/'+m);
+    }
+    var model= obj.model || mdel,
+    q=obj.search||{},
+    col=obj.columns;
+    var pageNumber=obj.page.num || 1;
+    var resultsPerPage=obj.page.limit || 10;
+
+    var skipFrom = (pageNumber * resultsPerPage) - resultsPerPage;
+    var query = model.find(q,col).sort('-date').skip(skipFrom).limit(resultsPerPage);
+    query.exec(function(error, results) {
+      if (error) {
+        callback(error, null, null);
+      } else {
+         model.count(q, function(error, count) {
+          if (error) {
+            callback(error, null, null);
+          } else {
+            var pageCount = Math.ceil(count / resultsPerPage);
+            callback(null, pageCount, results);
+          }
+        });
+      }
+   });
+ }

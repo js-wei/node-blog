@@ -65,7 +65,7 @@
                           </div>
                       </td>
                       <td style="padding-left:0px;">
-                          <%=list[i].title%>
+                          <%=list[i].html%><%=list[i].title%>
                       </td>
                       <td>
                           <%=list[i].name%>
@@ -93,11 +93,15 @@
                 <%}%>
             </tbody>
         </table>
+        <div class="pt10"></div>
+        <div class="pages"></div>
     </div>
 </div>
+<script src="/plug/beyond/js/bootstrap-paginator.min.js" charset="utf-8"></script>
 <script type="text/javascript">
 	$(function(){
-		$('#simpledatatable').dataTable({
+     //分页功能
+		 $('#simpledatatable').dataTable({
 	        "sDom": "Tflt",
 	        "iDisplayLength": <%=count%>,
 	        "oTableTools": {

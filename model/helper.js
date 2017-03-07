@@ -74,30 +74,3 @@ exports.getDom=()=>{
   }
   //console.log(temp.join(""));
 };
-
-exports.genTree = (list)=> {
-     var temptree = [], tree = [], items = [];
-     for (var i in list) {
-         if (!temptree[list[i]._id]) {
-             var trow = {
-                 _id: list[i]._id,
-                 fid: list[i].fid,
-                 text: list[i].title,
-                 status: list[i].status,
-                 children: []
-             };
-             temptree[list[i]._id] = trow;
-             items.push(trow);
-         }
-     }
-     for (var j in items) {
-         if (temptree[items[j].fid]) {
-             temptree[items[j].fid]['children'].push(temptree[items[j]._id]);
-         } else {
-             tree.push(temptree[items[j]._id]);
-         }
-     }
-     temptree = null;
-     items = null;
-     return tree;
- };

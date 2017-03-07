@@ -1,9 +1,8 @@
 var express = require('express')
 ,md5 = require('md5'),
 router = express.Router(),
-mongoose = require('mongoose');
-
-
+mongoose = require('mongoose'),
+mongodb=require('../model/mongodb');
 
 /* GET admin listing. */
 router.get('/', function(req, res, next) {
@@ -139,7 +138,9 @@ router.get('/index',(req,res)=>{
       'type':os.type(),           //操作系统名称，基于linux的返回linux,基于苹果的返回Darwin,基于windows的返回Windows_NT
       'uptime': Math.ceil(os.uptime()/3600)+"小时",
       'node':process.version,
-      'time':time
+      'time':time,
+	    'version':mongodb.version,
+      'size':mongodb.size
   };
   var Config = require('../model/config');
   Config.findOne({},(e,r)=>{
@@ -249,7 +250,6 @@ router.post('/add_colunm',(req,res)=>{
             return;
         });
     }else{
-        console.log(data);
         Colunm.update({_id:id},{$set:data},(e,r)=>{
           if(e){
               res.json({'status':0,'msg':'修改失败,请重试'});

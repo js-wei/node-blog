@@ -125,33 +125,32 @@ router.use(function (req, res, next) {
 });
 //仪表盘
 router.get('/index',(req,res)=>{
-  var os=require('os');
-  var sd = require('silly-datetime');
-  var time=sd.format(new Date(), 'YYYY-MM-DD HH:mm');
-  res.locals.title="仪表盘";
-  res.locals.title1="仪表盘";
-  var data = {
-      'endianness':os.endianness(), //字节顺序 高位优先返回BE,低位优先的返回LE
-      'freemem':Math.ceil(os.freemem()/1024/1034)+"M",      //闲置内存
-      'loadavg':os.loadavg(),      //系统最近5、10、15分钟的平均负载,这是一个针对linux或unix的统计，windows下始终返回[0,0,0]
-      'platform':os.platform(),   //操作系统类型,返回值有'darwin', 'freebsd', 'linux', 'sunos' , 'win32'
-      'release':os.release(),     //操作系统版本
-      'totalmem':Math.ceil(os.totalmem()/1024/1034)+"M",   //系统总内存
-      'type':os.type(),           //操作系统名称，基于linux的返回linux,基于苹果的返回Darwin,基于windows的返回Windows_NT
-      'uptime': Math.ceil(os.uptime()/3600)+"小时",
-      'node':process.version,
-      'time':time,
-	    'version':mongodb.version,
-      'size':mongodb.size
-  };
-  var Config = require('../model/config');
-  Config.findOne({},(e,r)=>{
-    if(e){
-        res.end(e);
-    }
-    res.render('admin/index/index',{os:data,site:r});
-  });
-
+    var os=require('os');
+    var sd = require('silly-datetime');
+    var time=sd.format(new Date(), 'YYYY-MM-DD HH:mm');
+    res.locals.title="仪表盘";
+    res.locals.title1="仪表盘";
+    var data = {
+        'endianness':os.endianness(), //字节顺序 高位优先返回BE,低位优先的返回LE
+        'freemem':Math.ceil(os.freemem()/1024/1034)+"M",      //闲置内存
+        'loadavg':os.loadavg(),      //系统最近5、10、15分钟的平均负载,这是一个针对linux或unix的统计，windows下始终返回[0,0,0]
+        'platform':os.platform(),   //操作系统类型,返回值有'darwin', 'freebsd', 'linux', 'sunos' , 'win32'
+        'release':os.release(),     //操作系统版本
+        'totalmem':Math.ceil(os.totalmem()/1024/1034)+"M",   //系统总内存
+        'type':os.type(),           //操作系统名称，基于linux的返回linux,基于苹果的返回Darwin,基于windows的返回Windows_NT
+        'uptime': Math.ceil(os.uptime()/3600)+"小时",
+        'node':process.version,
+        'time':time,
+  	    'version':mongodb.version,
+        'size':mongodb.size
+    };
+    var Config = require('../model/config');
+    Config.findOne({},(e,r)=>{
+      if(e){
+          res.end(e);
+      }
+      res.render('admin/index/index',{os:data,site:r});
+    });
 });
 
 //网站配置
@@ -170,7 +169,6 @@ router.post('/config',(req,res)=>{
     var data = req.body;
     delete data["id"];
     var config = new Config(data);    //实例化对象
-
     if(!id){
       config.save((err,result)=>{
         if(err){
@@ -239,32 +237,12 @@ router.get('/add_colunm',(req,res)=>{
    res.locals.title=res.locals.title1="添加栏目";
    var id = req.query.id?req.query.id:0;
    var Colunm = require('../model/colunm');
-<<<<<<< HEAD
-   if(id!=0){
-       Colunm.findById({_id:id},(e,r)=>{
-          if(e){
-              res.end(e);
-              return;
-          }
-          res.locals.info = r;
-          res.locals._id = r._id;
-       });
-   }else{
-     res.locals.info = new Colunm();
-     res.locals._id = '';
-   }
-   Colunm.find({},"_id title fid",(e,r1)=>{
-       if(e){
-           res.end(e);
-           return;
-       }
-       res.render('admin/colunm/add',{clist:helper.sonsTree(r1)});
-=======
 
    Colunm.findOneWithColunms({_id:req.query.id},(e,c,l)=>{
-       if(e) console.log(e);
+       if(e){
+            console.log(e);
+       }
        res.render('admin/colunm/add',{info:c,clist:l});
->>>>>>> 268f59e30b93d19d1f61e2e01fe6ca4b024c51bf
    });
 });
 //添加栏目
@@ -311,8 +289,6 @@ router.get('/add_article',(req,res)=>{
     });
 });
 
-<<<<<<< HEAD
-=======
 router.post('/add_article',(req,res)=>{
     var data = req.body;
     var id= req.body.id?req.body.id:null;
@@ -342,7 +318,6 @@ router.post('/add_article',(req,res)=>{
     }
 });
 
->>>>>>> 268f59e30b93d19d1f61e2e01fe6ca4b024c51bf
 //状态管理
 router.all('/status',(req,res)=>{
     var p = req.body,

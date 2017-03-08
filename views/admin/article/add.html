@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">图片</label>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <div>
                             <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="image" id="fileImg" size="16" value="上传" class="table_btn"/></div>
                             <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
@@ -220,7 +220,7 @@
             defaultImage: '/plug/simditor/images/image.png',
             params: {},
             upload:{
-              url: '/admin/upload',
+              url: '/uploadify/upload',
               params: null,
               fileKey: 'upload_file',
               connectionCount: 3,

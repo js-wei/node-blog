@@ -1,4 +1,6 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+Colunm = require('../model/colunm'),
+helper = require('../model/helper');
 
 var ArticleSchema = new mongoose.Schema({
     fid:{type:String,default:''},
@@ -30,4 +32,28 @@ ArticleSchema.statics.updateAll=(condition,update,callback)=>{
   });
 };
 
-module.exports = Colunm =  mongoose.model('Article',ArticleSchema);
+ArticleSchema.statics.findOneWithColunms=(condition,callback)=>{
+   if(condition._id==0){
+      mongoose.model('Colunm').find({},"_id title fid",(e,r1)=>{
+          if(e)  callback(e,null,null);
+          var model = new Article();
+          model._id=null;
+          callback(null,model,helper.sonsTree(r1));
+      });
+   }else{
+     mongoose.model('Article').findOne(condition,(e,r)=>{
+         if(e){
+           callback(e,null,null);
+         }else{
+           if(r){
+             mongoose.model('Colunm').find({},"_id title fid",(e,r1)=>{
+                 if(e)  callback(e,null,null);
+                 callback(null,r,helper.sonsTree(r1));
+             });
+           }
+         }
+     });
+   }
+}
+
+module.exports = Article =  mongoose.model('Article',ArticleSchema);

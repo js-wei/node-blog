@@ -1,10 +1,25 @@
 //图片操作上传
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+router = express.Router(),
+path = require('path'),
+sd = require('silly-datetime'),
+multiparty = require('multiparty'),
+fs = require('fs');
 
-var sd = require('silly-datetime');
-var multiparty = require('multiparty');   //中间件实现上传
-var fs = require('fs');
+router.post('/upload', function(req, res) {
+    var tmp_path = req.files.upload_file.path;
+    var target_path = path.resolve('_site/assets/images', req.files.upload_file.name);
+    fs.rename(tmp_path, target_path, function(err) {
+        if (err) throw err;
+        fs.unlink(tmp_path, function() {
+            if (err) throw err;
+            res.send({
+                success: true,
+                file_path: 'assets/images/' + req.files.upload_file.name
+            });
+        });
+    });
+});
 
 
 router.post('/upload_archiver',(req,res)=>{

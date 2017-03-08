@@ -111,6 +111,7 @@ router.use(function (req, res, next) {
   res.locals._id=req.params.id;
   res.locals._p=req.query.p?req.query.p:1;
   res.locals._url=req._parsedOriginalUrl.pathname;
+  res.locals.count=20;
   var m = req.path.replace(/\//g,'');
   if(m.indexOf('_')>-1){
     m = m.split('_')[1];
@@ -234,29 +235,14 @@ router.get('/colunm',(req,res)=>{
 });
 
 //添加栏目
-router.get('/add_colunm/:_id',(req,res)=>{
+router.get('/add_colunm',(req,res)=>{
    res.locals.title=res.locals.title1="添加栏目";
-   var id = req.params._id?req.params._id:0;
+   var id = req.query.id?req.query.id:0;
    var Colunm = require('../model/colunm');
-   if(id!=0){
-       Colunm.findById({_id:req.params._id},(e,r)=>{
-          if(e){
-              res.end(e);
-              return;
-          }
-          res.locals.info = r;
-          res.locals._id = r._id;
-       });
-   }else{
-     res.locals.info = new Colunm();
-     res.locals._id = '';
-   }
-   Colunm.find({},"_id title fid",(e,r1)=>{
-       if(e){
-           res.end(e);
-           return;
-       }
-       res.render('admin/colunm/add',{clist:helper.sonsTree(r1)});
+
+   Colunm.findOneWithColunms({_id:req.query.id},(e,c,l)=>{
+       if(e) console.log(e);
+       res.render('admin/colunm/add',{info:c,clist:l});
    });
 });
 //添加栏目
@@ -296,32 +282,41 @@ router.get('/list',(req,res)=>{
 router.get('/add_article',(req,res)=>{
     res.locals.title=res.locals.title1="添加文章";
     var id = req.query._id?req.query._id:0;
-    var Article = require('../model/article'),
-    Colunm = require('../model/colunm');
-    if(id!=0){
-        Article.findById({_id:req.query._id},(e,r)=>{
-           if(e){
-               res.end(e);
-               return;
-           }
-           res.locals.info = r;
-           res.locals._id = r._id;
-        });
-    }else{
-      res.locals.info = new Article();
-      res.locals._id = '';
-    }
-    Colunm.find({},"_id title fid",(e,r1)=>{
-        if(e){
-            res.end(e);
-            return;
-        }
-        console.log(r1);
-        res.render('admin/colunm/add',{clist:helper.sonsTree(r1)});
+    var Article = require('../model/article');
+    Article.findOneWithColunms({_id:req.query.id},(e,c,l)=>{
+        if(e) console.log(e);
+        res.render('admin/article/add',{info:c,clist:l});
     });
 });
 
-
+router.post('/add_article',(req,res)=>{
+    var data = req.body;
+    var id= req.body.id?req.body.id:null;
+    data.content = helper.escapeHtml(data.content);
+    var Article = require('../model/article');
+    delete data['_id'];   //删除_id
+    if(id==null){
+      var article = new Article(data);
+      article.save((e,r)=>{
+          if(e){
+            console.log(e);
+            res.json({'status':0,'msg':'添加失败'});
+            return;
+          }
+          res.json({'status':1,'msg':'添加成功','redirect':'/admin/list'});
+          return;
+      });
+    }else{
+      Article.update({_id:id},data,(e,r)=>{
+          if(e){
+            res.json({'status':0,'msg':'修改失败'});
+            return;
+          }
+          res.json({'status':1,'msg':'修改成功','redirect':'/admin/list'});
+          return;
+      });
+    }
+});
 
 //状态管理
 router.all('/status',(req,res)=>{

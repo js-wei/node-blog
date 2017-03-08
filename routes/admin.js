@@ -239,7 +239,7 @@ router.get('/add_colunm/:_id',(req,res)=>{
    var id = req.params._id?req.params._id:0;
    var Colunm = require('../model/colunm');
    if(id!=0){
-       Colunm.findById({_id:req.params._id},(e,r)=>{
+       Colunm.findById({_id:id},(e,r)=>{
           if(e){
               res.end(e);
               return;
@@ -321,8 +321,6 @@ router.get('/add_article',(req,res)=>{
     });
 });
 
-
-
 //状态管理
 router.all('/status',(req,res)=>{
     var p = req.body,
@@ -331,7 +329,7 @@ router.all('/status',(req,res)=>{
     switch (p.type) {
       case 'delete'://删除
         model.find({_id:{$in:p.id}},'id image',(e,r)=>{
-            if(r.image!=undefined){
+            if(r.image!=''){
                 var path = './public' + r.icon;
                 fs.unlink(path,(e)=>{
                     if(e){

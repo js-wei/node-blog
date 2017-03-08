@@ -119,3 +119,25 @@ exports.pagination  =(obj,callback,req=null)=>{
       }
    });
  }
+//html escape
+exports.escapeHtml=(str)=> {
+     var map ={
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+     };
+     return str.replace(/[&<>"']/g, function(m) {return map[m];});
+}
+//html decode
+exports.decodeHtml=(str)=>{
+    var map = {
+        '&amp;': '&',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&#039;': "'"
+    };
+    return str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {return map[m];});
+}

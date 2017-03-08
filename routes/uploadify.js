@@ -1,10 +1,64 @@
 //图片操作上传
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+router = express.Router(),
+path = require('path'),
+sd = require('silly-datetime'),
+multiparty = require('multiparty'),
+fs = require('fs');
 
-var sd = require('silly-datetime');
-var multiparty = require('multiparty');   //中间件实现上传
-var fs = require('fs');
+router.post('/upload', function(req, res) {
+    var tmp_path = req.files.upload_file.path;
+    var target_path = path.resolve('_site/assets/images', req.files.upload_file.name);
+    fs.rename(tmp_path, target_path, function(err) {
+        if (err) throw err;
+        fs.unlink(tmp_path, function() {
+            if (err) throw err;
+            res.send({
+                success: true,
+                file_path: 'assets/images/' + req.files.upload_file.name
+            });
+        });
+    });
+});
+
+
+router.post('/upload_archiver',(req,res)=>{
+    var date = sd.format(new Date(), 'YYYYMMDD');
+    path = './public/archiver/'+date+"/";
+    //创建文件夹
+    fs.exists(path,(exists)=>{
+       if(!exists){
+          fs.mkdir(path,(err)=>{
+            if(err){
+              res.send(dstPath);
+              return;
+            }
+          });
+       }
+    });
+    //生成multiparty对象，并配置上传目标路径
+    var form = new multiparty.Form({uploadDir:path});
+    //上传完成后处理
+    form.parse(req, function(err, fields, files) {
+        var filesTmp = JSON.stringify(files,null,2);
+        if(err){
+          console.log('parse error: ' + err);
+        } else {
+          var inputFile = files.image[0];
+          var uploadedPath = inputFile.path;
+          var dstPath = path + inputFile.originalFilename;
+          //重命名为真实文件名
+          fs.rename(uploadedPath, dstPath, function(err) {
+            if(err){
+              console.log('rename error: ' + err);
+            } else {
+              console.log('rename ok');
+            }
+          });
+        }
+        res.send(dstPath.replace('./public',''));
+    });
+});
 
 // var multipartMiddleware = multipart();
 router.post('/uploadimg',(req,res)=>{

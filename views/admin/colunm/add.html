@@ -183,7 +183,7 @@
                 <div class="col-lg-6">
                    <div class="radio pull-left">
                         <label>
-                            <input name="last" type="radio" value="0" class="colored-success" <%if(!info.last){%>checked="checked"<%}%><%if(_id==null){%>checked="checked"<%}%>>
+                            <input name="last" type="radio" value="0" class="colored-success" <%if(!info.last){%>checked="checked"<%}%><%if(info._id==null){%>checked="checked"<%}%>>
                             <span class="text">否(显示成列表)</span>
                         </label>
                     </div>
@@ -213,7 +213,7 @@
                 <div class="col-lg-6">
                     <div class="radio pull-left">
                         <label>
-                            <input name="show" type="radio" value="true" class="colored-success" <%if(info.show){%>checked="checked"<%}%> <%if(_id==''){%>checked="checked"<%}%>>
+                            <input name="show" type="radio" value="true" class="colored-success" <%if(info.show){%>checked="checked"<%}%> <%if(info._id==null){%>checked="checked"<%}%>>
                             <span class="text">是</span>
                         </label>
                     </div>
@@ -236,7 +236,7 @@
                 <div class="col-lg-6">
                     <div class="radio pull-left">
                         <label>
-                            <input name="status" type="radio" value="true" class="colored-success" <%if(info.status){%>checked="checked"<%}%> <%if(_id==''){%>checked="checked"<%}%>>
+                            <input name="status" type="radio" value="true" class="colored-success" <%if(info.status){%>checked="checked"<%}%> <%if(info._id==null){%>checked="checked"<%}%>>
                             <span class="text">是</span>
                         </label>
                     </div>

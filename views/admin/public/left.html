@@ -39,7 +39,7 @@
                        <i class="menu-expand"></i>
                    </a>
                    <ul class="submenu">
-                       <li>
+                       <li <%if(locals.url=='/admin/list'){%>class="active"<%}%> <%if(locals.url.indexOf('add_article')>-1){%>class="active"<%}%>>
                            <a href="/admin/list">
                               <i class="menu-icon fa  fa-list"></i>
                                <span class="menu-text">文档列表</span>
@@ -102,9 +102,9 @@
 
 <script type="text/javascript">
   (function(){
-      //var li = $('li.active').parent('ul.submenu').parent('li');
+      var li = $('li.active').parent('ul.submenu').parent('li');
       //$('li.active .open').find('ul.submenu>li:first').addClass('active');
-      //li.addClass('open');
+      li.addClass('open');
   })();
   function getQueryString(name) {
       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");

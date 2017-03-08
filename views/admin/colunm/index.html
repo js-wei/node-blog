@@ -18,7 +18,7 @@
     </div>
     <div class="widget-body">
     	<div class="col-xs-4 col-md-6">
-            <a href="/admin/add_colunm/0" class="btn btn-success">添加栏目</a>
+            <a href="/admin/add_colunm?id=0" class="btn btn-success">添加栏目</a>
             <a href="/admin/status" data-role="forbidden" data-model='<%=m%>' class="btn btn-warning status">选中禁用</a>
             <a href="/admin/status" data-role="enable"  data-model='<%=m%>'class="btn btn-info status">选中启用</a>
             <a href="/admin/status" data-role="delete-all" data-model='<%=m%>' class="btn btn-danger status">选中删除</a>
@@ -81,7 +81,7 @@
                           <%}%>
                       </td>
                       <td>
-                      	<a href="/admin/add_colunm/<%=list[i]._id%>">编辑</a>
+                      	<a href="/admin/add_colunm?id=<%=list[i]._id%>">编辑</a>
                         <%if(list[i].status){%>
                           <a href="/admin/status" data-role="forbidden" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">禁用</a>
                         <%}else{%>

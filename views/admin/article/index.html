@@ -1,6 +1,6 @@
 <%include ../public/header.html%>
 <%include ../public/left.html%>
-<link href="__CSS__/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="/plug/beyond/css/dataTables.bootstrap.css" rel="stylesheet" />
 <script src="/plug/beyond/js/bootstrap-paginator.min.js"></script>
 <div class="row">
     <div class="col-xs-12 col-md-12">
@@ -105,7 +105,7 @@
     $(function(){
         $('#simpledatatable').dataTable({
             "sDom": "Tflt",
-            "iDisplayLength": {$count},
+            "iDisplayLength": <%=count%>,
             "oTableTools": {
                 "aButtons": [
                     "copy", "csv", "xls","pdf"

@@ -39,13 +39,13 @@
                        <i class="menu-expand"></i>
                    </a>
                    <ul class="submenu">
-                       <li <%if(locals.url=='/admin/list'){%>class="active"<%}%> <%if(locals.url.indexOf('add_article')>-1){%>class="active"<%}%>>
-                           <a href="/admin/list">
+                       <li <%if(locals.url=='/admin/article'){%>class="active"<%}%> <%if(locals.url.indexOf('article')>-1){%>class="active"<%}%>>
+                           <a href="/admin/article">
                               <i class="menu-icon fa  fa-list"></i>
                                <span class="menu-text">文档列表</span>
                            </a>
                        </li>
-                       <li>
+                       <li <%if(locals.url.indexOf('recover')>-1){%>class="active"<%}%>>
                            <a href="/admin/recover">
                                <i class="menu-icon fa  fa-trash-o"></i>
                                <span class="menu-text">回收站</span>

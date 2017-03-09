@@ -56,7 +56,49 @@
             q = q.substr(1);
             if(id!= undefined){
                 if(type=='delete'){
-                    layer.confirm('您确定要删除吗?删除后将不能恢复!', {
+                    layer.confirm('您确定要彻底删除吗?删除后将不能恢复!', {
+                      btn: ['是的确定','不没想好'] //按钮
+                    }, function(){
+                        var index = layer.load(2, {
+                            shard: [0.6, "#000"]
+                        });
+                        $.post(url,{id:id,type:type,_id:"<%=_id%>",p:"<%=_p%>",m:m},function(result){
+                            layer.close(index);
+                            layer.alert(result.msg, {
+                                icon: 6,
+                                end: function() {
+                                    if(result.redirect!=null){
+                                        window.location.href=result.redirect;
+                                    }else{
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    });
+                }else if(type=='receive'){    //删除
+                    layer.confirm('您确定要删除文章吗?删除后可以在回收站中恢复!', {
+                      btn: ['是的确定','不没想好'] //按钮
+                    }, function(){
+                        var index = layer.load(2, {
+                            shard: [0.6, "#000"]
+                        });
+                        $.post(url,{id:id,type:type,_id:"<%=_id%>",p:"<%=_p%>",m:m},function(result){
+                            layer.close(index);
+                            layer.alert(result.msg, {
+                                icon: 6,
+                                end: function() {
+                                    if(result.redirect!=null){
+                                        window.location.href=result.redirect;
+                                    }else{
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    });
+                }else if(type=='recover'){    //恢复
+                    layer.confirm('您确定要恢复文章吗?', {
                       btn: ['是的确定','不没想好'] //按钮
                     }, function(){
                         var index = layer.load(2, {
@@ -124,6 +166,48 @@
                               layer.close(index);
                               layer.alert('请选择需要操作项',{icon:5});
                           }
+                      });
+                  }else if(type=='receive'){    //删除
+                      layer.confirm('您确定要删除文章吗?删除后可以在回收站中恢复!', {
+                        btn: ['是的确定','不没想好'] //按钮
+                      }, function(){
+                          var index = layer.load(2, {
+                              shard: [0.6, "#000"]
+                          });
+                          $.post(url,{id:id,type:type,_id:"<%=_id%>",p:"<%=_p%>",m:m},function(result){
+                              layer.close(index);
+                              layer.alert(result.msg, {
+                                  icon: 6,
+                                  end: function() {
+                                      if(result.redirect!=null){
+                                          window.location.href=result.redirect;
+                                      }else{
+                                          window.location.reload();
+                                      }
+                                  }
+                              });
+                          });
+                      });
+                  }else if(type=='recover'){    //恢复
+                      layer.confirm('您确定要恢复文章吗?', {
+                        btn: ['是的确定','不没想好'] //按钮
+                      }, function(){
+                          var index = layer.load(2, {
+                              shard: [0.6, "#000"]
+                          });
+                          $.post(url,{id:id,type:type,_id:"<%=_id%>",p:"<%=_p%>",m:m},function(result){
+                              layer.close(index);
+                              layer.alert(result.msg, {
+                                  icon: 6,
+                                  end: function() {
+                                      if(result.redirect!=null){
+                                          window.location.href=result.redirect;
+                                      }else{
+                                          window.location.reload();
+                                      }
+                                  }
+                              });
+                          });
                       });
                   }else{
                       var index = layer.load(2, {

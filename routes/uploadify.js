@@ -5,7 +5,7 @@ path = require('path'),
 sd = require('silly-datetime'),
 multiparty = require('multiparty'),
 fs = require('fs');
-
+//编辑器上传图片
 router.post('/upload', function(req, res) {
     var date = sd.format(new Date(), 'YYYYMMDD');
     path = './public/editor/'+date+"/";
@@ -45,7 +45,7 @@ router.post('/upload', function(req, res) {
         }
     });
 });
-
+//上传头像
 router.post('/upload_archiver',(req,res)=>{
     var date = sd.format(new Date(), 'YYYYMMDD');
     path = './public/archiver/'+date+"/";
@@ -84,7 +84,7 @@ router.post('/upload_archiver',(req,res)=>{
     });
 });
 
-// var multipartMiddleware = multipart();
+//上传图片
 router.post('/uploadimg',(req,res)=>{
     var date = sd.format(new Date(), 'YYYYMMDD');
     path = './public/image/'+date+"/";

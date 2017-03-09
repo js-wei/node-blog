@@ -19,11 +19,13 @@ var ArticleSchema = new mongoose.Schema({
     img:{type:Boolean,default:false},
     hits:{type:Number,default:0},
     status:{type:Boolean,default:false},
-    date:{type:String,default:new Date().getTime()}
+    recover:{type:Boolean,default:false},
+    rdate:{type:String,default:new Date().now},
+    date:{type:String,default:new Date().now}
 },{versionKey:false});
 
 ArticleSchema.statics.updateAll=(condition,update,callback)=>{
-  mongoose.model('Colunm').updateMany(condition,update,(e,r)=>{
+  mongoose.model('Article').updateMany(condition,update,(e,r)=>{
     if(e){
       callback(e,null);
     }else{

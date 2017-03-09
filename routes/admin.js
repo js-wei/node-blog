@@ -193,37 +193,8 @@ router.post('/config',(req,res)=>{
 router.get('/colunm',(req,res)=>{
     res.locals.title=res.locals.title1="栏目管理";
     var Colunm = require('../model/colunm');
-    /*
-    var search={};
-    var page={limit:15,num:1};
 
-    //查看哪页
-    if(req.query.p){
-        page['num']=req.query.p<1?1:req.query.p;
-    }
-
-    var model = {
-        search:search,
-        columns:'',
-        page:page,
-        model:Colunm,
-    };
-    helper.pagination(model,(err,pageCount,list)=>{
-        page['pageCount']=pageCount;
-        page['size']=list.length;
-        page['numberOf']=pageCount>5?5:pageCount;
-        list = helper.sonsTree(list);
-        return res.render('admin/colunm/index', {
-          list:list,
-          page:page,
-          count:20
-        });
-    });
-     */
-    Colunm.find({})
-    .limit(10)
-    .skip(1-1)
-    .exec((e,r)=>{
+    Colunm.find({},(e,r)=>{
         if(e){
             res.end(e);
             return;
@@ -273,9 +244,32 @@ router.post('/add_colunm',(req,res)=>{
     }
 });
 //文章管理
-router.get('/list',(req,res)=>{
+router.get('/article',(req,res)=>{
     res.locals.title=res.locals.title1="文章管理";
-    res.render('admin/article/index');
+    var search={recover:false};
+    var page={limit:15,num:1};
+    var Article = require('../model/article');
+    //查看哪页
+    if(req.query.p){
+        page['num']=req.query.p<1?1:req.query.p;
+    }
+    var model = {
+        order:{date:-1},
+        search:search,
+        columns:'',
+        page:page,
+        model:Article,
+    };
+    helper.pagination(model,(err,pageCount,list)=>{
+        page['pageCount']=pageCount;
+        page['size']=list.length;
+        page['numberOf']=pageCount>5?5:pageCount;
+        return res.render('admin/article/index', {
+          list:list,
+          page:page,
+          count:20
+        });
+    });
 });
 
 //添加文章
@@ -288,7 +282,7 @@ router.get('/add_article',(req,res)=>{
         res.render('admin/article/add',{info:c,clist:l});
     });
 });
-
+//文章添加
 router.post('/add_article',(req,res)=>{
     var data = req.body;
     var id= req.body.id?req.body.id:null;
@@ -299,11 +293,10 @@ router.post('/add_article',(req,res)=>{
       var article = new Article(data);
       article.save((e,r)=>{
           if(e){
-            console.log(e);
             res.json({'status':0,'msg':'添加失败'});
             return;
           }
-          res.json({'status':1,'msg':'添加成功','redirect':'/admin/list'});
+          res.json({'status':1,'msg':'添加成功','redirect':'/admin/article'});
           return;
       });
     }else{
@@ -312,10 +305,38 @@ router.post('/add_article',(req,res)=>{
             res.json({'status':0,'msg':'修改失败'});
             return;
           }
-          res.json({'status':1,'msg':'修改成功','redirect':'/admin/list'});
+          res.json({'status':1,'msg':'修改成功','redirect':'/admin/article'});
           return;
       });
     }
+});
+
+router.get('/recover',(req,res)=>{
+    res.locals.title=res.locals.title1="回收站";
+    var search={recover:true};
+    var page={limit:15,num:1};
+    var Article = require('../model/article');
+    //查看哪页
+    if(req.query.p){
+        page['num']=req.query.p<1?1:req.query.p;
+    }
+    var model = {
+        order:{rdate:-1},
+        search:search,
+        columns:'',
+        page:page,
+        model:Article,
+    };
+    helper.pagination(model,(err,pageCount,list)=>{
+        page['pageCount']=pageCount;
+        page['size']=list.length;
+        page['numberOf']=pageCount>5?5:pageCount;
+        return res.render('admin/recover/index', {
+          list:list,
+          page:page,
+          count:20
+        });
+    });
 });
 
 //状态管理
@@ -324,6 +345,28 @@ router.all('/status',(req,res)=>{
     fs = require('fs'),
     model = require('../model/'+p.m);
     switch (p.type) {
+      case 'receive':
+          id = p.id.split(',');
+          model.updateAll({_id:{$in:id}},{$set:{recover:true,rdate:Date.now()}},(e,r)=>{
+              if(e){
+                res.json({'status':0,'msg':'删除失败'});
+                return;
+              }
+              res.json({'status':1,'msg':'删除成功'});
+              return;
+          });
+          break;
+      case 'recover':
+          id = p.id.split(',');
+          model.updateAll({_id:{$in:id}},{$set:{recover:false,rdate:Date.now()}},(e,r)=>{
+              if(e){
+                res.json({'status':0,'msg':'恢复失败'});
+                return;
+              }
+              res.json({'status':1,'msg':'恢复成功'});
+              return;
+          });
+          break;
       case 'delete'://删除
         model.find({_id:{$in:p.id}},'id image',(e,r)=>{
             if(r.image!=''){

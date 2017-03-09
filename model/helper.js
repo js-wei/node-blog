@@ -101,9 +101,10 @@ exports.pagination  =(obj,callback,req=null)=>{
     col=obj.columns;
     var pageNumber=obj.page.num || 1;
     var resultsPerPage=obj.page.limit || 10;
+    var order = obj.order || {};
 
     var skipFrom = (pageNumber * resultsPerPage) - resultsPerPage;
-    var query = model.find(q,col).sort('-date').skip(skipFrom).limit(resultsPerPage);
+    var query = model.find(q,col).sort(order).skip(skipFrom).limit(resultsPerPage);
     query.exec(function(error, results) {
       if (error) {
         callback(error, null, null);

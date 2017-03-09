@@ -194,12 +194,14 @@
 <script src="/plug/beyond/js/colorpicker/jquery.minicolors.js"></script>
 <link rel="stylesheet" href="/plug/Uploadify/uploadify.css" />
 <script type="text/javascript" src="/plug/Uploadify/jquery.uploadify.min.js"></script>
+
 <!-- 编辑器 -->
 <link rel="stylesheet" href="/plug/simditor/styles/simditor.css">
 <script type="text/javascript" src="/plug/simditor/scripts/module.js"></script>
 <script type="text/javascript" src="/plug/simditor/scripts/hotkeys.js"></script>
 <script type="text/javascript" src="/plug/simditor/scripts/uploader.js"></script>
 <script type="text/javascript" src="/plug/simditor/scripts/simditor.js"></script>
+<script type="text/javascript" src="/plug/simditor/scripts/simditor-mark.js"></script>
 <!-- 表情 -->
 <link rel="stylesheet" type="text/css" href="/plug/simditor/emoji/styles/simditor-emoji.css" />
 <script src="/plug/simditor/emoji/lib/simditor-emoji.js"></script>
@@ -212,11 +214,20 @@
 <script type="text/javascript" src="/plug/simditor/markdown/lib/to-markdown.js"></script>
 <script type="text/javascript" src="/plug/simditor/markdown/lib/simditor-markdown.js"></script>
 <link rel="stylesheet" href="/plug/simditor/markdown/styles/simditor-markdown.css"/>
+<!-- fullscreen -->
+<link rel="stylesheet" href="/plug/simditor/fullscreen/styles/simditor-fullscreen.css" />
+<script type="text/javascript" src="/plug/simditor/fullscreen/lib/simditor-fullscreen.js"></script>
+<!-- checklist -->
+<link rel="stylesheet" type="text/css" href="/plug/simditor/checklist/styles/simditor-checklist.css" />
+<script src="/plug/simditor/checklist/lib/simditor-checklist.js"></script>
+<!-- mention -->
+<script src="/plug/simditor/mention/lib/simditor-mention.js"></script>
+<link type="text/css" href="/plug/simditor/mention/styles/simditor-mention.css" />
 <script type="text/javascript">
     $(function(){
           var editor = new Simditor({
             textarea: $('textarea[name="content"]'),
-            placeholder: '请输编辑文章',
+            placeholder: '请在这里输入内容...',
             defaultImage: '/plug/simditor/images/image.png',
             params: {},
             upload:{
@@ -227,12 +238,41 @@
               leaveConfirm: '正在上传图片你确定要离开吗?',
             },
             tabIndent: true,
-            toolbar:['title','bold',  'italic','underline','strikethrough','fontScale','color','|','ol','ul','blockquote','code',
-              'table', 'link','image','emoji','|','hr','indent', 'outdent','alignment','|','html','markdown'
+            toolbar:['title','bold','italic','underline','strikethrough','fontScale','color','mark','|','ol','ul','checklist','|','blockquote','code',
+              'table', 'link','image','emoji','|','hr','indent', 'outdent','alignment','|','html','markdown','fullscreen'
             ],
             emoji: {
                 imagePath: '/plug/simditor/emoji/images/emoji'
             },
+            mention:{
+              items:[
+                {
+                  id:1,
+                  name:"春雨",
+                  pinyin:"chunyu",
+                  abbr:"cy",
+                  url:"http://www.example.com"
+                },
+                {
+                  id:2,
+                  name:"夏荷",
+                  pinyin:"xiahe",
+                  abbr:"xh",
+                },
+                {
+                  id:3,
+                  name:"秋叶",
+                  pinyin:"qiuye",
+                  abbr:"qy",
+                },
+                {
+                  id:4,
+                  name:"冬雪",
+                  pinyin:"dongxue",
+                  abbr:"dx",
+                },
+              ],
+            }
         });
 
         $('#togglingForm').bootstrapValidator({
@@ -289,7 +329,8 @@
             title: '查看图片',
             skin: 'layui-layer-rim', //加上边框
             area: ['500px', '400px'], //宽高
-            content: "<div style='max-width:500px; max-height:400px; overflow:auto;'><img style='max-width:500px; max-height:400px; overflow:auto;' src='"+pic_url+"'  /></div>"
+            content: "<div style='max-width:500px; max-height:400px; overflow:auto;'>"+
+            "<img style='max-width:500px; max-height:400px; overflow:auto;' src='"+pic_url+"'/></div>",
         });
     }
 

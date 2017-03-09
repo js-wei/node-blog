@@ -17,7 +17,7 @@ var ColunmSchema = new mongoose.Schema({
     sorts:{type:Number,default:100},
     show:{type:Boolean,default:true},
     status:{type:Boolean,default:true},
-    date:{type:String,default: Date().now}
+    date:{type:String,default: Date.now()}
 },{versionKey:false});
 
 ColunmSchema.statics.updateAll=(condition,update,callback)=>{

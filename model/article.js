@@ -20,8 +20,8 @@ var ArticleSchema = new mongoose.Schema({
     hits:{type:Number,default:0},
     status:{type:Boolean,default:false},
     recover:{type:Boolean,default:false},
-    rdate:{type:String,default:new Date().now},
-    date:{type:String,default:new Date().now}
+    rdate:{type:String,default:Date.now()},
+    date:{type:String,default:Date.now()}
 },{versionKey:false});
 
 ArticleSchema.statics.updateAll=(condition,update,callback)=>{

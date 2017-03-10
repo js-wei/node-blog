@@ -96,13 +96,12 @@
                     });
                     var josn = $('form').serialize();
                     $.post($('form').attr('action'),josn,function(result){
-                        console.log(result);
                         layer.close(index);
                         if(result.status==0){
                              layer.alert(result.msg,{icon:5});
                         }else{
                             layer.alert(result.msg,{icon:6,end:function(){
-                                //window.location.href=result.redirect;
+                                window.location.href=result.redirect;
                             }});
                         }
                     });

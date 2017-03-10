@@ -20,6 +20,12 @@
                         <span class="menu-text">仪表盘</span>
                     </a>
                 </li>
+                <li <%if(locals.url=='/admin/link'){%>class="active"<%}%>>
+                    <a href="/admin/link">
+                        <i class="menu-icon fa fa-cogs"></i>
+                        <span class="menu-text">友情链接</span>
+                    </a>
+                </li>
                 <li <%if(locals.url=='/admin/config'){%>class="active"<%}%>>
                     <a href="/admin/config">
                         <i class="menu-icon fa fa-cogs"></i>

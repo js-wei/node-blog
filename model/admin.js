@@ -9,6 +9,6 @@ var AdminSchema = new Schema({
   logindate : { type:String},  //最近登录时间
   loginip : { type:String},
   status:{type:Boolean,default:false}
-});
+},{versionKey:false});
 
 module.exports = mongoose.model('Admin',AdminSchema);

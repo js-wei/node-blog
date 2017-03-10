@@ -1,5 +1,4 @@
-var express = require('express')
-,md5 = require('md5'),
+var express = require('express'),
 router = express.Router(),
 mongoose = require('mongoose'),
 mongodb=require('../model/mongodb'),
@@ -11,30 +10,31 @@ router.get('/', function(req, res, next) {
 });
 
 router.get("/logout",function(req,res){    // 到达 /logout 路径则登出， session中user,error对象置空，并重定向到根路径
-    req.session.user = null;
-    req.session.error = null;
-    res.redirect("/");
+    req.session._name = null;
+    req.session._name = null;
+    req.session.loginip = null;
+    req.session.logindate = null;
+    res.redirect("/admin");
 });
 /**
  * [result 登录]
  * @type {[type]}
  */
 router.post('/login_handler',(req, res, next)=>{
-    var Admin = require('../model/admin.js')
-    req.session.error = "";
+    var Admin = require('../model/admin.js');
+
     if(!req.body.verify){
-         req.session.error="请输入验证码";
          res.json({"status":0, "msg":"请输入验证码"});
+         return;
     }
 
-    if(req.session.checkcode!=req.body.verify){
-        req.session.error="验证码输入错误";
+    if(req.session.checkcode!=req.body.verify){;
         res.json({"status":0, "msg":"验证码输入错误"});
+        return;
     }
 
     Admin.findOne({'name':req.body.username},(err,result)=>{
         if(err){
-            req.session.error=err;
             res.json({"status":0, "msg":err});
             return;
         }
@@ -43,22 +43,25 @@ router.post('/login_handler',(req, res, next)=>{
             res.json({"status":0, "msg":"请输入正确的账号"});
             return;
         }
-        if(result.password!=req.body.password){
-          req.session.error="您的密码错误";
+        if(result.password!=helper.password(req.body.password)){
           res.json({"status":0, "msg":"您的密码错误"});
           return;
         }
         if(result.status){
-          req.session.error="账号已被锁定,请联系一级管理员";
           res.json({"status":0, "msg":"账号已被锁定,请联系一级管理员"});
           return;
         }
-        //记录登录session
-        res.session.isLogin = result._id;
-        res.session.name = result.name;
-        res.session.loginip = result.loginip;
-        res.session.logindate = result.logindate;
-        res.json({"status":1, "msg":"登录成功"});
+        var loginip = helper.get_client_ip;
+        var logindate = Date.now();
+        Admin.update({_id:result._id},{$set:{loginip:loginip,logindate:logindate}},(e,r)=>{
+            //记录登录session
+            req.session._id = result._id;
+            req.session._name = result.name;
+            req.session.loginip = result.loginip;
+            req.session.logindate = result.logindate;
+            res.json({"status":1, "msg":"登录成功",'redirect':'/admin/index'});
+            return;
+        });
     });
 });
 
@@ -107,21 +110,20 @@ router.get('/captcha',function(req,res,next){
 
 //使用路由中间件,判断是否登录
 router.use(function (req, res, next) {
-  res.locals.url=req.originalUrl;
-  res.locals._id=req.params.id;
-  res.locals._p=req.query.p?req.query.p:1;
-  res.locals._url=req._parsedOriginalUrl.pathname;
-  res.locals.count=20;
-  var m = req.path.replace(/\//g,'');
-  if(m.indexOf('_')>-1){
-    m = m.split('_')[1];
-  }
-  res.locals.m=m;
-  if(req.session._name=='' || req.session._name==null){
-      //res.redirect('/admin');
-      //res.end(200);
-  }
-  next();
+    if(req.session._name=='' || req.session._name==null){
+        res.redirect('/admin');
+        res.end(200);
+    }
+    res.locals._name = req.session._name;
+    res.locals.url=req.originalUrl;                     //访问地址
+    res.locals._id=req.params.id;                       //访问id
+    res.locals._p=req.query.p?req.query.p:1;            //访问当前页
+    res.locals._url=req._parsedOriginalUrl.pathname;
+    res.locals.count=20;                               //table默认显示条数
+    var m = req.path.replace(/\//g,'');                //去除基本地址的"/"
+    m = m.indexOf('_')>-1? m.split('_')[1]:m;          //得到model
+    res.locals.m=m;                                    //判断当前model
+    next();
 });
 //仪表盘
 router.get('/index',(req,res)=>{
@@ -152,6 +154,50 @@ router.get('/index',(req,res)=>{
       res.render('admin/index/index',{os:data,site:r});
     });
 });
+
+
+router.get('/profile',(req,res)=>{
+    res.locals.title=res.locals.title1="个人信息";
+    var Admin = require('../model/admin');
+    var id = req.session._id || '58c243d004ced81ffc244931';
+    Admin.findOne({_id:id},(e,r)=>{
+        if(e) console.log(e);
+        res.render('admin/profile/index',{user:r});
+    });
+});
+//修改密码
+router.post('/profile',(req,res)=>{
+    var Admin = require('../model/admin');
+    var id = req.body.id;
+    var pwd = req.body.password;
+    var pwd1 = req.body.comform_password;
+    if(!id){
+        res.json({'status':0,'msg':'错误的请求参数'});
+        return;
+    }
+    if(!pwd){
+        res.json({'status':0,'msg':'新密码不能为空'});
+        return;
+    }
+    if(!pwd1){
+        res.json({'status':0,'msg':'确认密码不能为空'});
+        return;
+    }
+    if(pwd!= pwd1){
+        res.json({'status':0,'msg':'两次输入的密码不一致'});
+        return;
+    }
+    pwd = helper.password(pwd);
+    Admin.update({_id:id},{$set:{password:pwd}},(e,r)=>{
+        if(e)   res.json({'status':0,'msg':'修改失败'});
+        req.session._id = null;
+        req.session._name = null;
+        req.session.loginip = null;
+        req.session.logindate = null;
+        res.json({'status':1,'msg':'修改成功','redirect':'/admin'});
+    });
+});
+
 
 //网站配置
 router.get('/config',(req,res)=>{

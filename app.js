@@ -30,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'files')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 
+
 //开启session
 app.use(session(config.session));
 
@@ -52,7 +53,8 @@ app.locals.ellipsis=(str,len,flag=false)=>{
 }
 //扩展模板时间格式化
 app.locals.time=(nS,format='yyyy-MM-dd h:i:s')=>{
-    var d = new Date(parseInt(nS));
+    nS = nS.toString().length<13?parseInt(nS)*1000:parseInt(nS);
+    var d = new Date(nS);
     var date = {
         "M+": d.getMonth() + 1,
         "d+": d.getDate(),

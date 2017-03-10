@@ -1,3 +1,33 @@
+var config = require('config-lite'),
+md5 = require('md5'),
+crypto = require('crypto');
+
+
+//重组密码
+exports.password=(str)=>{
+    return md5(str+"$"+config.encrypt).substr(20);
+}
+
+//加密
+exports.cipher = (algorithm, key, buf)=>{
+    var encrypted = "";
+    key = key || config.encrypt;
+    var cip = crypto.createCipher(algorithm, key);
+    encrypted += cip.update(buf, 'binary', 'hex');
+    encrypted += cip.final('hex');
+    return encrypted
+};
+
+//解密
+exports.decipher = (algorithm, key, encrypted) =>{
+    var decrypted = "";
+    var decipher = crypto.createDecipher(algorithm, key);
+    decrypted += decipher.update(encrypted, 'hex', 'binary');
+    decrypted += decipher.final('binary');
+    return decrypted
+};
+
+
 /*
 var bmid = 8;
 var pids = new Set([bmid]);
@@ -72,8 +102,15 @@ exports.getDom=()=>{
           temp.push("</ul>")
       }
   }
-  //console.log(temp.join(""));
 };
+
+//获取IP
+require('externalip')(function (err, ip) {
+  exports.get_client_ip = ip; // => 8.8.8.8
+});
+
+
+
 /*
 var options = {
      currentPage:<%=page.num%>,

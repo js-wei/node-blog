@@ -21,5 +21,5 @@ var ConfigSchema = new mongoose.Schema({
   num:{type:Number,default:4},                            //轮播个数
   isShard:{type:Number,default:0},                    //是否开启分享
   status:{type:Boolean,default:true},                      //关闭站点
-});
+},{versionKey:false});
 module.exports = mongoose.model('Config',ConfigSchema);

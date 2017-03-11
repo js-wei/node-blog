@@ -20,9 +20,9 @@
                         <span class="menu-text">仪表盘</span>
                     </a>
                 </li>
-                <li <%if(locals.url=='/admin/link'){%>class="active"<%}%>>
+                <li <%if(locals.url.indexOf('link')>-1){%>class="active"<%}%>>
                     <a href="/admin/link">
-                        <i class="menu-icon fa fa-cogs"></i>
+                        <i class="menu-icon fa fa-chain"></i>
                         <span class="menu-text">友情链接</span>
                     </a>
                 </li>

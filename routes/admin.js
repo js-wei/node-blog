@@ -111,8 +111,8 @@ router.get('/captcha',function(req,res,next){
 //使用路由中间件,判断是否登录
 router.use(function (req, res, next) {
     if(req.session._name=='' || req.session._name==null){
-        res.redirect('/admin');
-        res.end(200);
+        //res.redirect('/admin');
+        //res.end(200);
     }
     res.locals._name = req.session._name;
     res.locals.url=req.originalUrl;                     //访问地址
@@ -144,9 +144,11 @@ router.get('/index',(req,res)=>{
         'node':process.version,
         'time':time,
   	    'version':mongodb.version,
+        'express':mongodb.express,
         'size':mongodb.size
     };
     var Config = require('../model/config');
+    console.log(data);
     Config.findOne({},(e,r)=>{
       if(e){
           res.end(e);
@@ -154,8 +156,77 @@ router.get('/index',(req,res)=>{
       res.render('admin/index/index',{os:data,site:r});
     });
 });
+//友情链接
+router.get('/link',(req,res)=>{
+    res.locals.title=res.locals.title1="友情链接";
+    var Link = require('../model/link');
+    var search={};
+    var page={limit:15,num:1};
+    //查看哪页
+    if(req.query.p){
+        page['num']=req.query.p<1?1:req.query.p;
+    }
+    var model = {
+        order:{date:-1},
+        search:search,
+        columns:'',
+        page:page,
+        model:Link,
+    };
+    helper.pagination(model,(err,pageCount,list)=>{
+        page['pageCount']=pageCount;
+        page['size']=list.length;
+        page['numberOf']=pageCount>5?5:pageCount;
+        return res.render('admin/link/index', {
+          list:list,
+          page:page,
+          count:20
+        });
+    });
+});
 
+router.get('/add_link',(req,res)=>{
+   res.locals.title=res.locals.title1="添加友情链接";
+   var id = req.query.id?req.query.id:0;
+   var Link = require('../model/link');
 
+   Link.findOneWithColunms({_id:req.query.id},(e,c,l)=>{
+       if(e){
+            console.log(e);
+       }
+       res.render('admin/link/add',{info:c,clist:l});
+   });
+});
+
+//添加有情链接
+router.post('/add_link',(req,res)=>{
+    var Link = require('../model/link'),
+    data = req.body,
+    id = req.body.id;
+    delete data['id'];
+    if(!id){
+        var colunm = new Link(data);
+        colunm.save((e,r)=>{
+            if(e){
+                res.json({'status':0,'msg':'添加失败,请重试'});
+                return;
+            }
+            res.json({'status':1,'msg':'添加成功','redirect':'/admin/link'});
+            return;
+        });
+    }else{
+        Link.update({_id:id},{$set:data},(e,r)=>{
+          if(e){
+              res.json({'status':0,'msg':'修改失败,请重试'});
+              return;
+          }
+          res.json({'status':1,'msg':'修改成功','redirect':'/admin/link'});
+          return;
+        });
+    }
+});
+
+//个人信息
 router.get('/profile',(req,res)=>{
     res.locals.title=res.locals.title1="个人信息";
     var Admin = require('../model/admin');
@@ -386,7 +457,7 @@ router.get('/recover',(req,res)=>{
 });
 
 //状态管理
-router.all('/status',(req,res)=>{
+router.get('/status',(req,res)=>{
     var p = req.body,
     fs = require('fs'),
     model = require('../model/'+p.m);
@@ -415,7 +486,7 @@ router.all('/status',(req,res)=>{
           break;
       case 'delete'://删除
         model.find({_id:{$in:p.id}},'id image',(e,r)=>{
-            if(r.image!=''){
+            if(r.image!='' || r.image!=null){
                 var path = './public' + r.icon;
                 fs.unlink(path,(e)=>{
                     if(e){
@@ -429,7 +500,7 @@ router.all('/status',(req,res)=>{
                     res.json({'status':0,'msg':'删除失败'});
                     return;
                 }
-                res.json({'status':0,'msg':'删除成功'});
+                res.json({'status':1,'msg':'删除成功'});
                 return;
             });
         });

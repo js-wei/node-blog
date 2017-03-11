@@ -14,7 +14,6 @@ var config = require('config-lite'),            //读取配置文件
 ejs = require('ejs');
 var app = express();
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.html', ejs.renderFile);
@@ -30,7 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'files')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 
-
 //开启session
 app.use(session(config.session));
 
@@ -41,13 +39,8 @@ app.use('/admin', admin);
 app.use('/uploadify',uploadify);
 
 //扩展模板截取方法
-app.locals.ellipsis=(str,len,flag=false)=>{
-    var _str = '';
-    if(len){
-        _str = str.substr(0,len);
-    }else{
-      _str = str;
-    }
+app.locals.ellipsis=(str,start=0,len,flag=false)=>{
+    var _str = str.substr(start,len || str.toString().length);
     _str = flag?_str+"...":_str;
     return _str;
 }
@@ -75,8 +68,7 @@ app.locals.time=(nS,format='yyyy-MM-dd h:i:s')=>{
         }
    }
    return format;
-}
-
+};
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -94,6 +86,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
 });
 
 module.exports = app;

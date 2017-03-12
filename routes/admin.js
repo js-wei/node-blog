@@ -145,6 +145,8 @@ router.get('/index',(req,res)=>{
         'time':time,
   	    'version':mongodb.version,
         'express':mongodb.express,
+        'tpl':mongodb.templete.tpl,
+        'vtpl':mongodb.templete.version,
         'size':mongodb.size
     };
     var Config = require('../model/config');
@@ -171,7 +173,6 @@ router.get('/link',(req,res)=>{
         search:search,
         columns:'',
         page:page,
-        model:Link,
     };
     helper.pagination(model,(err,pageCount,list)=>{
         page['pageCount']=pageCount;
@@ -182,7 +183,7 @@ router.get('/link',(req,res)=>{
           page:page,
           count:20
         });
-    });
+    },req);
 });
 
 router.get('/add_link',(req,res)=>{
@@ -225,7 +226,75 @@ router.post('/add_link',(req,res)=>{
         });
     }
 });
+//轮播图
+router.get('/carousel',(req,res)=>{
+    res.locals.title=res.locals.title1="友情链接";
+    var Carousel = require('../model/carousel');
+    var search={};
+    var page={limit:15,num:1};
+    //查看哪页
+    if(req.query.p){
+        page['num']=req.query.p<1?1:req.query.p;
+    }
+    var model = {
+        order:{date:-1},
+        search:search,
+        columns:'',
+        page:page,
+        model:Carousel,
+    };
+    helper.pagination(model,(err,pageCount,list)=>{
+        page['pageCount']=pageCount;
+        page['size']=list.length;
+        page['numberOf']=pageCount>5?5:pageCount;
+        return res.render('admin/carousel/index', {
+          list:list,
+          page:page,
+          count:20
+        });
+    });
+});
 
+router.get('/add_carousel',(req,res)=>{
+   res.locals.title=res.locals.title1="添加轮播图";
+   var id = req.query.id?req.query.id:0;
+   var Carousel = require('../model/carousel');
+
+   Carousel.findOneWithColunms({_id:req.query.id},(e,c,l)=>{
+       if(e){
+            console.log(e);
+       }
+       res.render('admin/carousel/add',{info:c,clist:l});
+   });
+});
+
+//添加轮播图
+router.post('/add_carousel',(req,res)=>{
+    var Carousel = require('../model/carousel'),
+    data = req.body,
+    id = req.body.id;
+    delete data['id'];
+    if(!id){
+        var carousel = new Carousel(data);
+        carousel.save((e,r)=>{
+            if(e){
+                res.json({'status':0,'msg':'添加失败,请重试'});
+                return;
+            }
+            res.json({'status':1,'msg':'添加成功','redirect':'/admin/carousel'});
+            return;
+        });
+    }else{
+        Carousel.update({_id:id},{$set:data},(e,r)=>{
+          if(e){
+              res.json({'status':0,'msg':'修改失败,请重试'});
+              return;
+          }
+          res.json({'status':1,'msg':'修改成功','redirect':'/admin/carousel'});
+          return;
+        });
+    }
+});
 //个人信息
 router.get('/profile',(req,res)=>{
     res.locals.title=res.locals.title1="个人信息";
@@ -397,7 +466,7 @@ router.get('/add_article',(req,res)=>{
     Article.findOneWithColunms({_id:req.query.id},(e,c,l)=>{
         if(e) console.log(e);
         res.render('admin/article/add',{info:c,clist:l});
-    });
+    },{status:true});
 });
 //文章添加
 router.post('/add_article',(req,res)=>{
@@ -487,7 +556,7 @@ router.get('/status',(req,res)=>{
       case 'delete'://删除
         model.find({_id:{$in:p.id}},'id image',(e,r)=>{
             if(r.image!='' || r.image!=null){
-                var path = './public' + r.icon;
+                var path = './public' + r.image;
                 fs.unlink(path,(e)=>{
                     if(e){
                         res.json({'status':0,'msg':'删除图片失败'});
@@ -508,8 +577,8 @@ router.get('/status',(req,res)=>{
       case 'delete-all':
           model.find({_id:{$in:p.id.split(',')}},'id image status',(e,r)=>{
             for (i in r) {
-                if(r[i].image!=''){
-                  var path = './public' + r.icon;
+                if(r[i].image!='' || r[i].image!=null){
+                  var path = './public' + r[i].image;
                   fs.unlink(path,(e)=>{
                       if(e){
                         res.json({'status':0,'msg':'删除图片失败'});

@@ -1,0 +1,154 @@
+<%include ../public/header.html%>
+<%include ../public/left.html%>
+<link href="/plug/beyond/css/dataTables.bootstrap.css" rel="stylesheet" />
+<script src="/plug/beyond/js/bootstrap-paginator.min.js"></script>
+<div class="row">
+    <div class="col-xs-12 col-md-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span class="widget-caption pull-left"><i class="fa fa-columns"></i>&nbsp;<%=title1%></span>
+                <div class="widget-buttons">
+                    <a href="#" data-toggle="maximize">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a href="#" data-toggle="collapse">
+                        <i class="fa fa-minus"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="col-xs-4 col-md-6">
+                    <a href="/admin/add_carousel?id=0" class="btn btn-success">添加轮播图</a>
+                    <a href="/admin/status" data-role="forbidden" data-model='<%=m%>' class="btn btn-warning status">选中禁用</a>
+                    <a href="/admin/status" data-role="enable"  data-model='<%=m%>'class="btn btn-info status">选中启用</a>
+                    <a href="/admin/status" data-role="delete-all" data-model='<%=m%>' class="btn btn-danger status">选中删除</a>
+                </div>
+                <div class="clearfix"></div>
+                <hr>
+                <table class="table table-striped table-bordered table-hover" id="simpledatatable">
+                    <thead>
+                        <tr>
+                            <th style="width:80px">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="group-checkable">
+                                        <span class="text"></span>
+                                    </label>
+                                </div>
+                            </th>
+                            <th style="width:150px;">链接标题</th>
+                            <th style="width:120px;">访问地址</th>
+                            <th style="width:320px">链接描述</th>
+                            <th style="width:140px;">添加时间</th>
+                            <th>状态</th>
+                            <th style="width:200px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%for(i in list){%>
+                          <tr>
+                              <td>
+                                  <div class="checkbox">
+                                      <label>
+                                          <input type="checkbox" class="checkboxes" value="<%=list[i]._id%>">
+                                          <span class="text"></span>
+                                      </label>
+                                  </div>
+                              </td>
+                              <td class="tips" data-role ="<%=list[i].title%>">
+                                  <%=list[i].title%>
+                              </td>
+                              <td>
+                                <a href="<%=list[i].url%>"><%=list[i].url%></a>
+                              </td>
+                              <td class="tips" data-role ="<%=list[i].description%>">
+                                <%=ellipsis(list[i].description)%>
+                              </td>
+                              <td>
+                                 <%=time(list[i].date)%>
+                              </td>
+                              <td>
+                                  <%if(list[i].status){%>
+                                    <span class="text-success">正常</span>
+                                  <%}else{%>
+                                    <span class="text-danger">禁用</span>
+                                  <%}%>
+                              </td>
+                              <td>
+                              	<a href="/admin/add_link?id=<%=list[i]._id%>">编辑</a>
+                                <%if(list[i].status){%>
+                                  <a href="/admin/status" data-role="forbidden" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">禁用</a>
+                                <%}else{%>
+                                    <a href="/admin/status" data-role="enable" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">启用</a>
+                                <%}%>
+                              	<a href="/admin/status" data-role="delete"  data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">删除</a>
+                              </td>
+                          </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+                <div class="mt10"></div>
+                <div class="page"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var options = {
+             currentPage:<%=page.num%>,
+             totalPages:<%=page.pageCount%>,
+             numberOfPages:<%=page.numberOf%>,
+             version:3,
+             pageUrl: function(type, page, current){
+               return "<%=_url%>?p="+page;
+             },
+        }
+        $('.page').bootstrapPaginator(options);
+
+        $('#simpledatatable').dataTable({
+            "sDom": "Tflt",
+            "iDisplayLength": <%=count%>,
+            "oTableTools": {
+                "aButtons": [
+                    "copy", "csv", "xls","pdf"
+                ],
+                "sSwfPath": "//cdn.bootcss.com/datatables-tabletools/2.1.5/swf/copy_csv_xls_pdf.swf"
+            },
+            "language": {
+                "search": "",
+                "sEmptyTable": "暂无数据",
+                "sLengthMenu": "_MENU_",
+                "oPaginate": {
+                    "sPrevious": "Prev",
+                    "sNext": "Next"
+                }
+            },
+            "aoColumns": [
+                { "bSortable": false },
+                { "bSortable": true },
+                { "bSortable": true },
+                { "bSortable": false },
+                { "bSortable": false },
+                { "bSortable": true },
+                { "bSortable": false }
+            ],
+            "aaSorting": []
+        });
+        $('#simpledatatable .group-checkable').change(function () {
+            var set = $(".checkboxes");
+            var checked = $(this).is(":checked");
+            $(set).each(function () {
+                if (checked) {
+                    $(this).prop("checked", true);
+                    $(this).parents('tr').addClass("active");
+                } else {
+                    $(this).prop("checked", false);
+                    $(this).parents('tr').removeClass("active");
+                }
+            });
+
+        });
+    });
+</script>
+<%include ../public/footer.html%>

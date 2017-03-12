@@ -28,21 +28,6 @@ exports.decipher = (algorithm, key, encrypted) =>{
 };
 
 
-/*
-var bmid = 8;
-var pids = new Set([bmid]);
-do {
-    var len = pids.size;
-    for(var id in idPidArr) {
-        if (pids.has(idPidArr[id])) {
-            pids.add(Number(id));
-            delete idPidArr[id];
-        }
-    }
-} while (pids.size>len);
-*/
-
-
 //根据最后一个找到整个家族
 exports.familyTree=(arr, pid)=>{
     var temp = [];
@@ -57,7 +42,6 @@ exports.familyTree=(arr, pid)=>{
     };
     forFn(arr, pid);
     return temp;
-    //console.log(familyTree(data,10));
 }
 //子孙树，从顶级往下找到是有的子子孙孙
 exports.sonsTree=(arr,id='',mar=10,t='--')=>{
@@ -77,7 +61,7 @@ exports.sonsTree=(arr,id='',mar=10,t='--')=>{
     forFn(arr,id,lev);
     return temp;
 }
-
+//生成占位符
 html=(l,t='--')=>{
   var _r='';
   for (var i = 0; i <l; i++) {
@@ -122,16 +106,31 @@ var options = {
      },
 }
 $('.pages').bootstrapPaginator(options);
+var model = {
+     order:{rdate:-1},
+     search:'',
+     columns:'',
+     page:['num':5,'limit':10],
+ };
+ helper.pagination(model,(err,pageCount,list)=>{
+     page['pageCount']=pageCount;
+     page['size']=list.length;
+     page['numberOf']=pageCount>5?5:pageCount;
+     return res.render('*tpl', {
+       list:list,
+       page:page,
+       count:20
+     });
+ },req);
  */
+
 //分页方法
 exports.pagination  =(obj,callback,req=null)=>{
-    var mdel='';
-    if(req){
+    var mdel=null;
+    if(!obj.model){
       var m = req.path.replace(/\//g,'');
-      if(m.indexOf('_')>-1){
-        m = m.split('_')[1];
-      }
-      mdel = require('../model/'+m);
+      m = (m.indexOf('_')>-1)? m.split('_')[1]:m;
+      mdel = require('../model/'+m);  //导入模型
     }
     var model= obj.model || mdel,
     q=obj.search||{},
@@ -142,18 +141,18 @@ exports.pagination  =(obj,callback,req=null)=>{
 
     var skipFrom = (pageNumber * resultsPerPage) - resultsPerPage;
     var query = model.find(q,col).sort(order).skip(skipFrom).limit(resultsPerPage);
-    query.exec(function(error, results) {
-      if (error) {
-        callback(error, null, null);
-      } else {
-         model.count(q, function(error, count) {
-          if (error) {
-            callback(error, null, null);
-          } else {
-            var pageCount = Math.ceil(count / resultsPerPage);
-            callback(null, pageCount, results);
-          }
-        });
+    query.exec((error, results)=>{
+      if(error){
+           callback(error, null, null);
+      }else{
+           model.count(q,(error, count)=>{
+            if(error){
+              callback(error, null, null);
+            }else{
+              var pageCount = Math.ceil(count / resultsPerPage);
+              callback(null, pageCount, results);
+            }
+          });
       }
    });
  }

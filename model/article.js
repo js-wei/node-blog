@@ -34,9 +34,9 @@ ArticleSchema.statics.updateAll=(condition,update,callback)=>{
   });
 };
 
-ArticleSchema.statics.findOneWithColunms=(condition,callback)=>{
+ArticleSchema.statics.findOneWithColunms=(condition,callback,condition1)=>{
    if(condition._id==0){
-      mongoose.model('Colunm').find({},"_id title fid",(e,r1)=>{
+      mongoose.model('Colunm').find(condition1,"_id title fid",(e,r1)=>{
           if(e)  callback(e,null,null);
           var model = new Article();
           model._id=null;
@@ -48,7 +48,7 @@ ArticleSchema.statics.findOneWithColunms=(condition,callback)=>{
            callback(e,null,null);
          }else{
            if(r){
-             mongoose.model('Colunm').find({},"_id title fid",(e,r1)=>{
+             mongoose.model('Colunm').find(condition1,"_id title fid",(e,r1)=>{
                  if(e)  callback(e,null,null);
                  callback(null,r,helper.sonsTree(r1));
              });

@@ -1,6 +1,17 @@
 var config = require('config-lite'),
-MongoClient = require('mongodb').MongoClient;
-
+MongoClient = require('mongodb').MongoClient,
+fs = require('fs');
+//模板版本信息
+tpl=(callback)=>{
+		let path = __dirname+'/../package.json';
+		fs.readFile(path, 'utf8', (err, data) => {
+		  if (err) throw err;
+			data = JSON.parse(data);
+			var t = data.dependencies.ejs?'ejs':'jade';
+			var v = data.dependencies.ejs || data.dependencies.ejs.jade;
+		  callback({tpl:t,version:v.substr(1)});
+		});
+};
 //大小
 size=(callback)=>{
 	MongoClient.connect(config.mongodb, function(err, db) {
@@ -27,6 +38,9 @@ express = (callback)=>{
 			callback(stdout);
 	});
 };
+tpl((t)=>{
+	exports.templete = t;
+});
 express((e)=>{
 	exports.express = e;
 });

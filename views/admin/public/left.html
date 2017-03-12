@@ -20,16 +20,22 @@
                         <span class="menu-text">仪表盘</span>
                     </a>
                 </li>
+                <li <%if(locals.url=='/admin/config'){%>class="active"<%}%>>
+                    <a href="/admin/config">
+                        <i class="menu-icon fa fa-cogs"></i>
+                        <span class="menu-text">网站配置</span>
+                    </a>
+                </li>
                 <li <%if(locals.url.indexOf('link')>-1){%>class="active"<%}%>>
                     <a href="/admin/link">
                         <i class="menu-icon fa fa-chain"></i>
                         <span class="menu-text">友情链接</span>
                     </a>
                 </li>
-                <li <%if(locals.url=='/admin/config'){%>class="active"<%}%>>
-                    <a href="/admin/config">
-                        <i class="menu-icon fa fa-cogs"></i>
-                        <span class="menu-text">网站配置</span>
+                <li <%if(locals.url.indexOf('carousel')>-1){%>class="active"<%}%>>
+                    <a href="/admin/carousel">
+                        <i class="menu-icon fa fa-chain"></i>
+                        <span class="menu-text">轮播图</span>
                     </a>
                 </li>
                 <li <%if(locals.url.indexOf('colunm')>-1){%>class="active"<%}%>>

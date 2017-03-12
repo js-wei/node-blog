@@ -311,7 +311,11 @@
 	    </div>
     </div>
 </div>
+<script src="/plug/beyond/js/toastr/toastr.js"></script>
 <script type="text/javascript">
+    $(function(){
+        Notify('你有新的消息请注意查收.', 'bottom-right', '5000', 'danger', 'fa-envelope-o', true);
+    });
     function current(){
         var d=new Date(),str='';
         str +=d.getFullYear()+'年'; //获取当前年份

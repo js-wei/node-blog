@@ -39,11 +39,11 @@
                                     </label>
                                 </div>
                             </th>
-                            <th>标题</th>
+                            <th style="width:120px">标题</th>
                             <th style="width:120px;">发布者</th>
-                            <th style="width:320px">关键词</th>
-                            <th style="width:320px">简介</th>
-                            <th>标签属性</th>
+                            <th style="width:250px">关键词</th>
+                            <th style="width:250px">简介</th>
+                            <th style="width:250px">标签属性</th>
                             <th style="width:80px;">阅读量</th>
                             <th style="width:140px;">添加时间</th>
                             <th style="width:80px;">状态</th>
@@ -124,7 +124,6 @@
              },
         }
         $('.page').bootstrapPaginator(options);
-
         $('#simpledatatable').dataTable({
             "sDom": "Tflt",
             "iDisplayLength": <%=count%>,

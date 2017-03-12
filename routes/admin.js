@@ -150,7 +150,6 @@ router.get('/index',(req,res)=>{
         'size':mongodb.size
     };
     var Config = require('../model/config');
-    console.log(data);
     Config.findOne({},(e,r)=>{
       if(e){
           res.end(e);

@@ -37,15 +37,15 @@
                                     </label>
                                 </div>
                             </th>
-                            <th>标题</th>
+                            <th style="width:120px">标题</th>
                             <th style="width:120px;">发布者</th>
-                            <th style="width:320px">关键词</th>
-                            <th style="width:320px">简介</th>
-                            <th>标签属性</th>
+                            <th style="width:250px">关键词</th>
+                            <th style="width:250px">简介</th>
+                            <th style="width:250px">标签属性</th>
                             <th style="width:80px;">阅读量</th>
                             <th style="width:140px;">添加时间</th>
                             <th style="width:80px;">状态</th>
-                            <th style="width:200px;">操作</th>
+                            <th style="width:120px;">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,7 +78,9 @@
                                   <%if(list[i].head){%><span class="label label-warning ml10">头条</span><%}%>
                                   <%if(list[i].top){%><span class="label label-sky ml10">置顶</span><%}%>
                                   <%if(list[i].img){%><span class="label label-blueberry ml10">图文</span><%}%>
-                                  <%if(!list[i].com && !list[i].hot && !list[i].new && !list[i].head && !list[i].top && !list[i].img){%><span class="label label-default ml10">无</span><%}%>
+                                  <%if(!list[i].com && !list[i].hot && !list[i].new && !list[i].head && !list[i].top && !list[i].img){%>
+                                    <span class="label label-default ml10">无</span>
+                                  <%}%>
                               </td>
                               <td><span class="badge badge-success badge-square"><%=list[i].hits%></span></td>
                               <td>

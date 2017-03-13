@@ -65,6 +65,27 @@
                        </li>
                    </ul>
                </li>
+               <li>
+                  <a href="#" class="menu-dropdown">
+                      <i class="menu-icon fa fa-comments"></i>
+                      <span class="menu-text">消息管理</span>
+                      <i class="menu-expand"></i>
+                  </a>
+                  <ul class="submenu">
+                      <li <%if(locals.url.indexOf('comment')>-1){%>class="active"<%}%>>
+                          <a href="/admin/comment">
+                             <i class="menu-icon fa fa-comment"></i>
+                              <span class="menu-text">评论列表</span>
+                          </a>
+                      </li>
+                      <li <%if(locals.url.indexOf('message')>-1){%>class="active"<%}%>>
+                          <a href="/admin/message">
+                              <i class="menu-icon fa  fa-comment-o"></i>
+                              <span class="menu-text">消息列表</span>
+                          </a>
+                      </li>
+                  </ul>
+              </li>
             </ul>
             <!-- /Sidebar Menu -->
         </div>

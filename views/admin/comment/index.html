@@ -14,17 +14,14 @@
                     <a href="#" data-toggle="collapse">
                         <i class="fa fa-minus"></i>
                     </a>
-                    <!-- <a href="#" data-toggle="dispose">
-                        <i class="fa fa-times"></i>
-                    </a> -->
                 </div>
             </div>
             <div class="widget-body">
                 <div class="col-xs-4 col-md-6">
-                    <a href="/admin/add_article?id=0" class="btn btn-success">添加文档</a>
-                    <a href="/admin/status" data-role="enable" data-model='<%=m%>' class="btn btn-warning status">选中禁用</a>
-                    <a href="/admin/status" data-role="forbidden" data-model='<%=m%>' class="btn btn-info status">选中启用</a>
-                    <a href="/admin/status" data-role="receive" data-model='<%=m%>' class="btn btn-danger status">选中删除</a>
+                    <!-- <a href="/admin/add_carousel?id=0" class="btn btn-success">添加轮播图</a> -->
+                    <a href="/admin/status" data-role="forbidden" data-model='<%=m%>' class="btn btn-warning status">选中禁用</a>
+                    <a href="/admin/status" data-role="enable"  data-model='<%=m%>'class="btn btn-info status">选中启用</a>
+                    <a href="/admin/status" data-role="delete-all" data-model='<%=m%>' class="btn btn-danger status">选中删除</a>
                 </div>
                 <div class="clearfix"></div>
                 <hr>
@@ -39,15 +36,12 @@
                                     </label>
                                 </div>
                             </th>
-                            <th style="width:120px">标题</th>
-                            <th style="width:120px;">发布者</th>
-                            <th style="width:250px">关键词</th>
-                            <th style="width:250px">简介</th>
-                            <th style="width:250px">标签属性</th>
-                            <th style="width:80px;">阅读量</th>
-                            <th style="width:140px;">添加时间</th>
+                            <th style="width:150px;">评论标题</th>
+                            <th style="width:320px">评论文章</th>
+                            <th style="width:320px">评论内容</th>
+                            <th style="width:140px;">评论时间</th>
                             <th style="width:80px;">状态</th>
-                            <th style="width:120px;">操作</th>
+                            <th style="width:200px;">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,45 +56,32 @@
                                   </div>
                               </td>
                               <td class="tips" data-role ="<%=list[i].title%>">
-                                  <%=ellipsis(list[i].title,0,10)%>
+                                  <%=list[i].title%>
                               </td>
-                              <td class="tips" data-role ="<%=list[i].author%>">
-                                  <%=list[i].author%>
+                              <td class="tips" data-role ="<%=list[i].aid.title%>">
+                                <%=ellipsis(list[i].aid.title,0,20)%>
                               </td>
-                              <td class="tips" data-role ="<%=list[i].keywords%>">
-                                  <%=ellipsis(list[i].keywords,0,25)%>
+                              <td class="tips" data-role ="<%=list[i].content%>">
+                                <%=ellipsis(list[i].content,0,20)%>
                               </td>
-                              <td class="tips" data-role ="<%=list[i].description%>">
-                                <%=ellipsis(list[i].description,0,25)%>
-                              </td>
-                              <td>
-                                  <%if(list[i].com){%><span class="label label-primary ml10">推荐</span><%}%>
-                                  <%if(list[i].hot){%><span class="label label-info ml10">最热</span><%}%>
-                                  <%if(list[i].new){%><span class="label label-danger ml10">最新</span><%}%>
-                                  <%if(list[i].head){%><span class="label label-warning ml10">头条</span><%}%>
-                                  <%if(list[i].top){%><span class="label label-sky ml10">置顶</span><%}%>
-                                  <%if(list[i].img){%><span class="label label-blueberry ml10">图文</span><%}%>
-                                  <%if(!list[i].com && !list[i].hot && !list[i].new && !list[i].head && !list[i].top && !list[i].img){%><span class="label label-default ml10">无</span><%}%>
-                              </td>
-                              <td><span class="badge badge-success badge-square"><%=list[i].hits%></span></td>
                               <td>
                                  <%=time(list[i].date)%>
                               </td>
                               <td>
-                                  <%if(!list[i].status){%>
+                                  <%if(list[i].status){%>
                                     <span class="text-success">正常</span>
                                   <%}else{%>
                                     <span class="text-danger">禁用</span>
                                   <%}%>
                               </td>
                               <td>
-                                  <a href="/admin/add?id={$vo['id']}&id=<%=list[i]._id%>">编辑</a>
-                                  <%if(list[i].status){%>
-                                      <a href="/admin/status" data-role="forbidden" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">启用</a>
-                                  <%}else{%>
-                                      <a href="/admin/status" data-role="enable" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">禁用</a>
-                                  <%}%>
-                                  <a href="/admin/status" data-role="receive"  data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">删除</a>
+                              	<a href="/admin/add_link?id=<%=list[i]._id%>">编辑</a>
+                                <%if(list[i].status){%>
+                                  <a href="/admin/status" data-role="forbidden" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">禁用</a>
+                                <%}else{%>
+                                    <a href="/admin/status" data-role="enable" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">启用</a>
+                                <%}%>
+                              	<a href="/admin/status" data-role="delete"  data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">删除</a>
                               </td>
                           </tr>
                         <%}%>
@@ -127,7 +108,6 @@
           $('.page').bootstrapPaginator(options);
         <%}%>
 
-        $('.page').bootstrapPaginator(options);
         $('#simpledatatable').dataTable({
             "sDom": "Tflt",
             "iDisplayLength": <%=count%>,
@@ -152,9 +132,6 @@
                 { "bSortable": true },
                 { "bSortable": false },
                 { "bSortable": false },
-                { "bSortable": false },
-                { "bSortable": true },
-                { "bSortable": true },
                 { "bSortable": true },
                 { "bSortable": false }
             ],

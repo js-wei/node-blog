@@ -95,16 +95,18 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        var options = {
-             currentPage:<%=page.num%>,
-             totalPages:<%=page.pageCount%>,
-             numberOfPages:<%=page.numberOf%>,
-             version:3,
-             pageUrl: function(type, page, current){
-               return "<%=_url%>?p="+page;
-             },
-        }
-        $('.page').bootstrapPaginator(options);
+        <%if(page.pageCount!=0){%>
+          var options = {
+               currentPage:<%=page.num%>,
+               totalPages:<%=page.pageCount%>,
+               numberOfPages:<%=page.numberOf%>,
+               version:3,
+               pageUrl: function(type, page, current){
+                 return "<%=_url%>?p="+page;
+               },
+          }
+          $('.page').bootstrapPaginator(options);
+        <%}%>
 
         $('#simpledatatable').dataTable({
             "sDom": "Tflt",

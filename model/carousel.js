@@ -16,7 +16,7 @@ var CarouselSchema = new Schema({
 },{versionKey:false});
 
 CarouselSchema.statics.updateAll=(condition,update,callback)=>{
-  mongoose.model('Link').updateMany(condition,update,(e,r)=>{
+  mongoose.model('Carousel').updateMany(condition,update,(e,r)=>{
     if(e){
       callback(e,null);
     }else{

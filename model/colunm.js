@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+var mongoose = require('./db'),
 helper = require('../model/helper');
 
 var ColunmSchema = new mongoose.Schema({

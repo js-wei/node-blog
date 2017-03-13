@@ -1,6 +1,6 @@
 var express = require('express'),
 router = express.Router(),
-mongoose = require('mongoose'),
+mongoose = require('../model/db'),
 mongodb=require('../model/mongodb'),
 helper = require('../model/helper');
 
@@ -294,6 +294,67 @@ router.post('/add_carousel',(req,res)=>{
         });
     }
 });
+//评论
+router.get('/comment',(req,res)=>{
+    res.locals.title=res.locals.title1="评论信息";
+    let Comment = require('../model/comment'),
+    Aricle = require('../model/article');
+    var search={};
+    var page={limit:15,num:1};
+    //查看哪页
+    if(req.query.p){
+        page['num']=req.query.p<1?1:req.query.p;
+    }
+    var model = {
+        order:{date:-1},
+        search:search,
+        columns:'',
+        page:page,
+        populate:'aid'
+    };
+    helper.pagination(model,(err,pageCount,list)=>{
+        page['pageCount']=pageCount;
+        page['size']=list.length;
+        page['numberOf']=pageCount>5?5:pageCount;
+        return res.render('admin/comment/index', {
+          list:list,
+          page:page,
+          count:20
+        });
+    },req);
+});
+//消息
+router.get('/message',(req,res)=>{
+      res.locals.title=res.locals.title1="消息信息";
+      let Comment = require('../model/comment'),
+      Aricle = require('../model/article');
+      var search={};
+      var page={limit:15,num:1};
+      //查看哪页
+      if(req.query.p){
+          page['num']=req.query.p<1?1:req.query.p;
+      }
+      var model = {
+          order:{date:-1},
+          search:search,
+          columns:'',
+          page:page,
+          populate:'aid'
+      };
+      helper.pagination(model,(err,pageCount,list)=>{
+          page['pageCount']=pageCount;
+          page['size']=list.length;
+          page['numberOf']=pageCount>5?5:pageCount;
+          return res.render('admin/message/index', {
+            list:list,
+            page:page,
+            count:20
+          });
+      },req);
+});
+
+
+
 //个人信息
 router.get('/profile',(req,res)=>{
     res.locals.title=res.locals.title1="个人信息";

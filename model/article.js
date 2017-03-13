@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+var mongoose = require('./db'),
 Colunm = require('../model/colunm'),
 helper = require('../model/helper');
 

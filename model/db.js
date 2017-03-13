@@ -1,5 +1,6 @@
 var config = require('config-lite');
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;  
 mongoose.connect(config.mongodb);
 //失败
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));

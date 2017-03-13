@@ -294,6 +294,7 @@ router.post('/add_carousel',(req,res)=>{
         });
     }
 });
+
 //评论
 router.get('/comment',(req,res)=>{
     res.locals.title=res.locals.title1="评论信息";
@@ -326,8 +327,6 @@ router.get('/comment',(req,res)=>{
 //消息
 router.get('/message',(req,res)=>{
       res.locals.title=res.locals.title1="消息信息";
-      let Comment = require('../model/comment'),
-      Aricle = require('../model/article');
       var search={};
       var page={limit:15,num:1};
       //查看哪页
@@ -338,8 +337,7 @@ router.get('/message',(req,res)=>{
           order:{date:-1},
           search:search,
           columns:'',
-          page:page,
-          populate:'aid'
+          page:page
       };
       helper.pagination(model,(err,pageCount,list)=>{
           page['pageCount']=pageCount;
@@ -353,7 +351,44 @@ router.get('/message',(req,res)=>{
       },req);
 });
 
+router.get('/add_message',(req,res)=>{
+   res.locals.title=res.locals.title1="添加消息";
+   var id = req.query.id?req.query.id:0;
+   var Message = require('../model/message');
 
+   Message.findOneOrAdd({_id:req.query.id},(e,r)=>{
+       if(e)  console.log(e);
+       res.render('admin/message/add',{info:r});
+   });
+});
+
+//添加消息
+router.post('/add_message',(req,res)=>{
+    var Message = require('../model/message'),
+    data = req.body,
+    id = req.body.id;
+    delete data['id'];
+    if(!id){
+        var message = new Message(data);
+        message.save((e,r)=>{
+            if(e){
+                res.json({'status':0,'msg':'添加失败,请重试'});
+                return;
+            }
+            res.json({'status':1,'msg':'添加成功','redirect':'/admin/carousel'});
+            return;
+        });
+    }else{
+        Message.update({_id:id},{$set:data},(e,r)=>{
+          if(e){
+              res.json({'status':0,'msg':'修改失败,请重试'});
+              return;
+          }
+          res.json({'status':1,'msg':'修改成功','redirect':'/admin/carousel'});
+          return;
+        });
+    }
+});
 
 //个人信息
 router.get('/profile',(req,res)=>{

@@ -8,12 +8,11 @@ let MessageSchema = new Schema({
     date:{type:String,default:Date.now()},
     status:{type:Boolean,default:true}
 });
-
+//查找添加
 MessageSchema.statics.findOneOrAdd=(condition,callback)=>{
     if(condition._id==0 || condition._id==null){
          var model = new Message();
          model._id=null;
-
          callback(null,model);
     }else {
          mongoose.model('Message').findOne(condition,(e,r1)=>{

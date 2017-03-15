@@ -110,6 +110,7 @@ router.get('/captcha',function(req,res,next){
 
 //使用路由中间件,判断是否登录
 router.use(function (req, res, next) {
+
     if(req.session._name=='' || req.session._name==null){
         //res.redirect('/admin');
         //res.end(200);
@@ -375,7 +376,7 @@ router.post('/add_message',(req,res)=>{
                 res.json({'status':0,'msg':'添加失败,请重试'});
                 return;
             }
-            res.json({'status':1,'msg':'添加成功','redirect':'/admin/carousel'});
+            res.json({'status':1,'msg':'添加成功','redirect':'/admin/message'});
             return;
         });
     }else{
@@ -384,7 +385,7 @@ router.post('/add_message',(req,res)=>{
               res.json({'status':0,'msg':'修改失败,请重试'});
               return;
           }
-          res.json({'status':1,'msg':'修改成功','redirect':'/admin/carousel'});
+          res.json({'status':1,'msg':'修改成功','redirect':'/admin/message'});
           return;
         });
     }
@@ -527,9 +528,14 @@ router.post('/add_colunm',(req,res)=>{
 //文章管理
 router.get('/article',(req,res)=>{
     res.locals.title=res.locals.title1="文章管理";
-    var search={recover:false};
+    var _params =  helper.map(req);
+    var q = _params.param;
+    var s = _params.search;
+    var search={recover:false,q};
+    console.log(search);
     var page={limit:15,num:1};
     var Article = require('../model/article');
+
     //查看哪页
     if(req.query.p){
         page['num']=req.query.p<1?1:req.query.p;
@@ -548,7 +554,8 @@ router.get('/article',(req,res)=>{
         return res.render('admin/article/index', {
           list:list,
           page:page,
-          count:20
+          count:20,
+          search:''
         });
     });
 });

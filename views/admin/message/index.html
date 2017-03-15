@@ -38,7 +38,7 @@
                             </th>
                             <th style="width:150px;">消息标题</th>
                             <th >消息内容</th>
-                            <th style="width:140px;">添加时间</th>
+                            <th style="width:180px;">添加时间</th>
                             <th style="width:100px">消息状态</th>
                             <th style="width:200px;">操作</th>
                         </tr>
@@ -71,7 +71,7 @@
                                   <%}%>
                               </td>
                               <td>
-                              	<a href="/admin/add_link?id=<%=list[i]._id%>">编辑</a>
+                              	<a href="/admin/add_message?id=<%=list[i]._id%>">编辑</a>
                                 <%if(list[i].status){%>
                                   <a href="/admin/status" data-role="forbidden" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">禁用</a>
                                 <%}else{%>

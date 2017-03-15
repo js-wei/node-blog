@@ -37,10 +37,10 @@
                                 </div>
                             </th>
                             <th style="width:150px;">链接标题</th>
-                            <th style="width:120px;">访问地址</th>
-                            <th style="width:320px">链接描述</th>
-                            <th style="width:140px;">添加时间</th>
-                            <th>状态</th>
+                            <th>访问地址</th>
+                            <th>链接描述</th>
+                            <th style="width:180px;">添加时间</th>
+                            <th style="width:80px;">状态</th>
                             <th style="width:200px;">操作</th>
                         </tr>
                     </thead>
@@ -59,7 +59,7 @@
                                   <%=list[i].title%>
                               </td>
                               <td>
-                                <a href="<%=list[i].url%>"><%=list[i].url%></a>
+                                <a href="<%=list[i].url%>" target="_blank"><%=list[i].url%></a>
                               </td>
                               <td class="tips" data-role ="<%=list[i].description%>">
                                 <%=ellipsis(list[i].description)%>

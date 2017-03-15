@@ -46,6 +46,9 @@ app.locals.ellipsis=(str,start=0,len,flag=false)=>{
 }
 //扩展模板时间格式化
 app.locals.time=(nS,format='yyyy-MM-dd h:i:s')=>{
+    if(nS==''||nS==null){
+        return '';
+    }
     nS = nS.toString().length<13?parseInt(nS)*1000:parseInt(nS);
     var d = new Date(nS);
     var date = {

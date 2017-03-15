@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">轮播图地址</label>
                 <div class="col-lg-4">
-                    <input name="url" type="url" class="form-control" value="<%if(info._id==null){%>http://<%}else{%><%=info.url%><%}%>"  placeholder="轮播图地址" data-bv-uri-message="请输入正确的网址"/>
+                    <input name="url" type="text" class="form-control" value="<%=info.url%>"  placeholder="轮播图地址"/>
                 </div>
             </div>
             <div class="form-group">
@@ -41,15 +41,14 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">图片</label>
                 <div class="col-lg-3">
-                    <input type="file" name="image" class="layui-upload-file">
-                    <!-- <div>
-                        <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="image" id="fileImg" size="16" value="上传" class="table_btn"/></div>
+                    <div>
+                        <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="image" id="fileImg" size="16" value="上传" class="layui-upload-file"/></div>
                         <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
                         <div class="btn btn-danger btn-xs" onclick="noMasterImg()"><i class="fa fa-trash-o" style="cursor:pointer;display:block"></i></div>
                         <div style="clear:both;"></div>
-                    </div> -->
+                    </div>
                     <div>
-                        <%if(info.inage!=null){%>
+                        <%if(info.image!=''||info.image!=null){%>
                           <img src="<%=info.image%>" id="images_preview" width="380" height="auto">
                           <input type="hidden" value="<%=info.image%>" name="image" id="reply_img">
                         <%}else{%>
@@ -134,28 +133,9 @@
     </div>
 </div>
 <script src="/plug/beyond/js/validation/bootstrapValidator.js"></script>
-<script src="/plug/jquery.han2pin.min.js"></script>
-<!-- <script src="/plug/beyond/js/colorpicker/jquery.minicolors.js"></script>
-<link rel="stylesheet" href="/plug/Uploadify/uploadify.css" />
-<script type="text/javascript" src="/plug/Uploadify/jquery.uploadify.min.js"></script> -->
-
 <script type="text/javascript">
     $(function(){
-        layui.use('upload', function(){
-            layui.upload({
-                 url: '/Uploadify/upload_layer',
-                 ext: 'jpg|png|gif',
-                 before: function(input){
-                 },
-                 success: function(res){
-                   $("#reply_img").val(res.data.src);
-                   $("#images_preview").attr('src',res.data.src);
-                   $('#images_preview').show();
-                   $('#img_b').show();
-                   $('#img_c').show();
-                 }
-            });
-        });
+
         $('#togglingForm').bootstrapValidator({
             message: '验证没有通过',
             feedbackIcons: {
@@ -177,15 +157,6 @@
                         layer.alert(data.msg,{icon:5});
                     }
                 });
-            },
-            fields: {
-                title: {
-                    validators: {
-                        notEmpty: {
-                            message: '请输入轮播图名称'
-                        }
-                    }
-                }
             }
         })
         .find('button[data-toggle]')
@@ -195,6 +166,21 @@
             if (!$target.is(':visible')) {
                 $('#togglingForm').data('bootstrapValidator').disableSubmitButtons(false);
             }
+        });
+        layui.use('upload', function(){
+            layui.upload({
+                 url: '/Uploadify/upload_layer',
+                 ext: 'jpg|png|gif',
+                 before: function(input){
+                 },
+                 success: function(res){
+                   $("#reply_img").val(res.data.src);
+                   $("#images_preview").attr('src',res.data.src);
+                   $('#images_preview').show();
+                   $('#img_b').show();
+                   $('#img_c').show();
+                 }
+            });
         });
     });
     function imgView(pic_url){

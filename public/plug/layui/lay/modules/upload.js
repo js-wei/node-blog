@@ -24,11 +24,11 @@ function(e) {
 		t = e.options,
 		r = a("body"),
 		s = a(t.elem || ".layui-upload-file"),
-		u = a('<iframe id="' + n + '" class="' + n + '" name="' + n + '"></iframe>');
+		u = a('<div id="' + n + '" class="' + n + '" name="' + n + '"></div>');
 		return a("#" + n)[0] || r.append(u),
 		s.each(function(r, s) {
 			s = a(s);
-			var u = '<span target="' + n + '" method="' + (t.method || "post") + '" key="set-mine" enctype="multipart/form-data" action="javascript:void(0);"></span>',
+			var u = '<span></span>',
 			l = s.attr("lay-type") || t.type;
 			t.unwrap || (u = '<div class="layui-box layui-upload-button">' + u + '<span class="layui-upload-icon"><i class="layui-icon">&#xe608;</i>' + (s.attr("lay-title") || t.title || "上传" + (o[l] || "图片")) + "</span></div>"),
 			u = a(u),
@@ -91,31 +91,6 @@ function(e) {
 			}).error((a)=>{
 				"function" == typeof s.error && s.error(a,e)
 			});
-			/*
-			var c = a("#" + n),
-			f = setInterval(function() {
-				var a;
-				try {
-					a = c.contents().find("body").text()
-				} catch(i) {
-					t.msg("上传接口存在跨域", r),
-					clearInterval(f)
-				}
-				if (a) {
-					clearInterval(f),
-					c.contents().find("body").html("");
-					try {
-						a = JSON.parse(a)
-					} catch(i) {
-						return a = {},
-						t.msg("请对上传接口返回JSON字符", r)
-					}
-					"function" == typeof s.success && s.success(a, e)
-				}
-			},
-			30);
-			e.value = ""
-			 */
 		}
 	},
 	e("upload",

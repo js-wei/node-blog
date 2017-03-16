@@ -94,7 +94,6 @@ require('externalip')(function (err, ip) {
 });
 
 
-
 /*
 var options = {
      currentPage:<%=page.num%>,
@@ -133,14 +132,13 @@ exports.pagination  =(obj,callback,req=null)=>{
       mdel = require('../model/'+m);  //导入模型
     }
     var model= obj.model || mdel,
-    q=obj.search||{},
-    col=obj.columns;
+    q= obj.search || {},
+    col=obj.columns || '';
     var pageNumber=obj.page.num || 1;
     var resultsPerPage=obj.page.limit || 10;
     var order = obj.order || {};
     var populate = obj.populate || '';
     var skipFrom = (pageNumber * resultsPerPage) - resultsPerPage;
-    console.log(obj);
     var query = model.find(q,col).populate(populate).sort(order).skip(skipFrom).limit(resultsPerPage);
     query.exec((error, results)=>{
       if(error){
@@ -157,7 +155,7 @@ exports.pagination  =(obj,callback,req=null)=>{
       }
    });
  }
-
+//映射查询条件
 exports.map = (req,callback)=>{
     let query = req.query||req.params||req.body;
     var json = "";
@@ -166,29 +164,27 @@ exports.map = (req,callback)=>{
             var key = i.split('s_');
             switch (key[1]) {
               case 'keywords':    //关键词
-                  //{"$or":[{"name":"BuleRiver"}, {"name":"BuleRiver2"}]}
-                  json += "\"$or\":[\"title\":{$regex:"+query[i]+",$options:'i'},\"keywords\":{$regex:"+query[i]+",$options:'i'}]";
+                  json += ',"$or":[{"title":{"$regex":"'+query[i]+'","$options":"i"},"keywords":{"$regex":"'+query[i]+'","$options":"i"}}]';
                 break;
               case 'status':    //状态
                   if(query[i]!=-1){
-                      json += ","+key[1]+":"+!query[i];
+                      json += ',"'+key[1]+'":'+query[i];
                   }
                   break;
               case 'date': //时间
                     var range = (query[i]!='')?query[i].split(' -'):'';
                     let from = (range[0]!=''||range[0]!=null)?Date.parse(new Date(range[0])) : '';
                     let to = (range[1]!=''||range[1]!=null)?Date.parse(new Date(range[1])) : '';
-                    //{"$and":[{"date":{"$gt":"2014-10-29 0:0:0"}},{"date":{"$lt":"2014-10-29 0:0:0"}}]}
                     if(from && to){
-                        json += ",\"date\":{'$gte':"+from+",\"$lte\":"+to+"}";
+                        json += ',"date":{"$gte":"'+from+'","$lte":"'+to+'"}';
                     }else if(from){
-                        json += ",\"date\":{\"$gte\":"+from+"}";
+                        json += ',"date":{"$gte":"'+from+'"}';
                     }else{
-                        json += ",\"date\":{\"$gte\":"+from+"}";
+                        json += ',"date":{"$lt":"'+to+'"}';
                     }
                   break;
               default:    //其他
-                json += ",\""+key[1]+"\""+":"+query[i]+"";
+                json += ",'"+key[1]+"'"+":'"+query[i]+"'";
             }
         }
     }
@@ -196,7 +192,7 @@ exports.map = (req,callback)=>{
     if((json.length>2)){
         return {param:json,search:query};
     }else{
-        return {param:null,search:query};
+        return {param:'',search:query};
     }
 };
 

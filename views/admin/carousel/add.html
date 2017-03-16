@@ -42,7 +42,7 @@
                 <label class="col-lg-2 control-label">图片</label>
                 <div class="col-lg-3">
                     <div>
-                        <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="image" id="fileImg" size="16" value="上传" class="layui-upload-file"/></div>
+                        <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="image" id="fileImg" size="16" value="上传" class="layui-upload-file1"/></div>
                         <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
                         <div class="btn btn-danger btn-xs" onclick="noMasterImg()"><i class="fa fa-trash-o" style="cursor:pointer;display:block"></i></div>
                         <div style="clear:both;"></div>
@@ -133,9 +133,10 @@
     </div>
 </div>
 <script src="/plug/beyond/js/validation/bootstrapValidator.js"></script>
+<link rel="stylesheet" href="/plug/Uploadify/uploadify.css" />
+<script type="text/javascript" src="/plug/Uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript">
     $(function(){
-
         $('#togglingForm').bootstrapValidator({
             message: '验证没有通过',
             feedbackIcons: {
@@ -157,6 +158,15 @@
                         layer.alert(data.msg,{icon:5});
                     }
                 });
+            },
+            fields: {
+                title: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入轮播名称'
+                        }
+                    }
+                }
             }
         })
         .find('button[data-toggle]')
@@ -166,21 +176,6 @@
             if (!$target.is(':visible')) {
                 $('#togglingForm').data('bootstrapValidator').disableSubmitButtons(false);
             }
-        });
-        layui.use('upload', function(){
-            layui.upload({
-                 url: '/Uploadify/upload_layer',
-                 ext: 'jpg|png|gif',
-                 before: function(input){
-                 },
-                 success: function(res){
-                   $("#reply_img").val(res.data.src);
-                   $("#images_preview").attr('src',res.data.src);
-                   $('#images_preview').show();
-                   $('#img_b').show();
-                   $('#img_c').show();
-                 }
-            });
         });
     });
     function imgView(pic_url){
@@ -201,7 +196,7 @@
     }
 
     //照片
-    /*
+
     $("#fileImg").uploadify({
         fileTypeDesc    : '图片文件',
         fileTypeExts    : '*.png;*.jpg;*.jpeg;*.gif;',
@@ -219,7 +214,7 @@
             $('#img_c').show();
         }
     });
-     */
+
     function noMasterImg(){
         $src = $("#images_preview").attr('src');
         if($src==''){

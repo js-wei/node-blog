@@ -42,7 +42,7 @@
                 <label class="col-lg-2 control-label">LOGO</label>
                 <div class="col-lg-3">
                     <div>
-                        <input type="file" name="image" id="fileImg" size="16" value="上传" class="layui-upload-file"/>
+                        <input type="file" name="image" id="fileImg" size="16" value="上传" class="layui-upload-file1"/>
                         <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
                         <div class="btn btn-danger btn-xs" onclick="noMasterImg()"><i class="fa fa-trash-o" style="cursor:pointer;display:block"></i></div>
                         <div style="clear:both;"></div>
@@ -133,10 +133,8 @@
     </div>
 </div>
 <script src="/plug/beyond/js/validation/bootstrapValidator.js"></script>
-<!-- <script src="/plug/jquery.han2pin.min.js"></script>
-<script src="/plug/beyond/js/colorpicker/jquery.minicolors.js"></script>
 <link rel="stylesheet" href="/plug/Uploadify/uploadify.css" />
-<script type="text/javascript" src="/plug/Uploadify/jquery.uploadify.min.js"></script> -->
+<script type="text/javascript" src="/plug/Uploadify/jquery.uploadify.min.js"></script>
 
 <script type="text/javascript">
     $(function(){
@@ -221,23 +219,23 @@
     }
 
     //照片
-    // $("#fileImg").uploadify({
-    //     fileTypeDesc    : '图片文件',
-    //     fileTypeExts    : '*.png;*.jpg;*.jpeg;*.gif;',
-    //     buttonText      : '选择图片',
-    //     buttonClass     : 'upload_button',
-    //     fileObjName     : 'image',          //上传文件接收名
-    //     swf             : '/plug/Uploadify/uploadify.swf',
-    //     uploader        : "/Uploadify/uploadimg",
-    //     multi           : false,
-    //     onUploadSuccess : function(file, data, response) {
-    //         $("#reply_img").val(data);
-    //         $("#images_preview").attr('src',data);
-    //         $('#images_preview').show();
-    //         $('#img_b').show();
-    //         $('#img_c').show();
-    //     }
-    // });
+    $("#fileImg").uploadify({
+        fileTypeDesc    : '图片文件',
+        fileTypeExts    : '*.png;*.jpg;*.jpeg;*.gif;',
+        buttonText      : '选择图片',
+        buttonClass     : 'upload_button',
+        fileObjName     : 'image',          //上传文件接收名
+        swf             : '/plug/Uploadify/uploadify.swf',
+        uploader        : "/Uploadify/uploadimg",
+        multi           : false,
+        onUploadSuccess : function(file, data, response) {
+            $("#reply_img").val(data);
+            $("#images_preview").attr('src',data);
+            $('#images_preview').show();
+            $('#img_b').show();
+            $('#img_c').show();
+        }
+    });
     function noMasterImg(){
         $src = $("#images_preview").attr('src');
         if($src==''){

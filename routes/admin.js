@@ -531,11 +531,12 @@ router.get('/article',(req,res)=>{
     var _params =  helper.map(req);
     var q = _params.param;
     var s = _params.search;
-    var search={recover:false,q};
+
+    var search='{"recover":false'+_params.param+'}';
     console.log(search);
+    search = JSON.parse(search);
     var page={limit:15,num:1};
     var Article = require('../model/article');
-
     //查看哪页
     if(req.query.p){
         page['num']=req.query.p<1?1:req.query.p;
@@ -550,12 +551,11 @@ router.get('/article',(req,res)=>{
     helper.pagination(model,(err,pageCount,list)=>{
         page['pageCount']=pageCount;
         page['size']=list.length;
-        page['numberOf']=pageCount>5?5:pageCount;
+        page['numberOf']= list.length?pageCount>5?5:pageCount:null;
         return res.render('admin/article/index', {
           list:list,
           page:page,
-          count:20,
-          search:''
+          search:s
         });
     });
 });
@@ -567,6 +567,7 @@ router.get('/add_article',(req,res)=>{
     var Article = require('../model/article');
     Article.findOneWithColunms({_id:req.query.id},(e,c,l)=>{
         if(e) console.log(e);
+        c.content = helper.decodeHtml(c.content);
         res.render('admin/article/add',{info:c,clist:l});
     },{status:true});
 });

@@ -34,9 +34,9 @@
                           </div>
                           <div class="col-lg-1 col-md-1 pl10">
                             <select name="s_status">
-                                <option value="-1" <%if(search.s_status==-1){%>selected<%}%>>全部</option>
-                                <option value="false" <%if(!search.s_status){%>selected<%}%>>启用</option>
-                                <option value="true" <%if(search.s_status){%>selected<%}%>>启用</option>
+                                <option value="-1" <%if(search.s_status==-1 || search.s_status=='-1'){%>selected<%}%>>全部</option>
+                                <option value="0" <%if(search.s_status==0 || search.s_status=='0'){%>selected<%}%>>启用</option>
+                                <option value="1" <%if(search.s_status==1 || search.s_status=='1'){%>selected<%}%>>禁用</option>
                             </select>
                           </div>
                           <div class="col-xs-4 col-md-4" style="margin-left:15px;">

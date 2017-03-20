@@ -17,14 +17,12 @@
         </div>
     </div>
     <div class="widget-body">
-    	  <div class="col-xs-4 col-md-6">
+    	  <div class="col-xs-4 col-md-6 mb10">
             <a href="/admin/add_colunm?id=0" class="btn btn-success">添加栏目</a>
             <a href="/admin/status" data-role="forbidden" data-model='<%=m%>' class="btn btn-warning status">选中禁用</a>
             <a href="/admin/status" data-role="enable"  data-model='<%=m%>'class="btn btn-info status">选中启用</a>
             <a href="/admin/status" data-role="delete-all" data-model='<%=m%>' class="btn btn-danger status">选中删除</a>
         </div>
-        <div class="clearfix"></div>
-        <hr>
         <table class="table table-striped table-bordered table-hover" id="simpledatatable">
             <thead>
                 <tr>
@@ -103,6 +101,8 @@
 		 $('#simpledatatable').dataTable({
 	        "sDom": "Tflt",
 	        "iDisplayLength": <%=count%>,
+          "searching":false,
+          "paging":false,
 	        "oTableTools": {
 	            "aButtons": [
 	                "copy", "csv", "xls","pdf"

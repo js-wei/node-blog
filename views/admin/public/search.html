@@ -1,0 +1,51 @@
+<div class="clearfix"></div>
+<div class="col-xs-12 col-md-12 form-search pb10">
+  <form id="search" action="<%=_url%>" method="get" class="form-horizontal" novalidate="novalidate">
+      <div class="col-xs-3 col-md-3 none">
+        <span class="input-icon">
+            <input type="search" name="s_keywords" value="<%=search.s_keywords%>" class="form-control input-sm search" placeholder="<%=filter.key1.tip%>/<%=filter.key2.tip%>">
+            <input type="hidden" name="p" value="<%=_p%>">
+            <input type="hidden" name="filter" value="<%=filter.key1.feild%>"/>
+            <input type="hidden" name="filter1" value="<%=filter.key2.feild%>"/>
+            <i class="glyphicon glyphicon-search blue"></i>
+        </span>
+      </div>
+      <div class="col-lg-1 col-md-1 pl10">
+        <select name="s_status">
+            <option value="-1" <%if(search.s_status==-1 || search.s_status=='-1'){%>selected<%}%>>全部</option>
+            <option value="0" <%if(search.s_status==0 || search.s_status=='0'){%>selected<%}%>>启用</option>
+            <option value="1" <%if(search.s_status==1 || search.s_status=='1'){%>selected<%}%>>禁用</option>
+        </select>
+      </div>
+      <div class="col-xs-4 col-md-4" style="margin-left:15px;">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </span>
+            <input type="text" name="s_date" value="<%=search.s_date%>" class="form-control" placeholder="请选择日期" id="reservation">
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary onSearch">搜素</button>
+  </form>
+</div>
+<!--Bootstrap Date Picker-->
+<script src="/plug/beyond/js/datetime/bootstrap-datepicker.js"></script>
+<!--Bootstrap Date Range Picker-->
+<script src="/plug/beyond/js/datetime/moment.js"></script>
+<script src="/plug/beyond/js/datetime/daterangepicker.js"></script>
+<script type="text/javascript">
+  $(function(){
+      //区域日期选择
+      if($('#reservation').length){
+          $('#reservation').daterangepicker({
+              format:'YYYY/MM/DD',
+              locale:{
+                applyLabel:'应用',
+                cancelLabel:'取消',
+                fromLabel:'开始',
+                toLabel:'结束',
+              }
+          });
+      }
+  });
+</script>

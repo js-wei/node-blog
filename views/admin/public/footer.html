@@ -229,18 +229,6 @@
                   }
               }
           });
-          //区域日期选择
-          if($('#reservation').length){
-              $('#reservation').daterangepicker({
-                  format:'YYYY/MM/DD',
-                  locale:{
-                    applyLabel:'应用',
-                    cancelLabel:'取消',
-                    fromLabel:'开始',
-                    toLabel:'结束',
-                  }
-              });
-          }
           $('#simpledatatable tbody tr .checkboxes').change(function () {
               $(this).parents('tr').toggleClass("active");
           });

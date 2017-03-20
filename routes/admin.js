@@ -115,6 +115,16 @@ router.use(function (req, res, next) {
         //res.redirect('/admin');
         //res.end(200);
     }
+    res.locals.filter={
+        key1:{
+          tip:'标题',
+          feild:null
+        },
+        key2:{
+          tip:'关键词',
+          feild:null
+        }
+    };
     res.locals._name = req.session._name;
     res.locals.url=req.originalUrl;                     //访问地址
     res.locals._id=req.params.id;                       //访问id
@@ -161,8 +171,13 @@ router.get('/index',(req,res)=>{
 //友情链接
 router.get('/link',(req,res)=>{
     res.locals.title=res.locals.title1="友情链接";
+    var _params =  helper.map(req);
+    var q = _params.param;
+    var s = _params.search;
+    var search='{'+_params.param+'}';
+    search = JSON.parse(search);
+
     var Link = require('../model/link');
-    var search={};
     var page={limit:15,num:1};
     //查看哪页
     if(req.query.p){
@@ -177,11 +192,11 @@ router.get('/link',(req,res)=>{
     helper.pagination(model,(err,pageCount,list)=>{
         page['pageCount']=pageCount;
         page['size']=list.length;
-        page['numberOf']=pageCount>5?5:pageCount;
+        page['numberOf']=list.length?pageCount>5?5:pageCount:null;
         return res.render('admin/link/index', {
           list:list,
           page:page,
-          count:20
+          search:s
         });
     },req);
 });
@@ -229,8 +244,13 @@ router.post('/add_link',(req,res)=>{
 //轮播图
 router.get('/carousel',(req,res)=>{
     res.locals.title=res.locals.title1="友情链接";
+    var _params =  helper.map(req);
+    var q = _params.param;
+    var s = _params.search;
+    var search='{'+_params.param+'}';
+    search = JSON.parse(search);
+
     var Carousel = require('../model/carousel');
-    var search={};
     var page={limit:15,num:1};
     //查看哪页
     if(req.query.p){
@@ -246,11 +266,11 @@ router.get('/carousel',(req,res)=>{
     helper.pagination(model,(err,pageCount,list)=>{
         page['pageCount']=pageCount;
         page['size']=list.length;
-        page['numberOf']=pageCount>5?5:pageCount;
+        page['numberOf']=list.length?pageCount>5?5:pageCount:null;
         return res.render('admin/carousel/index', {
           list:list,
           page:page,
-          count:20
+          search:s
         });
     });
 });
@@ -299,9 +319,24 @@ router.post('/add_carousel',(req,res)=>{
 //评论
 router.get('/comment',(req,res)=>{
     res.locals.title=res.locals.title1="评论信息";
+    res.locals.filter={
+        key1:{
+          tip:'标题',
+          feild:'title'
+        },
+        key2:{
+          tip:'消息内容',
+          feild:"content"
+        }
+    };
+
+    var _params =  helper.map(req);
+    var q = _params.param;
+    var s = _params.search;
+
     let Comment = require('../model/comment'),
     Aricle = require('../model/article');
-    var search={};
+
     var page={limit:15,num:1};
     //查看哪页
     if(req.query.p){
@@ -309,7 +344,7 @@ router.get('/comment',(req,res)=>{
     }
     var model = {
         order:{date:-1},
-        search:search,
+        search:q,
         columns:'',
         page:page,
         populate:'aid'
@@ -317,18 +352,31 @@ router.get('/comment',(req,res)=>{
     helper.pagination(model,(err,pageCount,list)=>{
         page['pageCount']=pageCount;
         page['size']=list.length;
-        page['numberOf']=pageCount>5?5:pageCount;
+        page['numberOf']=list.length?pageCount>5?5:pageCount:null;
         return res.render('admin/comment/index', {
           list:list,
           page:page,
-          count:20
+          search:s
         });
     },req);
 });
 //消息
 router.get('/message',(req,res)=>{
       res.locals.title=res.locals.title1="消息信息";
-      var search={};
+      var _params =  helper.map(req);
+      res.locals.filter={
+          key1:{
+            tip:'标题',
+            feild:'title'
+          },
+          key2:{
+            tip:'评论内容',
+            feild:"content"
+          }
+      };
+      var q = _params.param;
+      var s = _params.search;
+
       var page={limit:15,num:1};
       //查看哪页
       if(req.query.p){
@@ -336,18 +384,18 @@ router.get('/message',(req,res)=>{
       }
       var model = {
           order:{date:-1},
-          search:search,
+          search:q,
           columns:'',
           page:page
       };
       helper.pagination(model,(err,pageCount,list)=>{
           page['pageCount']=pageCount;
           page['size']=list.length;
-          page['numberOf']=pageCount>5?5:pageCount;
+          page['numberOf']=list.length?pageCount>5?5:pageCount:null;
           return res.render('admin/message/index', {
             list:list,
             page:page,
-            count:20
+            search:s
           });
       },req);
 });
@@ -528,13 +576,10 @@ router.post('/add_colunm',(req,res)=>{
 //文章管理
 router.get('/article',(req,res)=>{
     res.locals.title=res.locals.title1="文章管理";
-    var _params =  helper.map(req);
+    var _params =  helper.map(req,{recover:false});
     var q = _params.param;
     var s = _params.search;
 
-    var search='{"recover":false'+_params.param+'}';
-    console.log(search);
-    search = JSON.parse(search);
     var page={limit:15,num:1};
     var Article = require('../model/article');
     //查看哪页
@@ -543,7 +588,7 @@ router.get('/article',(req,res)=>{
     }
     var model = {
         order:{date:-1},
-        search:search,
+        search:q,
         columns:'',
         page:page,
         model:Article,
@@ -602,7 +647,9 @@ router.post('/add_article',(req,res)=>{
 
 router.get('/recover',(req,res)=>{
     res.locals.title=res.locals.title1="回收站";
-    var search={recover:true};
+    var _params =  helper.map(req,{recover:true});
+    var q = _params.param;
+    var s = _params.search;
     var page={limit:15,num:1};
     var Article = require('../model/article');
     //查看哪页
@@ -611,7 +658,7 @@ router.get('/recover',(req,res)=>{
     }
     var model = {
         order:{rdate:-1},
-        search:search,
+        search:q,
         columns:'',
         page:page,
         model:Article,
@@ -619,11 +666,11 @@ router.get('/recover',(req,res)=>{
     helper.pagination(model,(err,pageCount,list)=>{
         page['pageCount']=pageCount;
         page['size']=list.length;
-        page['numberOf']=pageCount>5?5:pageCount;
+        page['numberOf']=list.length?pageCount>5?5:pageCount:null;
         return res.render('admin/recover/index', {
           list:list,
           page:page,
-          count:20
+          search:s
         });
     });
 });

@@ -155,16 +155,35 @@ exports.pagination  =(obj,callback,req=null)=>{
       }
    });
  }
-//映射查询条件
-exports.map = (req,callback)=>{
+/**
+ * [map 映射查询条件]
+ * @param  {[type]} req  [HttpRqeust对象]
+ * @param  {[type]} more [扩充条件]
+ * @return {[type]}      [查询条件]
+ */
+exports.map = (req,more)=>{
     let query = req.query||req.params||req.body;
-    var json = "";
+    more = more|| null;
+    var json = "{";
+    if(more!=null){
+        for(i in more){
+            json += ",'"+i+"'"+":'"+more[i]+"'";
+        }
+    }
+
     for(i in query){
         if(i.indexOf('s_')>-1 && query[i]!=''){
             var key = i.split('s_');
             switch (key[1]) {
               case 'keywords':    //关键词
-                  json += ',"$or":[{"title":{"$regex":"'+query[i]+'","$options":"i"},"keywords":{"$regex":"'+query[i]+'","$options":"i"}}]';
+                  let k = 'title',k1='keywords';
+                  if(query.filter!=''){
+                      k = query.filter;
+                  }
+                  if(query.filter1!=''){
+                      k1 = query.filter1;
+                  }
+                  json += ',"$or":[{"'+k+'":'+new RegExp(query[i])+'}, {"'+k1+'":'+new RegExp(query[i])+'}]';
                 break;
               case 'status':    //状态
                   if(query[i]!=-1){
@@ -188,9 +207,13 @@ exports.map = (req,callback)=>{
             }
         }
     }
+    json +="}";
     delete query['p'];
     if((json.length>2)){
-        return {param:json,search:query};
+        let s = json.replace('{,','{');
+        console.log(s);
+        s = eval('(' + s + ')');
+        return {param:s,search:query};
     }else{
         return {param:'',search:query};
     }

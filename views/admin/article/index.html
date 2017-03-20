@@ -17,39 +17,12 @@
                 </div>
             </div>
             <div class="widget-body">
-                <div class="col-xs-4 col-md-6 mb10">
+                <div class="col-xs-4 col-md-6">
                     <a href="/admin/add_article?id=0" class="btn btn-success">添加文档</a>
                     <a href="/admin/status" data-role="enable" data-model='<%=m%>' class="btn btn-warning status">选中禁用</a>
                     <a href="/admin/status" data-role="forbidden" data-model='<%=m%>' class="btn btn-info status">选中启用</a>
                     <a href="/admin/status" data-role="receive" data-model='<%=m%>' class="btn btn-danger status">选中删除</a>
-                    <div class="clearfix"></div>
-                    <div class="col-xs-12 col-md-12 form-search">
-                      <form id="search" action="<%=_url%>" method="get" class="form-horizontal" novalidate="novalidate">
-                          <div class="col-xs-3 col-md-3 none">
-                            <span class="input-icon">
-                                <input type="search" name="s_keywords" value="<%=search.s_keywords%>" class="form-control input-sm search" placeholder="请输入标题/关键词">
-                                <input type="hidden" name="p" value="<%=_p%>">
-                                <i class="glyphicon glyphicon-search blue"></i>
-                            </span>
-                          </div>
-                          <div class="col-lg-1 col-md-1 pl10">
-                            <select name="s_status">
-                                <option value="-1" <%if(search.s_status==-1 || search.s_status=='-1'){%>selected<%}%>>全部</option>
-                                <option value="0" <%if(search.s_status==0 || search.s_status=='0'){%>selected<%}%>>启用</option>
-                                <option value="1" <%if(search.s_status==1 || search.s_status=='1'){%>selected<%}%>>禁用</option>
-                            </select>
-                          </div>
-                          <div class="col-xs-4 col-md-4" style="margin-left:15px;">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
-                                <input type="text" name="s_date" value="<%=search.s_date%>" class="form-control" placeholder="请选择日期" id="reservation">
-                            </div>
-                          </div>
-                          <button type="button" class="btn btn-primary onSearch">搜素</button>
-                      </form>
-                    </div>
+                    <%include ../public/search.html%>
                 </div>
                 <table class="table table-striped table-bordered table-hover" id="simpledatatable">
                     <thead>
@@ -135,11 +108,6 @@
         </div>
     </div>
 </div>
-<!--Bootstrap Date Picker-->
-<script src="/plug/beyond/js/datetime/bootstrap-datepicker.js"></script>
-<!--Bootstrap Date Range Picker-->
-<script src="/plug/beyond/js/datetime/moment.js"></script>
-<script src="/plug/beyond/js/datetime/daterangepicker.js"></script>
 <script type="text/javascript">
     $(function(){
         <%if(page.pageCount!=0){%>

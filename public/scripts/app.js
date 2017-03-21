@@ -1,0 +1,9 @@
+$(function(){
+    $('.feature-item').mouseover(function(){
+        $(this).addClass('active');
+        $(this).find('h2,p').addClass('active');
+    }).mouseout(()=>{
+        $('.feature-item').removeClass('active');
+        $('.feature-item').find('h2,p').addClass('active');
+    });
+});

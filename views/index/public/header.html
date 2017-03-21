@@ -8,11 +8,12 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="/plug/beyond/js/jquery-2.0.3.min.js"></script>
     <script src="/plug/beyond/js/bootstrap.min.js"></script>
+    <script src="/scripts/app.js" charset="utf-8"></script>
     <!-- <script src="https://unpkg.com/vue@2.2.4/dist/vue.js" charset="utf-8"></script> -->
   </head>
   <body>
       <div class="navbar-jumbotron">
-        <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <nav class="navbar navbar-inverse navbar-fixed-top"  drole="navigation">
           <div class="container">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -41,36 +42,8 @@
           <h1>From metrics to insight</h1>
           <p class="subtitle">Power your metrics and alerting with a leading<br>open-source monitoring solution.</p>
           <p>
-            <a class="btn btn-default btn-lg" href="/docs/introduction/getting_started/" role="button">Get Started</a>
-            <a class="btn btn-default btn-lg" href="/download" role="button">Download</a>
+            <a class="btn btn-default btn-lg" href="https://github.com/js-wei/node-blog" role="button">Get Started</a>
+            <a class="btn btn-default btn-lg" href="https://github.com/js-wei/node-blog" role="button">Download</a>
           </p>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
-            <a href="/docs/concepts/data_model/">
-              <h2><i class="fa fa-flask"></i> Dimensional data</h2>
-              <p>Prometheus implements a highly dimensional data model. Time series are identified by a metric name and a set of key-value pairs.</p>
-            </a>
-          </div>
-          <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
-            <a href="/docs/querying/basics/">
-              <h2><i class="fa fa-search"></i> Powerful queries</h2>
-              <p>A flexible query language allows slicing and dicing of collected time series data in order to generate ad-hoc graphs, tables, and alerts.</p>
-            </a>
-          </div>
-          <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
-            <a href="/docs/visualization/grafana/">
-              <h2><i class="fa fa-line-chart"></i> Great visualization</h2>
-              <p>Prometheus has multiple modes for visualizing data: a built-in expression browser, Grafana integration, and a console template language.</p>
-            </a>
-          </div>
-          <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
-            <a href="/docs/operating/storage/">
-              <h2><i class="fa fa-database"></i> Efficient storage</h2>
-              <p>Prometheus stores time series in memory and on local disk in an efficient custom format. Scaling is achieved by functional sharding and federation.</p>
-            </a>
-          </div>
         </div>
       </div>

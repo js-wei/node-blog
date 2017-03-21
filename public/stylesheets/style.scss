@@ -1,0 +1,157 @@
+$fontFamily:'Lato', sans-serif;
+$fontSize:12px;
+$fontColor:#111;
+$baseColor:#ffffff #9d9d9d #e6522c !default;
+$spuar:0px 5px 10px 15px 20px 25px;
+
+.navbar-jumbotron {
+    .navbar-brand{
+      margin-top:nth($spuar,4);
+      height:70px;
+      img{
+          height:30px;
+          display:inline;
+          margin-top:-nth($spuar,2)-1;
+          margin-right:nth($spuar,2)-2;
+      }
+    }
+    .nav {
+        min-height:80px;
+        margin-top:nth($spuar,3);
+        letter-spacing: 1px;
+        font-family:$fontFamily;
+        text-transform: uppercase;
+        li{
+          a{
+            font-size: $fontSize+4;
+            position: relative;
+            display: block;
+            padding: 28px 15px;
+            color:nth($baseColor,1);
+            &:hover{
+              color:nth($baseColor,2);
+            }
+          }
+        }
+    }
+}
+.jumbotron{
+    background-color:nth($baseColor,3);
+    background-image: url(../images/jumbotron-background-cb04e0f2d6d.png);
+    text-align: center;
+    font-family:$fontFamily;
+    text-shadow: rgba(0, 0, 0, 0.2) 0px 2px 0px;
+    margin-bottom:0px;
+    padding: 90px 0;
+    h1 {
+        margin-top: 30px;
+        font-size: 52px;
+        font-weight: 300;
+        color: #fff;
+    }
+    .subtitle {
+        font-weight: 300;
+        font-size: 32px;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 20px;
+    }
+    a.btn {
+        border: none;
+        background-color: rgba(0,0,0,0.15);
+        color: #fff;
+        padding: 20px 25px 20px 25px;
+        margin: 15px 10px 0 10px;
+        text-transform: uppercase;
+    }
+}
+.newsbar{
+    background-color:lighten($fontColor,85%);
+    text-align: center;
+    font-family:$fontFamily;
+    padding: 25px 0;
+    font-size: 24px;
+    font-weight: 300;
+    margin-bottom: 50px;
+    ul{
+      list-style-type:none;
+      height:40px;
+      overflow:hidden;
+      li{
+        float:left;
+        margin-left:nth($spuar,4)*5;
+        a{
+            color:nth($baseColor,3);
+            &:hover{
+                color:nth($baseColor,2)
+            }
+        }
+      }
+    }
+}
+.feature-item {
+    margin-top:20px;
+    font-family:$fontFamily;
+    font-weight: 300;
+    cursor: pointer;
+    min-height:250px;
+    .fa {
+        margin-right: 5px;
+        color:nth($baseColor,3);
+    }
+    h2 {
+        color: $fontColor;
+        font-weight: 300;
+        font-size: 25px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: normal;
+    }
+    a{
+       text-decoration: none;
+       color: none;
+       margin-left:nth($spuar,3);
+       p{
+           font-size: 16px;
+           line-height: 1.8em;
+           text-rendering: optimizeLegibility;
+           -webkit-font-smoothing: antialiased;
+           color: $fontColor;
+       }
+    }
+}
+.feature-item.active{
+  background-color:lighten(nth($baseColor,3),25%);
+  h2.active{
+    color:nth($baseColor,1)
+  }
+  a{
+    p.active{
+      color:nth($baseColor,1)
+    }
+  }
+}
+.quote{
+    p.quote-text{
+      margin: auto;
+      font-size: $fontSize*2;
+      font-style: italic;
+      color: nth($baseColor,3);
+    }
+    p.quote-source{
+      width: 60%;
+      font-size: 16px;
+      margin-top: 15px;
+      margin-left: 50px;
+    }
+}
+.open-source {
+    margin: 25px 0 20px 0;
+    font-family:$fontFamily;
+    font-weight: 300;
+    .github-stars {
+        margin-top: 20px;
+        width: 160px;
+        height: 30px;
+    }
+}

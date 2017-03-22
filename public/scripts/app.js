@@ -12,7 +12,7 @@ $(function(){
     };
     var List = {
       props: ['todo'],
-      template: '<li><a v-bind:href="todo._id">{{todo.title}}</a></li>'
+      template: '<li><a v-bind:href="todo.name">{{todo.title}}</a></li>'
     };
 
     // 创建根实例

@@ -680,6 +680,7 @@ router.get('/status',(req,res)=>{
     var p = req.body,
     fs = require('fs'),
     model = require('../model/'+p.m);
+    console.log(p);
     switch (p.type) {
       case 'receive':
           id = p.id.split(',');

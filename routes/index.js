@@ -1,24 +1,14 @@
 'use strict'
 let express = require('express'),
 router = express.Router(),
-<<<<<<< HEAD
-helper = require('../model/helper'),
-renderer = require('vue-server-renderer').createRenderer(),
-fs = require('fs'),
-path = require('path');
-=======
 helper = require('../model/helper');
 
 router.use((req,res,next)=>{
     next();
 });
->>>>>>> 22fd42b515d623e21da48891d11d6feaf0e72434
 
 router.get('/', function(req, res, next){
-<<<<<<< HEAD
   res.render('index');
-=======
-    res.render('index/index');
 })
 .get('/colunm',(req, res)=>{
   let Colunm = require('../model/colunm');
@@ -44,6 +34,5 @@ router.get('/', function(req, res, next){
 })
 .get('/community',(req,res)=>{
     res.render('index/list');
->>>>>>> 22fd42b515d623e21da48891d11d6feaf0e72434
 });
 module.exports = router;

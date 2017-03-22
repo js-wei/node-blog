@@ -43,6 +43,8 @@
       });
       $('.status').on('click',function(e) {
             e.preventDefault();
+
+
             var url = $(this).attr('href');
             var type = $(this).attr('data-role');
             var m = $(this).attr('data-model');
@@ -54,6 +56,7 @@
                 }
             });
             q = q.substr(1);
+          
             if(id!= undefined){
                 if(type=='delete'){
                     layer.confirm('您确定要彻底删除吗?删除后将不能恢复!', {

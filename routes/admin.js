@@ -676,11 +676,11 @@ router.get('/recover',(req,res)=>{
 });
 
 //状态管理
-router.get('/status',(req,res)=>{
+router.all('/status',(req,res)=>{
     var p = req.body,
     fs = require('fs'),
     model = require('../model/'+p.m);
-    console.log(p);
+
     switch (p.type) {
       case 'receive':
           id = p.id.split(',');
@@ -706,7 +706,7 @@ router.get('/status',(req,res)=>{
           break;
       case 'delete'://删除
         model.find({_id:{$in:p.id}},'id image',(e,r)=>{
-            if(r.image!='' || r.image!=null){
+            if(r.image){
                 var path = './public' + r.image;
                 fs.unlink(path,(e)=>{
                     if(e){
@@ -728,7 +728,7 @@ router.get('/status',(req,res)=>{
       case 'delete-all':
           model.find({_id:{$in:p.id.split(',')}},'id image status',(e,r)=>{
             for (i in r) {
-                if(r[i].image!='' || r[i].image!=null){
+                if(r[i].image){
                   var path = './public' + r[i].image;
                   fs.unlink(path,(e)=>{
                       if(e){

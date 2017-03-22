@@ -41,9 +41,9 @@
                             <th style="width:250px">简介</th>
                             <th style="width:250px">标签属性</th>
                             <th style="width:80px;">阅读量</th>
-                            <th style="width:140px;">添加时间</th>
+                            <th style="width:180px;">添加时间</th>
                             <th style="width:80px;">状态</th>
-                            <th style="width:120px;">操作</th>
+                            <th style="width:180px;">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,7 +90,7 @@
                                   <%}%>
                               </td>
                               <td>
-                                  <a href="/admin/add?id=<%=list[i]._id%>">编辑</a>
+                                  <a href="/admin/add_article?id=<%=list[i]._id%>">编辑</a>
                                   <%if(list[i].status){%>
                                       <a href="/admin/status" data-role="forbidden" data-id="<%=list[i]._id%>" data-model="<%=m%>" class="status">启用</a>
                                   <%}else{%>

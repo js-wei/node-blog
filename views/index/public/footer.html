@@ -1,10 +1,30 @@
-<div class="container">
-  <div class="row">
-    <hr>
-    <p>&copy; 2017-03-21 魏巍</p>
+  <div class="container">
+    <div class="row">
+      <hr>
+      <p>&copy; 2017-03-21 魏巍</p>
+    </div>
   </div>
 </div>
 <script src="/plug/pace/pace.js"></script>
+<script src="/plug/jquery.kxbdmarquee/js/jquery.kxbdmarquee.js" charset="utf-8"></script>
 <link href="/plug/pace/themes/pink/pace-theme-minimal.css" rel="stylesheet" />
+<script type="text/javascript">
+  $(function(){
+    $(document).on('mouseover','.feature-item',function(){
+        $(this).addClass('active');
+        $(this).find('h2,p').addClass('active');
+    }).on('mouseout','.feature-item',()=>{
+        $('.feature-item').removeClass('active');
+        $('.feature-item').find('h2,p').addClass('active');
+    });
+
+
+
+    $('#marquee').kxbdMarquee({
+        direction:'left',
+        isEqual: false
+    });
+  });
+</script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title></title>
+    <title>我的博客</title>
     <link rel="stylesheet" href="/plug/beyond/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -13,6 +13,7 @@
     <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
   </head>
   <body>
+    <div class="main-body">
       <div class="navbar-jumbotron">
         <nav class="navbar navbar-inverse navbar-fixed-top"  role="navigation">
           <div class="container">
@@ -27,7 +28,7 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar">
               <ul class="nav navbar-nav navbar-right main-nav" id="app">
-                <list v-for="item in pepole" v-bind:todo="item"></list>
+                <navigater v-for="item in nav" v-bind:nav="item"></navigater>
                 <li><a href="https://github.com/js-wei"><i class="fa fa-github"></i></a></li>
                 <li><a href="tel:1358486592"><i class="fa fa-phone"></i></a></li>
               </ul>

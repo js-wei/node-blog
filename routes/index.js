@@ -23,7 +23,7 @@ router.get('/', function(req, res, next){
 })
 .get('/marquee',(req,res)=>{
   let Article = require('../model/article');
-  Article.find({status:false},'_id title name',(e,r)=>{
+  Article.find({status:false},'_id title',(e,r)=>{
        if(e){
          res.json({msg:e});
          return;
@@ -32,7 +32,25 @@ router.get('/', function(req, res, next){
        return;
   }).sort({date:-1});
 })
-.get('/community',(req,res)=>{
+.get('/article',(req,res)=>{
+  let l = parseInt(req.query.limit) || 8;
+  let o = (req.query.order=='desc')?-1:1 || -1;
+  let Article = require('../model/article');
+  Article.find({status:false},'_id title description',(e,r)=>{
+       if(e){
+         res.json({msg:e});
+         return;
+       }
+       res.json(r);
+       return;
+  }).sort({date:o}).limit(l);
+})
+.get('/category/:id',(req,res)=>{
+    let id = req.params.id || '';
+    console.log(id);
     res.render('index/list');
+})
+.get('/topic/:id',(req,res)=>{
+    res.render('index/article');
 });
 module.exports = router;

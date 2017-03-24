@@ -1,12 +1,17 @@
 $fontFamily:'Lato', sans-serif;
 $fontSize:12px;
 $fontColor:#111;
-$baseColor:#ffffff #9d9d9d #e6522c !default;
+$baseColor:#ffffff #9d9d9d #e6522c  #111  !default;
 $square:0px 5px 10px 15px 20px 25px;
 $navbar:60px !default;
+$headings: (0: darkred, 1:darkgreen, 2: #e6522c);
 
 .clear-navbar-fixed {
   margin-top:$navbar*1.8;
+}
+.clear-square{
+  margin:0px;
+  padding:0px;
 }
 .navbar-jumbotron {
     .navbar-brand{
@@ -213,4 +218,95 @@ $navbar:60px !default;
       line-height:2*$fontSize;
     }
   }
+}
+.article{
+    h1{
+      color:nth($baseColor,3);
+      height:50px;
+      line-height:50px;
+      font-family:$fontFamily;
+      font-size:$fontSize*2;
+      border-left:3px solid lighten(nth($baseColor,3),35%);
+      padding-left:10px;
+    }
+    p.create{
+      i{
+        margin-right:nth($square,2);
+      }
+    }
+    .main-content{
+      height:auto;
+      min-height:250px;
+      padding:nth($square,3);
+      p{
+        text-indent:2*$fontSize;
+        line-height:2.5*$fontSize;
+      }
+    }
+    .comment{
+      .col-md-8{
+          height:nth($square,4)*3;
+      }
+      .col-md-4{
+        span{
+          margin-right:5px;
+          font-family:'georgia';
+          font-size:$fontSize+7;
+        }
+      }
+    }
+    .comment-list{
+        margin-top:nth($square,4);
+        h4{
+          padding-left:nth($square,2);
+          border-left:2px solid nth($baseColor,3);
+        }
+        .comment-item{
+            margin-top:nth($square,3);
+            border-bottom:1px solid lighten(nth($baseColor, 2),33%);
+            .text-right{
+                font-family:'georgia';
+                font-size:$fontSize+5;
+                a{
+                  color:lighten(nth($baseColor,4),50%);
+                  &:hover{
+                    //text-decoration:none;
+                  }
+                  i{
+                    padding-right:nth($square,2);
+                  }
+                }
+            }
+        }
+    }
+}
+
+.left{
+    .left-item{
+      h3{
+        color:lighten(nth($baseColor,4),15%);
+        height:40px;
+        line-height:40px;
+        padding-left:10px;
+      }
+      ul{
+        margin:0px;
+        padding:0px;
+        li{
+          list-style-type:none;
+          line-height:25px;
+          text-transform:capitalize;
+          white-space:nowrap;
+          text-overflow:ellipsis;
+          a{
+            color:nth($baseColor,4);
+          }
+        }
+      }
+      @each $index, $color in $headings {
+        .title-#{$index} {
+          border-left:2px solid lighten($color,20%);
+        }
+      }
+    }
 }

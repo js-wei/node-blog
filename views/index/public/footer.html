@@ -5,9 +5,20 @@
     </div>
   </div>
 </div>
-<script src="/plug/pace/pace.js"></script>
-<script src="/plug/jquery.kxbdmarquee/js/jquery.kxbdmarquee.js" charset="utf-8"></script>
+<!-- 进度条 -->
 <link href="/plug/pace/themes/pink/pace-theme-minimal.css" rel="stylesheet" />
+<script src="/plug/pace/pace.js"></script>
+<script src="/plug/jquery.kxbdmarquee/js/jquery.kxbdmarquee.js"></script>
+<!-- 编辑器 -->
+<link rel="stylesheet" href="/plug/simditor/styles/simditor.css">
+<script type="text/javascript" src="/plug/simditor/scripts/module.js"></script>
+<script type="text/javascript" src="/plug/simditor/scripts/hotkeys.js"></script>
+<script type="text/javascript" src="/plug/simditor/scripts/uploader.js"></script>
+<script type="text/javascript" src="/plug/simditor/scripts/simditor.js"></script>
+<script type="text/javascript" src="/plug/simditor/scripts/simditor-mark.js"></script>
+<!-- 分享 -->
+<link rel="stylesheet" href="/plug/share.js/dist/css/share.min.css">
+<script src="/plug/share.js/dist/js/jquery.share.min.js"></script>
 <script type="text/javascript">
   $(function(){
     $(document).on('mouseover','.feature-item',function(){
@@ -17,12 +28,25 @@
         $('.feature-item').removeClass('active');
         $('.feature-item').find('h2,p').addClass('active');
     });
-
-
-
     $('#marquee').kxbdMarquee({
         direction:'left',
         isEqual: false
+    });
+    $('.share').share({
+      sites: ['qzone', 'qq', 'weibo','wechat']
+    });
+    let editor = new Simditor({
+        textarea: $('textarea[name="content"]'),
+        placeholder: '请在这里输入评论...',
+        defaultImage: '/plug/simditor/images/image.png',
+        params: {},
+        upload:{
+          url: '/uploadify/upload',
+          params: null,
+          fileKey: 'upload_file',
+          connectionCount: 3,
+          leaveConfirm: '正在上传图片你确定要离开吗?',
+        }
     });
   });
 </script>

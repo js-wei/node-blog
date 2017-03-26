@@ -12,7 +12,7 @@ router.get('/', function(req, res, next){
 })
 .get('/colunm',(req, res)=>{
   let Colunm = require('../model/colunm');
-  Colunm.find({fid:'',status:true},'_id title name date',(e,r)=>{
+  Colunm.find({status:true},'_id title name date fid',(e,r)=>{
        if(e){
          res.json({msg:e});
          return;

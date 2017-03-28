@@ -26,12 +26,7 @@
               </button>
               <a class="navbar-brand" href="/"><img src="/images/10104372.gif" alt="Prometheus logo">Js-wei</a>
             </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <ul class="nav navbar-nav navbar-right main-nav" id="app">
-                <navigater v-for="item in nav" v-bind:item="item"></navigater>
-                <li><a href="https://github.com/js-wei"><i class="fa fa-github"></i></a></li>
-                <li><a href="tel:1358486592"><i class="fa fa-phone"></i></a></li>
-              </ul>
+            <div class="collapse navbar-collapse" id="navbar"v-html="navHtml">
             </div>
           </div>
         </nav>

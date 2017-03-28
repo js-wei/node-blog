@@ -1,7 +1,7 @@
 $fontFamily:'Lato', sans-serif;
 $fontSize:12px;
 $fontColor:#111;
-$baseColor:#ffffff #9d9d9d #e6522c  #111  !default;
+$baseColor:#fff #9d9d9d #e6522c  #111  !default;
 $square:0px 5px 10px 15px 20px 25px;
 $navbar:60px !default;
 $headings: (0: darkred, 1:darkgreen, 2: #e6522c);
@@ -29,7 +29,12 @@ $headings: (0: darkred, 1:darkgreen, 2: #e6522c);
         margin-top:nth($square,3);
         letter-spacing: 1px;
         font-family:$fontFamily;
-        text-transform: uppercase;
+        text-transform:capitalize;
+        li.open{
+          a{
+            background-color:lighten(#101010,8%);
+          }
+        }
         li{
           a{
             font-size: $fontSize+4;
@@ -39,6 +44,23 @@ $headings: (0: darkred, 1:darkgreen, 2: #e6522c);
             color:nth($baseColor,1);
             &:hover{
               color:nth($baseColor,2);
+            }
+          }
+          .dropdown-menu{
+            list-style: none;
+            font-size: $fontSize+12;
+            text-align: left;
+            background-color:lighten(#101010,8%);
+            li{
+              a{
+                padding:nth($square,3);
+                color:nth($baseColor,1);
+                padding-left:nth($square,4);
+                &:hover{
+                  color:nth($baseColor,2);
+                  background-color:lighten(#101010,8%);
+                }
+              }
             }
           }
         }

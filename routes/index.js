@@ -18,26 +18,26 @@ router.get('/', function(req, res, next){
          res.json({msg:e});
          return;
        }
-
-       let html='<ul class="nav navbar-nav navbar-right main-nav">';
+       let html='<ul class="nav navbar-nav navbar-right main-nav"></ul>';
+       $('body').append(html);
        $.each(r,function(k,v) {
           if(v.fid==''){
-            let item =`<li fid="${v._id}"><a href="/category/${v.name}">${v.title}</a></li>`;
-            console.log(item);
+            let item =`<li id="comment${v._id}"><a href="/category/${v.name}" data-toggle="dropdown" data-hover="dropdown" aria-expanded="false">${v.title}</a></li>`;
 						$(".main-nav").append(item);
 					}else{
 						if($("#comment"+v.fid).find(".comments").length==0){
-                let item='';
-                item +=`<ul class="dropdown" id="comments${v._id}" class="comments"><li fid="${v._id}"><a href="/category/${v.name}">${v.title}</a></li></ul>`;
-                $("#comment"+v.sortID).append(item);
+                let div=`<ul class="dropdown-menu"><li id="comment${v._id}" class="comments"><a href="/category/${v.name}">${v.title}</a></li></ul>`;
+                $(`li#comment${v.fid}`).append(div);
             }else{
-                let item =`<li fid="${v._id}"><a href="/category/${v.name}">${v.title}</a></li>`;
-  							$("#comments"+v.sortID).append(item);
+                let item =`<li class="comments" id="comment${v._id}"><a href="/category/${v.name}">${v.title}</a></li>`;
+  							$(`#comment${v.fid} ul`).append(item);
 						}
 					}
        });
-       console.log(html);
-       res.json(r);
+       let m ='<li><a href="https://github.com/js-wei"><i class="fa fa-github"></i></a></li><li><a href="tel:1358486592"><i class="fa fa-phone"></i></a></li>';
+       $(".main-nav").append(m);
+       let _nav = $('body').html();
+       res.json(_nav);
        return;
   });
 })

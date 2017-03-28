@@ -28,16 +28,13 @@ $(function(){
         nav:[],
         marquee:[],
         article:[],
-        navHtml:`<ul class="nav navbar-nav navbar-right main-nav" id="app">
-            <li><a href="https://github.com/js-wei"><i class="fa fa-github"></i></a></li>
-            <li><a href="tel:1358486592"><i class="fa fa-phone"></i></a></li>
-          </ul>`
+        navHtml:''
       },
       created:function(){
           var _self = this;
           axios.get('/colunm')
           .then(response=>{
-            _self.nav = response.data;
+            _self.navHtml = response.data;
           })
           .catch(function (error) {
           });
@@ -55,25 +52,7 @@ $(function(){
           });
       },
       methods:{
-          tree:(arr,id='',mar=10)=>{
-            var temp = [],lev=0;
-            var forFn = function(arr,id,lev){
-                for (var i = 0; i < arr.length; i++) {
-                    var item = arr[i];
-                    if (item.fid==id) {
-                        item.lev=lev;
-                        item.mar=lev*mar;
-                        temp.push(item);
-                        forFn(arr,item._id,lev+1);
-                    }
-                }
-            };
-            forFn(arr,id,lev);
-            return temp;
-          },
-          toggleChildren: function(item) {
-            item.expanded = !item.expanded;
-          }
+
       }
   });
 });

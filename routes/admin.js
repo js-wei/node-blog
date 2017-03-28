@@ -2,10 +2,12 @@ var express = require('express'),
 router = express.Router(),
 mongoose = require('../model/db'),
 mongodb=require('../model/mongodb'),
-helper = require('../model/helper');
+helper = require('../model/helper'),
+requestIp = require('request-ip');
 
 /* GET admin listing. */
 router.get('/', function(req, res, next) {
+    //console.log(requestIp.getClientIp(req),helper.get_client_ip(req));
     res.render('admin/user/login');
 });
 
@@ -23,6 +25,7 @@ router.get("/logout",function(req,res){    // 到达 /logout 路径则登出， 
 router.post('/login_handler',(req, res, next)=>{
     var Admin = require('../model/admin.js');
 
+    var clientIp = requestIp.getClientIp(req);
     if(!req.body.verify){
          res.json({"status":0, "msg":"请输入验证码"});
          return;
@@ -51,7 +54,7 @@ router.post('/login_handler',(req, res, next)=>{
           res.json({"status":0, "msg":"账号已被锁定,请联系一级管理员"});
           return;
         }
-        var loginip = helper.get_client_ip;
+        var loginip = helper.get_client_ip(req);
         var logindate = Date.now();
         Admin.update({_id:result._id},{$set:{loginip:loginip,logindate:logindate}},(e,r)=>{
             //记录登录session

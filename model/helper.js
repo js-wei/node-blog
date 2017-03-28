@@ -129,10 +129,24 @@ exports.getDom=()=>{
 };
 
 //获取IP
-require('externalip')(function (err, ip) {
-  exports.get_client_ip = ip; // => 8.8.8.8
-});
-
+// require('externalip')(function (err, ip) {
+//     console.log(ip);
+//   //exports.get_client_ip = ip; // => 8.8.8.8
+// });
+exports.get_client_ip=(req)=>{
+    let ip = req.headers['x-forwarded-for'] ||
+        req.ip ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress || '';
+    if(ip.split(',').length>0){
+        ip = ip.split(',')[0];
+        if(ip.length >=15){
+           ip = ip.slice(7);
+        }
+    }
+    return ip;
+}
 
 /*
 var options = {

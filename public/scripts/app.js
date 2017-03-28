@@ -1,18 +1,7 @@
 $(function(){
     var List = {
       props: ['item'],//data-toggle="dropdown" data-hover="dropdown" aria-expanded="false"
-      //template: `<li><a :href="'/category/'+nav.name">{{nav.title}}</a></li>`
-      template:`
-       <li role='presentation' v-if='!item.fid'><a href="#">{{item.title}}</a></li>
-       <li role='presentation' v-if='item.fid'>
-          <a href="#" data-toggle="dropdown" data-hover="dropdown" aria-expanded="false">
-            {{item.title}}
-          </a>
-           <ul v-show='item.expanded' class="dropdown">
-               <li v-for='child in item.fid'><a href="#">{{child.title}}</a></li>
-           </ul>
-       </li>
-      `
+      template: `<li :fid="item._id"><a :href="'/category/'+item.name">{{item.title}}</a></li>`
     };
     var marquees ={
       props:['marquee'],
@@ -39,55 +28,10 @@ $(function(){
         nav:[],
         marquee:[],
         article:[],
-        navHtml:'',
-        menus: [{
-                text: '水果',
-                expanded: false,
-                children: [
-                    {
-                        text: '苹果',
-                    },
-                    {
-                        text: '荔枝'
-                    },
-                    {
-                        text: '葡萄'
-                    },
-                    {
-                        text: '火龙果'
-                    }
-                ]
-            },
-            {
-                text: '好吃的',
-                expanded: false,
-                children: [
-                    {
-                        text: '糖',
-
-                    },
-                    {
-                        text: '面包'
-                    },
-                    {
-                        text: '火腿'
-                    },
-                    {
-                        text: '薯片'
-                    },
-                    {
-                        text: '碎碎面'
-                    }
-                ]
-            },
-            {
-                text: '饮料',
-                expanded: false,
-                children: [
-
-                ]
-            }
-        ]
+        navHtml:`<ul class="nav navbar-nav navbar-right main-nav" id="app">
+            <li><a href="https://github.com/js-wei"><i class="fa fa-github"></i></a></li>
+            <li><a href="tel:1358486592"><i class="fa fa-phone"></i></a></li>
+          </ul>`
       },
       created:function(){
           var _self = this;

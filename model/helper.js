@@ -43,55 +43,46 @@ exports.familyTree=(arr, pid)=>{
     forFn(arr, pid);
     return temp;
 }
-/*
-var data=[
-    {id:1,pId:0,cId:1,name:"A"},
-    {id:11,pId:1,cId:1,name:"A1"},
-    {id:12,pId:1,cId:2,name:"A2"},
-    {id:13,pId:1,cId:3,name:"A3"},
-    {id:22,pId:2,cId:2,name:"B2"},
-    {id:31,pId:3,cId:1,name:"C1"},
-    {id:32,pId:3,cId:2,name:"C2"},
-    {id:33,pId:3,cId:3,name:"C3"},
-    {id:2,pId:0,cId:2,name:"B"},
-    {id:21,pId:2,cId:1,name:"B1"},
-    {id:36,pId:31,cId:3,name:"C13"},
-    {id:37,pId:36,cId:1,name:"C131"},
-    {id:23,pId:2,cId:3,name:"B3"},
-    {id:3,pId:0,cId:3,name:"C"},
-    {id:34,pId:31,cId:1,name:"C11"},
-    {id:35,pId:31,cId:2,name:"C12"},
-    {id:38,pId:37,cId:1,name:"C1311"}
-];
- */
-exports.treeMenu=(tree)=>{
-   var newTree = [];
-   var tmp = [];
-   var item = [];
-   //遍历数组，建立临时扁平数据
-   for(var x in tree){
-       item[tree[x].id] = [tree[x].name];
-   }
-   //遍历数组，同时获取每个对象的父节点和子节点数据
-   for(var x in tree){
-       var parentId = tree[x].pId;
-       var childId = tree[x].cId;
-       //该对象的父元素节点在临时数据中的对应位置有数据存在时
-       //说明这是一个二级以上的节点
-       //将它的数据传递给父节点对应的子节点位置
-       if(item[parentId]){
-           item[parentId][childId] = item[tree[x].id];
-       }
-       //如果没有，说明这是一个一级节点，直接传递给最终结果
-       else{
-           newTree.push(item[tree[x].id]);
-       }
-       //因为传递的值为引用值，所以当处理数据时
-       //对子节点进行操作后,同样会反映到父节点中，最后体现在最终结果里
-   }
-   item = null; // 解除临时数据
-   return newTree;
-}
+module.exports.jq = function(){
+    var request = require('request');
+    var jsdom = require("jsdom");
+    var jquery = require('jquery');
+    var $ = jquery(jsdom.jsdom().parentWindow);
+    var Iconv = require('iconv').Iconv;
+
+    $.extend({
+        get: function() {
+            var url, charset, callback;
+            if (arguments.length == 2) {
+                url = arguments[0];
+                charset = null;
+                callback = arguments[1];
+            } else if (arguments.length == 3) {
+                url = arguments[0];
+                charset = arguments[1];
+                callback = arguments[2];
+            }
+            request({uri: url, encoding: 'binary'}, function(error, response, html) {
+                html = new Buffer(html, 'binary');
+                if (charset) {
+                    charset = {gbk:'gbk'}[charset] || 'gbk';
+                    var conv = new Iconv(charset, 'utf8');
+                    html = conv.convert(html);
+                }
+                html = html.toString();
+
+                jsdom.env({
+                    html: html,
+                    done: function (errors, window) {
+                        var result = jquery(window)("html");
+                        callback(result);
+                    }
+                });
+            });
+        }
+    });
+    return $;
+};
 //子孙树，从顶级往下找到是有的子子孙孙
 exports.sonsTree=(arr,id='',mar=10,t='--')=>{
     var temp = [],lev=0;

@@ -1,12 +1,12 @@
-<%include public/header.html%>
+<%include public/header2.html%>
 <div class="container clear-navbar-fixed">
     <div class="row">
       <ol class="breadcrumb">
-        <li><i class="fa fa-map-marker"></i>&nbsp;首页</li>
-        <li>列表</li>
-        <li>Introduction</li>
+        <li><i class="fa fa-map-marker"></i>&nbsp;<a href="/">首页</a></li>
+        <li><a href="/category">列表</a></li>
+        <li><a href="/category/<%=id%>"><%=id%></a></li>
       </ol>
-      <div class="col-md-3 col-xs-6">
+      <!-- <div class="col-md-3 col-xs-6">
         <ul class="nav navbar-nav side-nav">
             <li class="active">
               <span class="nav-header">
@@ -41,64 +41,21 @@
                 </ul>
            </li>
         </ul>
-      </div>
-      <div class="col-md-9 col-xs-6">
-          <div class="media">
-            <div class="col-md-12 media-body">
-              <h3 class="media-heading"><a href="#">Media heading</a></h3>
-              <p><i class="fa fa-user"></i> 魏巍 <i class="fa fa-eye"></i> 250 <i class="fa fa-calendar"></i> 2017-03-24</p>
-              <p>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-              </p>
+      </div> -->
+      <div class="col-md-12 col-xs-12">
+          <%for(i in list){%>
+            <div class="media">
+              <div class="col-md-12 media-body">
+                <h3 class="media-heading"><a href="/topic/<%=list[i]._id%>"><%=list[i].title%></a></h3>
+                <p><i class="fa fa-user"></i> <%=list[i].author%> <i class="fa fa-eye"></i> <%=list[i].hits%> <i class="fa fa-calendar"></i> <%=time(list[i].date,'Y-m-d')%></p>
+                <p>
+                  <%=list[i].description%>
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="media">
-            <div class="col-md-12 media-body">
-              <h3 class="media-heading"><a href="#">Media heading</a></h3>
-              <p><i class="fa fa-user"></i> 魏巍 <i class="fa fa-eye"></i> 250 <i class="fa fa-calendar"></i> 2017-03-24</p>
-              <p>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-              </p>
-            </div>
-          </div>
-          <div class="media">
-            <div class="col-md-12 media-body">
-              <h3 class="media-heading"><a href="#">Media heading</a></h3>
-              <p><i class="fa fa-user"></i> 魏巍 <i class="fa fa-eye"></i> 250 <i class="fa fa-calendar"></i> 2017-03-24</p>
-              <p>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-              </p>
-            </div>
-          </div>
-          <div class="media">
-            <div class="col-md-12 media-body">
-              <h3 class="media-heading"><a href="#">Media heading</a></h3>
-              <p><i class="fa fa-user"></i> 魏巍 <i class="fa fa-eye"></i> 250 <i class="fa fa-calendar"></i> 2017-03-24</p>
-              <p>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-              </p>
-            </div>
-          </div>
-          <nav aria-label="Page navigation">
-            <ul class="pagination">
-              <li>
-                <a href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li>
-                <a href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-        </nav>
+          <%}%>
+          <div class="page"></div>
       </div>
     </div>
 </div>
-<%include public/footer.html%>
+<%include public/footer2.html%>

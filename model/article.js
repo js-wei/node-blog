@@ -34,6 +34,60 @@ ArticleSchema.statics.updateAll=(condition,update,callback)=>{
   });
 };
 
+ArticleSchema.statics.getListWithColunmId=(condition,callback)=>{
+  if(condition.name==0){
+    callback(null,null);
+    return;
+  }
+  mongoose.model('Colunm').findOne(condition,"_id",(e,r)=>{
+      if(e)  callback(e,null);
+      mongoose.model('Article').find({fid:r._id,status:false},'_id title keywords description',(e1,r1)=>{
+          if(e1){
+            callback(e1,null);
+            return;
+          }else{
+            callback(null,r1);
+            return;
+          }
+      }).sort({sorts:1,date:-1});
+  });
+};
+
+
+ArticleSchema.statics.getArticleSee=(condition,callback)=>{
+  if(condition._id==0 || condition._id==undefined){
+    callback('no param _id',null);
+    return;
+  }
+  Article.update(condition,{$inc:{hits:1}},(eu,ru)=>{
+      if(eu){
+        callback(eu,null,null,null);
+        return;
+      }
+  });
+  Article.findOne(condition,(e,a)=>{
+      if(e){
+          callback(e,null,null,null);
+          return;
+      }
+      a.content = helper.decodeHtml(a.content);
+      Article.findOne({_id:{$lt:a._id},status:false},(e1,pre)=>{
+        if(e1){
+            callback(e1,null,null,null);
+            return;
+        }
+        Article.findOne({_id:{$gt:a._id},status:false},(e2,nex)=>{
+          if(e2){
+              callback(e1,null,null,null);
+              return;
+          }
+          callback(null,a,pre,nex);
+        }).limit(1).sort({_id:1});
+      }).limit(1).sort({_id:-1});
+      //res.render('index/article',{a:r});
+  });
+}
+
 ArticleSchema.statics.findOneWithColunms=(condition,callback,condition1)=>{
    if(condition._id==0){
       mongoose.model('Colunm').find(condition1,"_id title fid",(e,r1)=>{
@@ -57,5 +111,26 @@ ArticleSchema.statics.findOneWithColunms=(condition,callback,condition1)=>{
      });
    }
 }
+
+ArticleSchema.statics.getArticleRound=(length,callback)=>{
+  Article.count({status:false},(e,r)=>{
+    let total = r;
+    let promises = [];
+    let skip;
+    for (let i = 0; i < length; i++) {
+    	let skip = Math.round(Math.random() * total);
+    	promises.push(Article.find({},'_id title').skip(skip).limit(1).exec());
+    }
+    Promise.all(promises).then(function (results) {
+      for(i in results){
+          if(results[i][0]){
+              results[i] = results[i][0];
+          }
+      }
+      callback(null,results);
+    });
+  });
+}
+
 
 module.exports = Article =  mongoose.model('Article',ArticleSchema);

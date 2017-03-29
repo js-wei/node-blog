@@ -30,19 +30,18 @@ $(function(){
   $('.share').share({
     sites: ['qzone', 'qq', 'weibo','wechat']
   });
-  let editor = new Simditor({
-      textarea: $('textarea[name="content"]'),
-      placeholder: '请在这里输入评论...',
-      defaultImage: '/plug/simditor/images/image.png',
-      params: {},
-      upload:{
-        url: '/uploadify/upload',
-        params: null,
-        fileKey: 'upload_file',
-        connectionCount: 1,
-        leaveConfirm: '正在上传图片你确定要离开吗?',
-      }
-  });
+  // let editor = new Simditor({
+  //     textarea: $('textarea[name="content"]'),
+  //     placeholder: '请在这里输入评论...',
+  //     defaultImage: '/plug/simditor/images/image.png',
+  //     upload:{
+  //       url: '/uploadify/upload',
+  //       params: null,
+  //       fileKey: 'upload_file',
+  //       connectionCount: 1,
+  //       leaveConfirm: '正在上传图片你确定要离开吗?',
+  //     }
+  // });
 });
 </script>
 </body>

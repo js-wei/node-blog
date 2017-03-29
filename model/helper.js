@@ -27,7 +27,6 @@ exports.decipher = (algorithm, key, encrypted) =>{
     return decrypted
 };
 
-
 //根据最后一个找到整个家族
 exports.familyTree=(arr, pid)=>{
     var temp = [];
@@ -189,7 +188,7 @@ exports.pagination  =(obj,callback,req=null)=>{
     q= obj.search || {},
     col=obj.columns || '';
     var pageNumber=obj.page.num || 1;
-    var resultsPerPage=obj.page.limit || 10;
+    var resultsPerPage=obj.page.limit || config.pagination;
     var order = obj.order || {};
     var populate = obj.populate || '';
     var skipFrom = (pageNumber * resultsPerPage) - resultsPerPage;

@@ -72,6 +72,16 @@ app.locals.time=(nS,format='yyyy-MM-dd h:i:s')=>{
    }
    return format;
 };
+app.locals.decodeHtml=(html)=>{
+  var map = {
+      '&amp;': '&',
+      '&lt;': '<',
+      '&gt;': '>',
+      '&quot;': '"',
+      '&#039;': "'"
+  };
+  return html.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {return map[m];});
+};
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

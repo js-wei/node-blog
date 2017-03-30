@@ -8,6 +8,11 @@ exports.password=(str)=>{
     return md5(str+"$"+config.encrypt).substr(20);
 }
 
+
+exports.delHtmlTag=(str)=>{
+    return str.replace(/<[^>]+>/g,"");
+}
+
 //加密
 exports.cipher = (algorithm, key, buf)=>{
     var encrypted = "";
@@ -126,6 +131,20 @@ exports.getDom=()=>{
       }
   }
 };
+
+site=(callback)=>{
+    let Config = require('./Config');
+    Config.findOne({},(e,r)=>{
+        if(e) callback(e,null);
+        callback(null,r);
+    });
+};
+
+site((e,r)=>{
+	exports._site = r;
+});
+
+
 
 //获取IP
 // require('externalip')(function (err, ip) {
@@ -264,7 +283,6 @@ exports.map = (req,more)=>{
     delete query['p'];
     if((json.length>2)){
         let s = json.replace('{,','{');
-        console.log(s);
         s = eval('(' + s + ')');
         return {param:s,search:query};
     }else{

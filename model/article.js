@@ -84,7 +84,6 @@ ArticleSchema.statics.getArticleSee=(condition,callback)=>{
           callback(null,a,pre,nex);
         }).limit(1).sort({_id:1});
       }).limit(1).sort({_id:-1});
-      //res.render('index/article',{a:r});
   });
 }
 
@@ -112,14 +111,19 @@ ArticleSchema.statics.findOneWithColunms=(condition,callback,condition1)=>{
    }
 }
 
-ArticleSchema.statics.getArticleRound=(length,callback)=>{
-  Article.count({status:false},(e,r)=>{
-    let total = r;
-    let promises = [];
-    let skip;
+ArticleSchema.statics.getArticleRound=(condition,length,callback)=>{
+  condition = condition || {status:false};
+  Article.count(condition,(e,r)=>{
+    let total = r,promises = [], skip=0,arr=[];
     for (let i = 0; i < length; i++) {
     	let skip = Math.round(Math.random() * total);
-    	promises.push(Article.find({},'_id title').skip(skip).limit(1).exec());
+      if(arr.findIndex((v,i)=>{return v==skip;})>-1){
+        //--i;
+        continue;
+      }else{
+          arr.push(skip);
+          promises.push(Article.find({},'_id title date hits').skip(skip).limit(1).exec());
+      }
     }
     Promise.all(promises).then(function (results) {
       for(i in results){
@@ -131,6 +135,5 @@ ArticleSchema.statics.getArticleRound=(length,callback)=>{
     });
   });
 }
-
 
 module.exports = Article =  mongoose.model('Article',ArticleSchema);

@@ -7,22 +7,30 @@ $(function(){
       props:['article'],
       template:`<div class="col-md-3 col-sm-6 col-xs-12 feature-item">
                <a :href="'/topic/'+article._id">
-              <h2><!--<i class="fa fa-flask"></i>-->{{article.title}}</h2>
-              <p>{{article.description}}</p>
+              <h2 v-text="article.title"><!--<i class="fa fa-flask"></i>--></h2>
+              <p v-html="article.content.substring(0,120)"></p>
             </a>
         </div>`
     };
     let _round={
       props:['item'],
       template:`<li><a :href="'/topic/'+item._id" v-text="item.title"></a></li>`
+    },
+    _meta = {
+      props:['item'],
+      template:`<meta name="keywords" content="item.keywords" />
+      <meta name="description" content="item.keywords" />`
     };
+
     // 创建根实例
     new Vue({
       el: '.main-body',
       components:{
         'marquee':marquees,
         'arclist':articles,
-        'round':_round
+        'round':_round,
+        'recommend':_round,
+        'mates':_meta
       },
       data: {
         nav:[],
@@ -31,10 +39,10 @@ $(function(){
         navHtml:'',
         rounds:[],
         com:[],
-        category:''
+        category:'',
       },
       created:function(){
-          var _self = this;
+          let _self = this;
           axios.get('/colunm')
           .then(response=>{
             _self.navHtml = response.data;
@@ -59,9 +67,17 @@ $(function(){
           })
           .catch(function (error) {
           });
+          axios.get(`/com`)
+          .then(function(response){
+              _self.com = response.data;
+          })
+          .catch(function (error) {
+          });
       },
       methods:{
-
+        delHtmlTag:(str)=>{
+            return s.replace(/<(?:.|\s)*?>/g,"");
+        }
       }
   });
 });

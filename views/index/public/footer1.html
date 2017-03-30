@@ -20,16 +20,6 @@
 <script src="/plug/share.js/dist/js/jquery.share.min.js"></script>
 <script type="text/javascript">
 $(function(){
-  $(document).on('mouseover','.feature-item',function(){
-      $(this).addClass('active');
-      $(this).find('h2,p').addClass('active');
-  }).on('mouseout','.feature-item',()=>{
-      $('.feature-item').removeClass('active');
-      $('.feature-item').find('h2,p').addClass('active');
-  });
-  $('.share').share({
-    sites: ['qzone', 'qq', 'weibo','wechat']
-  });
   // let editor = new Simditor({
   //     textarea: $('textarea[name="content"]'),
   //     placeholder: '请在这里输入评论...',

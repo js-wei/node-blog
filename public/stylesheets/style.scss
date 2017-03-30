@@ -18,6 +18,13 @@ $headings: (0: darkred, 1:darkgreen, 2: #e6522c);
   padding:0px;
 }
 .navbar-jumbotron {
+    nav{
+      .navbar-header{
+        a{
+          text-transform: uppercase;
+        }
+      }
+    }
     .navbar-brand{
       margin-top:nth($square,4);
       height:$navbar;
@@ -33,7 +40,6 @@ $headings: (0: darkred, 1:darkgreen, 2: #e6522c);
         margin-top:nth($square,3);
         letter-spacing: 1px;
         font-family:$fontFamily;
-        text-transform:capitalize;
         li.open{
           a{
             background-color:lighten(#101010,8%);
@@ -46,6 +52,7 @@ $headings: (0: darkred, 1:darkgreen, 2: #e6522c);
             display: block;
             padding: 28px 15px;
             color:nth($baseColor,1);
+            text-transform:uppercase;
             &:hover{
               color:nth($baseColor,2);
             }
@@ -140,39 +147,47 @@ $headings: (0: darkred, 1:darkgreen, 2: #e6522c);
     font-family:$fontFamily;
     font-weight: 300;
     cursor: pointer;
-    min-height:250px;
-    .fa {
+    height:300px;
+    overflow:hidden;
+    .fa{
         margin-right: 5px;
         color:nth($baseColor,3);
     }
-    h2 {
-        color: $fontColor;
-        font-weight: 300;
-        font-size: 25px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: normal;
-    }
     a{
+      min-height:250px;
+      overflow:hidden;
+      display:block;
+      h2 {
+          color: $fontColor;
+          font-weight: 300;
+          font-size: 25px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: normal;
+      }
        text-decoration: none;
        color: none;
        margin-left:nth($square,3);
        p{
+           height:250px;
+           overflow:hidden;
            font-size: 16px;
            line-height: 1.8em;
            text-rendering: optimizeLegibility;
            -webkit-font-smoothing: antialiased;
            color: $fontColor;
+           word-wrap:break-word;
        }
     }
 }
 .feature-item.active{
-  background-color:lighten(nth($baseColor,3),25%);
-  h2.active{
-    color:nth($baseColor,1)
-  }
+   background-color:lighten(nth($baseColor,3),25%);
+   padding-bottom:20px;
   a{
+    h2.active{
+      color:nth($baseColor,1)
+    }
     p.active{
       color:nth($baseColor,1)
     }

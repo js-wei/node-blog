@@ -1,4 +1,5 @@
 <%include public/header.html%>
+<%=_url%>
 <div class="jumbotron">
   <div class="container">
     <h1>From metrics to insight</h1>
@@ -12,13 +13,13 @@
 <div class="newsbar">
   <div id="marquee">
     <ul>
-        <marquee v-for="item in marquee" v-bind:marquee="item"></marquee>
+        <marquee v-for="item in marquee" v-bind:marquee="item" :key="item._id"></marquee>
     </ul>
   </div>
 </div>
 <div class="container">
   <div class="row">
-    <arclist v-for="item in article" v-bind:article="item"></arclist>
+    <arclist v-for="item in article" v-bind:article="item" :key="item._id"></arclist>
   </div>
   <hr>
   <div class="row">

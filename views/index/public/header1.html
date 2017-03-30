@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>我的博客</title>
+    <title><%if(_title!=null){%><%=_title%>-<%}%><%=_site.title%></title>
+    <meta name="keywords" content="<%=_site.keywords%>" />
+    <meta name="description" content="<%=_site.description%>" />
     <link rel="stylesheet" href="/plug/beyond/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="/plug/beyond/js/jquery.min.js"></script>
     <script src="/plug/beyond/js/bootstrap.min.js"></script>
-    <script src="/scripts/duoji.js" charset="utf-8"></script>
+    <script src="/plug/beyond/js/bootstrap-paginator.min.js"></script>
     <script src="https://unpkg.com/vue@2.2.4/dist/vue.js" charset="utf-8"></script>
     <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="/scripts/app.js" charset="utf-8"></script>
     <script src="http://localhost:35729/livereload.js"></script>
   </head>
   <body>

@@ -5,9 +5,10 @@ helper = require('../model/helper');
 
 router.use((req,res,next)=>{
   res.locals._url=req._parsedOriginalUrl.pathname;
+  res.locals._site=helper._site;
+  res.locals._title=null;
   next();
 });
-
 router.get('/', function(req, res, next){
   res.render('index');
 })
@@ -49,24 +50,30 @@ router.get('/', function(req, res, next){
   });
 })
 .get('/marquee',(req,res)=>{
-  let Article = require('../model/article');
+  let Article = require('../model/article'),
+  length = req.query.length || 10;
   Article.find({status:false},'_id title',(e,r)=>{
-       if(e){
-         res.json({msg:e});
-         return;
-       }
-       res.json(r);
+     if(e){
+       res.json({msg:e});
        return;
-  }).sort({date:-1});
+     }
+     res.json(r);
+  }).sort({date:-1}).limit(length);
 })
 .get('/article',(req,res)=>{
   let l = parseInt(req.query.limit) || 8;
   let o = (req.query.order=='desc')?-1:1 || -1;
   let Article = require('../model/article');
-  Article.find({status:false},'_id title description',(e,r)=>{
+  Article.find({status:false,recover:false},'_id title description content',(e,r)=>{
        if(e){
          res.json({msg:e});
          return;
+       }
+       for (var i = 0; i < r.length; i++) {
+         let html = helper.decodeHtml(r[i].content);
+         html = helper.delHtmlTag(html).substring(0,150);
+         r[i].content = html;
+         //r[i].content = helper.delHtmlTag(helper.decodeHtml(r[i].content));
        }
        res.json(r);
        return;
@@ -88,19 +95,20 @@ router.get('/', function(req, res, next){
   search = JSON.parse(search);
   //查看哪页
   page['num']=p<1 || p==undefined?1:p;
-  var model = {
-      order:{sorts:1,date:-1},
-      search:search,
-      columns:'_id title author keywords description hits date ',
-      page:page,
-      model:Article
-  };
 
   Colunm.findOne({name:id},'_id',(e,r)=>{
       if(e){
          res.josn({msg:e});
          return;
       }
+      var model = {
+          order:{sorts:1,date:-1},
+          search:{fid:r._id,status:false,recover:false},
+          columns:'_id title author keywords description hits date ',
+          page:page,
+          model:Article
+      };
+
       helper.pagination(model,(err,pageCount,list)=>{
           page['pageCount']=pageCount;
           page['size']=list.length;
@@ -130,19 +138,19 @@ router.get('/', function(req, res, next){
   search = JSON.parse(search);
   //查看哪页
   page['num']=p<1?1:p;
-  var model = {
-      order:{sorts:1,date:-1},
-      search:search,
-      columns:'_id title author keywords description hits date ',
-      page:page,
-      model:Article
-  };
 
   Colunm.findOne({name:id},'_id',(e,r)=>{
       if(e){
          res.josn({msg:e});
          return;
       }
+      var model = {
+          order:{sorts:1,date:-1},
+          search:{fid:r._id,status:false,recover:false},
+          columns:'_id title author keywords description hits date ',
+          page:page,
+          model:Article
+      };
       helper.pagination(model,(err,pageCount,list)=>{
           page['pageCount']=pageCount;
           page['size']=list.length;
@@ -172,19 +180,19 @@ router.get('/', function(req, res, next){
   search = JSON.parse(search);
   //查看哪页
   page['num']=p<1||p==undefined?1:p;
-  var model = {
-      order:{sorts:1,date:-1},
-      search:search,
-      columns:'_id title author keywords description hits date ',
-      page:page,
-      model:Article
-  };
 
   Colunm.findOne({name:id},'_id',(e,r)=>{
       if(e){
          res.josn({msg:e});
          return;
       }
+      var model = {
+          order:{sorts:1,date:-1},
+          search:{fid:r._id,status:false,recover:false},
+          columns:'_id title author keywords description hits date ',
+          page:page,
+          model:Article
+      };
       helper.pagination(model,(err,pageCount,list)=>{
           page['pageCount']=pageCount;
           page['size']=list.length;
@@ -203,38 +211,37 @@ router.get('/', function(req, res, next){
     id = req.params.id,
     Colunm =require('../model/colunm'),
     length = req.params.length || 5;
-
     Article.getArticleSee({_id:id},(e,arc,pre,nex)=>{
+      res.locals._title = arc.title;
       let title = arc.title.split(' '),
       json='';
       for (var j in title) {
-          console.log(title[j]);
-          json += `,{"title":"${new RegExp(title[j])}"}`;
+          json += `,{"title":${new RegExp(title[j])}}`;
       }
-      json = `{"fid":"${arc.fid}","$or":[`+json.substring(1);
+      json = `{"$or":[`+json.substring(1);
       json +=`]}`;
-      let where = JSON.parse(json);
-      console.log(where);
-      Article.find(where,(e1,r1)=>{
-          console.log(r1);
-      }).limit(length);
-      res.render('index/article',{a:arc,pre:pre,nex});
+      let where = eval('(' + json + ')');
+      req.session._fid=arc.fid;
+      Article.find(where,'_id title',(e1,r1)=>{
+        res.render('index/article',{a:arc,pre:pre,nex,com:r1});
+      }).limit(length).sort({date:-1});
     });
 })
 .get('/round',(req,res)=>{
   let Article = require('../model/article'),
-  length = req.params.length || 5;
-  Article.getArticleRound(length,(e,r)=>{
+  length = req.query.length || 5;
+  Article.getArticleRound({status:false,recover:false},length,(e,r)=>{
+      if(e) res.json(e);
       res.json(r);
   });
 })
-.get('/like',(req,res)=>{
+.get('/com',(req,res)=>{
   let Article = require('../model/article'),
-  length = req.params.length || 5,
-  Colunm =require('../model/colunm');
-  Colunm.findOne({_id});
-  Article.find({},(e,r)=>{
+  length = req.query.length || 5,
+  Colunm =require('../model/colunm'),
+  _fid = req.session._fid;
+  Article.getArticleRound({fid:_fid,status:false,recover:false},5,(e,r)=>{
       res.json(r);
-  }).limit(length);
+  });
 });
 module.exports = router;

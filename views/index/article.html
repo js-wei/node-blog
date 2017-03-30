@@ -1,4 +1,4 @@
-<%include public/header.html%>
+<%include public/header1.html%>
 <div class="container clear-navbar-fixed">
     <div class="row">
         <ol class="breadcrumb">
@@ -37,26 +37,27 @@
                   <%}%>
                 </div>
               </div>
-
           </div>
         </div>
         <div class="col-md-4 left">
           <div class="left-item">
             <h3 class="title-0">栏目推荐</h3>
             <ul>
-
+              <recommend v-for="(item,i) in com" v-bind:item="item"  :key="item._id"></recommend>
             </ul>
           </div>
           <div class="left-item">
             <h3 class="title-1">相关推荐</h3>
             <ul>
-              <li><a href="#">美轰炸机进入东海防空识别区 中方回应</a></li>
+              <%for(i in com){%>
+                  <li><a href="/topic/<%=com[i]._id%>"><%=com[i].title%></a></li>
+              <%}%>
             </ul>
           </div>
           <div class="left-item">
             <h3 class="title-2">随机推荐</h3>
             <ul>
-              <round v-for="item in rounds" v-bind:item="item"></round>
+              <round v-for="(item,i) in rounds" v-bind:item="item"  :key="item._id"></round>
             </ul>
           </div>
        </div>

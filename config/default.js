@@ -9,5 +9,5 @@ module.exports = {
   },
   encrypt:'jswei30',    //加密字符串
   mongodb: 'mongodb://localhost:27017/blog',
-  pagination:5
+  pagination:10
 };

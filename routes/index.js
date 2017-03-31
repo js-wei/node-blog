@@ -10,7 +10,21 @@ router.use((req,res,next)=>{
   next();
 });
 router.get('/', function(req, res, next){
-  res.render('index');
+  let l = parseInt(req.query.limit) || 12;
+  let o = (req.query.order=='desc')?1:-1 || -1;
+  let Article = require('../model/article');
+  Article.find({status:false,recover:false},'_id title description content',(e,r)=>{
+       if(e){
+         res.send(404);
+         return;
+       }
+       for (var i = 0; i < r.length; i++) {
+         let html = helper.decodeHtml(r[i].content);
+         html = helper.delHtmlTag(html).substring(0,150);
+         r[i].content = html;
+       }
+       res.render('index',{arc:r});
+  }).sort({_id:o}).limit(l);
 })
 .get('/colunm',(req, res)=>{
   let Colunm = require('../model/colunm'),
@@ -58,11 +72,10 @@ router.get('/', function(req, res, next){
        return;
      }
      res.json(r);
-  }).sort({date:-1}).limit(length);
+  }).sort({_id:-1}).limit(length);
 })
 .get('/article',(req,res)=>{
-  let l = parseInt(req.query.limit) || 8;
-  let o = (req.query.order=='desc')?-1:1 || -1;
+  let l = parseInt(req.query.limit) || 12;
   let Article = require('../model/article');
   Article.find({status:false,recover:false},'_id title description content',(e,r)=>{
        if(e){
@@ -77,7 +90,7 @@ router.get('/', function(req, res, next){
        }
        res.json(r);
        return;
-  }).sort({date:o}).limit(l);
+  }).sort({_id:-1}).limit(l);
 })
 .get('/category',(req,res)=>{
   let id = req.query.id || 'html',

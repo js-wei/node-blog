@@ -133,7 +133,7 @@ exports.getDom=()=>{
 };
 
 site=(callback)=>{
-    let Config = require('./Config');
+    let Config = require('./config');
     Config.findOne({},(e,r)=>{
         if(e) callback(e,null);
         callback(null,r);

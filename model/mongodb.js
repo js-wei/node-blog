@@ -27,8 +27,9 @@ version=(callback)=>{
 	var child_process = require('child_process');
 	var command = 'mongo --eval "db.version()"';
 	child_process.exec(command, function (err, stdout, stderr) {
-			var ver = stdout.split('\r\n');
-	    callback(ver[3]);
+			stdout = stdout.split('\n') || stdout.split('\r\n');
+			stdout = stdout[3];
+	    callback(stdout);
 	});
 }
 express = (callback)=>{

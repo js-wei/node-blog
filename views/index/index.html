@@ -1,5 +1,4 @@
 <%include public/header.html%>
-<%=_url%>
 <div class="jumbotron">
   <div class="container">
     <h1>From metrics to insight</h1>
@@ -13,7 +12,9 @@
 <div class="newsbar">
   <div id="marquee">
     <ul>
-        <marquee v-for="item in marquee" v-bind:marquee="item" :key="item._id"></marquee>
+        <%for(i in arc){%>
+            <li><a href="/topic/<%=arc[i]._id%>"><%=arc[i].title%></a></li>
+        <%}%>
     </ul>
   </div>
 </div>
@@ -25,7 +26,7 @@
   <div class="row">
     <div class="col-md-12 quote">
       <p class="quote-text text-center">
-        «本博客是使用<code>NodeJS</code>进行开发,部署在Linux系统中的,本博客系统主要是基于Express4.x和ejx模板引擎开发的.在前台数据的展示采用的是<code>Vue</code>框架进行显示的,使系统达到最优化 [...]»
+        «本博客是使用<code>NodeJS</code>进行开发,部署在Linux系统中的,本博客系统主要是基于Express4.x和ejs模板引擎开发的.在前台数据的展示采用的是<code>Vue</code>框架进行显示的,使系统达到最优化 [...]»
       </p>
       <p class="quote-source text-center">
         —<a href="https://github.com/js-wei/node-blog"><b>获取源码:</b>https://github.com/js-wei/node-blog</a> (js-wei)

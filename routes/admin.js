@@ -115,8 +115,8 @@ router.get('/captcha',function(req,res,next){
 router.use(function (req, res, next) {
 
     if(req.session._name=='' || req.session._name==null){
-        //res.redirect('/admin');
-        //res.end(200);
+        res.redirect('/admin');
+        res.end(200);
     }
     res.locals.filter={
         key1:{
@@ -163,12 +163,27 @@ router.get('/index',(req,res)=>{
         'vtpl':mongodb.templete.version,
         'size':mongodb.size
     };
-    var Config = require('../model/config');
+    var Config = require('../model/config'),
+    Comment = require('../model/comment'),
+    Colunm = require('../model/colunm');
     Config.findOne({},(e,r)=>{
       if(e){
           res.end(e);
+          return;
       }
-      res.render('admin/index/index',{os:data,site:r});
+      Comment.count({see:false},(e1,r1)=>{
+        if(e){
+            res.end(e);
+            return;
+        }
+        Colunm.count({},(e2,r2)=>{
+          if(e){
+              res.end(e);
+              return;
+          }
+          res.render('admin/index/index',{os:data,site:r,comm:r1,col:r2});
+        });
+      });
     });
 });
 //友情链接
@@ -183,9 +198,8 @@ router.get('/link',(req,res)=>{
     var Link = require('../model/link');
     var page={limit:15,num:1};
     //查看哪页
-    if(req.query.p){
-        page['num']=req.query.p<1?1:req.query.p;
-    }
+    let p = req.query.p;
+    page['num']=p<1 || p==undefined?1:p;
     var model = {
         order:{date:-1},
         search:search,
@@ -256,9 +270,8 @@ router.get('/carousel',(req,res)=>{
     var Carousel = require('../model/carousel');
     var page={limit:15,num:1};
     //查看哪页
-    if(req.query.p){
-        page['num']=req.query.p<1?1:req.query.p;
-    }
+    let p = req.query.p;
+    page['num']=p<1 || p==undefined?1:p;
     var model = {
         order:{date:-1},
         search:search,
@@ -342,9 +355,8 @@ router.get('/comment',(req,res)=>{
 
     var page={limit:15,num:1};
     //查看哪页
-    if(req.query.p){
-        page['num']=req.query.p<1?1:req.query.p;
-    }
+    let p = req.query.p;
+    page['num']=p<1 || p==undefined?1:p;
     var model = {
         order:{date:-1},
         search:q,
@@ -382,9 +394,8 @@ router.get('/message',(req,res)=>{
 
       var page={limit:15,num:1};
       //查看哪页
-      if(req.query.p){
-          page['num']=req.query.p<1?1:req.query.p;
-      }
+      let p = req.query.p;
+      page['num']=p<1 || p==undefined?1:p;
       var model = {
           order:{date:-1},
           search:q,
@@ -446,7 +457,7 @@ router.post('/add_message',(req,res)=>{
 router.get('/profile',(req,res)=>{
     res.locals.title=res.locals.title1="个人信息";
     var Admin = require('../model/admin');
-    var id = req.session._id || '58c243d004ced81ffc244931';
+    var id = req.session._id;
     Admin.findOne({_id:id},(e,r)=>{
         if(e) console.log(e);
         res.render('admin/profile/index',{user:r});
@@ -484,7 +495,6 @@ router.post('/profile',(req,res)=>{
         res.json({'status':1,'msg':'修改成功','redirect':'/admin'});
     });
 });
-
 
 //网站配置
 router.get('/config',(req,res)=>{
@@ -586,9 +596,9 @@ router.get('/article',(req,res)=>{
     var page={limit:15,num:1};
     var Article = require('../model/article');
     //查看哪页
-    if(req.query.p){
-        page['num']=req.query.p<1?1:req.query.p;
-    }
+    let p = req.query.p;
+    page['num']=p<1 || p==undefined?1:p;
+
     var model = {
         order:{date:-1},
         search:q,
@@ -656,9 +666,8 @@ router.get('/recover',(req,res)=>{
     var page={limit:15,num:1};
     var Article = require('../model/article');
     //查看哪页
-    if(req.query.p){
-        page['num']=req.query.p<1?1:req.query.p;
-    }
+    let p = req.query.p;
+    page['num']=p<1 || p==undefined?1:p;
     var model = {
         order:{rdate:-1},
         search:q,

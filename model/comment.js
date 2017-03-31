@@ -8,6 +8,7 @@ var CommentSchema = new Schema({
   image:{type:String,default:''},
   content:{type:String,default:''},
   send_ip:{type:String,default:''},
+  see:{type:Boolean,default:false},
   status:{type:Boolean,default:true},
   date:{type:String,default:Date.now()}
 },{versionKey:false});

@@ -11,8 +11,8 @@
                     </div>
                 </div>
                 <div class="databox-right">
-                    <span class="databox-number themesecondary">14</span>
-                    <div class="databox-text darkgray"><a href="{:Url('column/index')}">栏目</a></div>
+                    <span class="databox-number themesecondary"><%=col%></span>
+                    <div class="databox-text darkgray"><a href="/column">栏目</a></div>
                 </div>
             </div>
         </div>
@@ -24,12 +24,12 @@
                     </div>
                 </div>
                 <div class="databox-right">
-                    <span class="databox-number themethirdcolor">1</span>
-                    <div class="databox-text darkgray"><a href="{:Url('comment/index')}">新评论</a></div>
+                    <span class="databox-number themethirdcolor"><%=comm%></span>
+                    <div class="databox-text darkgray"><a href="/comment">新评论</a></div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="databox radius-bordered databox-shadowed databox-graded">
                 <div class="databox-left bg-themeprimary">
                     <div class="databox-piechart">
@@ -54,7 +54,8 @@
                     <div class="databox-text darkgray"><a href="{:Url('order/index')}">订单</a></div>
                 </div>
             </div>
-        </div>
+        </div> -->
+        <div class="clearfix"></div>
         <div class="col-xs-12 col-md-6">
 	        <div class="well with-header  with-footer">
 	            <div class="header bg-blue">
@@ -319,9 +320,11 @@
 </div>
 <script src="/plug/beyond/js/toastr/toastr.js"></script>
 <script type="text/javascript">
+    <%if(comm){%>
     $(function(){
         Notify('你有新的消息请注意查收.', 'bottom-right', '5000', 'danger', 'fa-envelope-o', true);
     });
+    <%}%>
     function current(){
         var d=new Date(),str='';
         str +=d.getFullYear()+'年'; //获取当前年份

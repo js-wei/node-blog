@@ -8,18 +8,13 @@ $(function(){
       template:`<div class="col-md-3 col-sm-6 col-xs-12 feature-item">
                <a :href="'/topic/'+article._id">
               <h2 v-text="article.title"><!--<i class="fa fa-flask"></i>--></h2>
-              <p v-html="article.content.substring(0,120)"></p>
+              <p v-html="article.content.substring(0,110)"></p>
             </a>
         </div>`
     };
     let _round={
       props:['item'],
       template:`<li><a :href="'/topic/'+item._id" v-text="item.title"></a></li>`
-    },
-    _meta = {
-      props:['item'],
-      template:`<meta name="keywords" content="item.keywords" />
-      <meta name="description" content="item.keywords" />`
     };
 
     // 创建根实例
@@ -30,7 +25,6 @@ $(function(){
         'arclist':articles,
         'round':_round,
         'recommend':_round,
-        'mates':_meta
       },
       data: {
         nav:[],
@@ -38,8 +32,7 @@ $(function(){
         article:[],
         navHtml:'',
         rounds:[],
-        com:[],
-        category:'',
+        com:[]
       },
       created:function(){
           let _self = this;

@@ -17,6 +17,17 @@ $headings: (0: darkred, 1:darkgreen, 2: #e6522c);
   margin:0px;
   padding:0px;
 }
+table{
+    border:1px solid lighten(nth($baseColor,2),30%);
+    width:100%;
+    tr{
+      td,th{
+        line-height:50px;
+        padding-left:10px;
+        border:1px solid lighten(nth($baseColor,2),30%);
+      }
+    }
+}
 .navbar-jumbotron {
     nav{
       .navbar-header{
@@ -116,15 +127,15 @@ $headings: (0: darkred, 1:darkgreen, 2: #e6522c);
     font-size: 24px;
     font-weight: 300;
     margin-bottom: 50px;
-    div#marquee{
-      height:25px;
+    #marquee{
+      height:45px;
       overflow:hidden;
       ul{
         list-style-type:none;
         li{
           float:left;
           padding:0 10px;
-          line-height:25px;
+          line-height:45px;
           a{
               color:nth($baseColor,3);
               &:hover{

@@ -115,8 +115,8 @@ router.get('/captcha',function(req,res,next){
 router.use(function (req, res, next) {
 
     if(req.session._name=='' || req.session._name==null){
-        res.redirect('/admin');
-        res.end(200);
+        //res.redirect('/admin');
+        //res.end(200);
     }
     res.locals.filter={
         key1:{

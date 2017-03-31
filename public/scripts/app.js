@@ -73,4 +73,30 @@ $(function(){
         }
       }
   });
+  if($('table:first tr').find('th:nth-child(2)').text()=='十六进制颜色值'){
+    $('table tr').each(function(index, el) {
+       let color = $(this).find('td:nth-child(2)').text();
+       if(color!=''){
+         $(this).find('td:nth-child(3)').css({'background-color':color});
+       }
+    });
+  }
+  if($('table:first tr').find('th:nth-child(2)').text()=='Color HEX') {
+    $('table tr').each(function(index, el) {
+       let color = $(this).find('td:nth-child(2)').text();
+       if(color!=''){
+         $(this).find('td:nth-child(1)').css({'background-color':color});
+       }
+    });
+  }
+  if($('table:eq(2) tr th').length==6) {
+
+    $('table:eq(2) tr th,table:eq(2) tr td').each(function(index, el) {
+       let color = $(this).text();
+       console.log(color);
+       if(color!=''){
+         $(this).css({'background-color':"#"+color});
+       }
+    });
+  }
 });

@@ -50,7 +50,7 @@ router.get('/', function(req, res, next){
 						}
 					}
        });
-       let m ='<li><a href="https://github.com/js-wei"><i class="fa fa-github"></i></a></li><li><a href="tel:1358486592"><i class="fa fa-phone"></i></a></li>';
+       let m ='<li><a href="https://github.com/js-wei" title="访问我的github"><i class="fa fa-github"></i></a></li><li><a href="tel:1358486592" title="使用Skype联系我"><i class="fa fa-phone"></i></a></li>';
        $(".main-nav").append(m);
       $('a[data-toggle="dropdown"]').each(function(){
           if(!$(this).siblings('ul.dropdown-menu').length){

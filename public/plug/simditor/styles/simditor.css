@@ -180,9 +180,8 @@
 .simditor .simditor-wrapper.toolbar-floating .simditor-toolbar {
   position: fixed;
   top: 0;
-  z-index: 999;
+  z-index: 100;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-  padding-top:40px;
 }
 .simditor .simditor-wrapper .simditor-image-loading {
   width: 100%;
@@ -526,7 +525,7 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   border-radius: 2px;
   position: absolute;
-  z-index: 2;
+  z-index: 200;
 }
 .simditor .simditor-popover .settings-field {
   margin: 0 0 5px 0;

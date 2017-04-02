@@ -199,9 +199,9 @@ router.get('/link',(req,res)=>{
     var page={limit:15,num:1};
     //查看哪页
     let p = req.query.p;
-    page['num']=p<1 || p==undefined?1:p;
+    page['num']=res.locals._p;
     var model = {
-        order:{date:-1},
+        order:{_id:-1},
         search:search,
         columns:'',
         page:page,
@@ -271,9 +271,9 @@ router.get('/carousel',(req,res)=>{
     var page={limit:15,num:1};
     //查看哪页
     let p = req.query.p;
-    page['num']=p<1 || p==undefined?1:p;
+    page['num']=res.locals._p;
     var model = {
-        order:{date:-1},
+        order:{_id:-1},
         search:search,
         columns:'',
         page:page,
@@ -356,9 +356,9 @@ router.get('/comment',(req,res)=>{
     var page={limit:15,num:1};
     //查看哪页
     let p = req.query.p;
-    page['num']=p<1 || p==undefined?1:p;
+     page['num']=res.locals._p;
     var model = {
-        order:{date:-1},
+        order:{_id:-1},
         search:q,
         columns:'',
         page:page,
@@ -395,9 +395,9 @@ router.get('/message',(req,res)=>{
       var page={limit:15,num:1};
       //查看哪页
       let p = req.query.p;
-      page['num']=p<1 || p==undefined?1:p;
+      page['num']=res.locals._p;
       var model = {
-          order:{date:-1},
+          order:{_id:-1},
           search:q,
           columns:'',
           page:page
@@ -596,11 +596,9 @@ router.get('/article',(req,res)=>{
     var page={limit:15,num:1};
     var Article = require('../model/article');
     //查看哪页
-    let p = req.query.p;
-    page['num']=p<1 || p==undefined?1:p;
-
+    page['num']=res.locals._p;
     var model = {
-        order:{date:-1},
+        order:{_id:-1},
         search:q,
         columns:'',
         page:page,
@@ -667,9 +665,9 @@ router.get('/recover',(req,res)=>{
     var Article = require('../model/article');
     //查看哪页
     let p = req.query.p;
-    page['num']=p<1 || p==undefined?1:p;
+    page['num']=res.locals._p;
     var model = {
-        order:{rdate:-1},
+        order:{_id:-1},
         search:q,
         columns:'',
         page:page,

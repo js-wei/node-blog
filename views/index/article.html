@@ -22,14 +22,14 @@
                 <%-a.content%>
               </div>
               <div class="col-md-12">
-                <div class="col-md-6">
+                <div class="col-md-6 pager">
                   <%if(pre!=null){%>
                       上一条:<a href="/topic/<%=pre._id%>"><%=pre.title%></a>
                   <%}else{%>
                       上一条:没有了
                   <%}%>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 pager">
                   <%if(nex!=null){%>
                       下一条:<a href="/topic/<%=nex._id%>"><%=nex.title%></a>
                   <%}else{%>

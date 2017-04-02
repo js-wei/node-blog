@@ -122,7 +122,7 @@ ArticleSchema.statics.getArticleRound=(condition,length,callback)=>{
         continue;
       }else{
           arr.push(skip);
-          promises.push(Article.find({},'_id title date hits').skip(skip).limit(1).exec());
+          promises.push(Article.find(condition,'_id title date hits').skip(skip).limit(1).exec());
       }
     }
     Promise.all(promises).then(function (results) {

@@ -237,13 +237,14 @@ router.get('/', function(req, res, next){
       req.session._fid=arc.fid;
       Article.find(where,'_id title',(e1,r1)=>{
         res.render('index/article',{a:arc,pre:pre,nex,com:r1});
-      }).limit(length).sort({date:-1});
+      }).limit(length).sort({_id:-1});
     });
 })
 .get('/round',(req,res)=>{
   let Article = require('../model/article'),
-  length = req.query.length || 5;
-  Article.getArticleRound({status:false,recover:false},length,(e,r)=>{
+  length = req.query.length || 5,
+  _fid = req.session._fid;
+  Article.getArticleRound({fid:_fid,status:false,recover:false},length,(e,r)=>{
       if(e) res.json(e);
       res.json(r);
   });

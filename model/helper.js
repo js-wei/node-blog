@@ -1,3 +1,14 @@
+/**
+ * @Author: 魏巍
+ * @Date:   2017-12-03T12:17:55+08:00
+ * @Email:  jswei30@gmail.com
+ * @Filename: helper.js
+ * @Last modified by:   魏巍
+ * @Last modified time: 2017-12-03T12:24:15+08:00
+ */
+
+
+
 var config = require('config-lite'),
 md5 = require('md5'),
 crypto = require('crypto');

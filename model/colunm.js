@@ -1,3 +1,14 @@
+/**
+ * @Author: 魏巍
+ * @Date:   2017-12-03T12:17:55+08:00
+ * @Email:  jswei30@gmail.com
+ * @Filename: colunm.js
+ * @Last modified by:   魏巍
+ * @Last modified time: 2017-12-03T12:24:01+08:00
+ */
+
+
+
 var mongoose = require('./db'),
 helper = require('../model/helper');
 

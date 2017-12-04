@@ -1,3 +1,14 @@
+/**
+ * @Author: 魏巍
+ * @Date:   2017-12-03T12:18:04+08:00
+ * @Email:  jswei30@gmail.com
+ * @Filename: users.js
+ * @Last modified by:   魏巍
+ * @Last modified time: 2017-12-03T12:25:25+08:00
+ */
+
+
+
 var express = require('express');
 var router = express.Router();
 
@@ -19,13 +30,6 @@ get('/register',(req,res)=>{
         }
         res.json(r);
     });
-    // admin.save((e,r)=>{
-    //     if(e){
-    //       res.json(e);
-    //       return;
-    //     }
-    //     res.json(r);
-    // });
 });
 
 module.exports = router;

@@ -1,3 +1,14 @@
+/**
+ * @Author: 魏巍
+ * @Date:   2017-12-03T12:18:04+08:00
+ * @Email:  jswei30@gmail.com
+ * @Filename: uploadify.js
+ * @Last modified by:   魏巍
+ * @Last modified time: 2017-12-03T12:24:58+08:00
+ */
+
+
+
 //图片操作上传
 var express = require('express'),
 router = express.Router(),

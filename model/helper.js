@@ -4,7 +4,7 @@
  * @Email:  jswei30@gmail.com
  * @Filename: helper.js
  * @Last modified by:   魏巍
- * @Last modified time: 2017-12-03T12:24:15+08:00
+ * @Last modified time: 2017-12-28T15:32:43+08:00
  */
 
 
@@ -58,6 +58,27 @@ exports.familyTree=(arr, pid)=>{
     forFn(arr, pid);
     return temp;
 }
+
+module.exports.tree=(data)=>{
+    data.forEach(function (item) {
+        delete item.children;
+    });
+    var map = {};
+    data.forEach(function (item) {
+        map[item.id] = item;
+    });
+    var val = [];
+    data.forEach(function (item) {
+        var parent = map[item.fid];
+        if (parent) {
+            (parent.children || ( parent.children = [] )).push(item);
+        } else {
+            val.push(item);
+        }
+    });
+    return val;
+}
+
 module.exports.jq = function(){
     var request = require('request');
     var jsdom = require("jsdom");

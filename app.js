@@ -1,3 +1,13 @@
+/**
+ * @Author: 魏巍
+ * @Date:   2017-12-27T17:36:49+08:00
+ * @Email:  524314430@qq.com
+ * @Last modified by:   魏巍
+ * @Last modified time: 2017-12-27T17:46:26+08:00
+ */
+
+
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,6 +20,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var admin = require('./routes/admin');
 var uploadify = require('./routes/uploadify');  //文件上传
+var api = require('./routes/api')
 var config = require('config-lite'),            //读取配置文件
 ejs = require('ejs');
 var app = express();
@@ -37,6 +48,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/admin', admin);
 app.use('/uploadify',uploadify);
+app.use('/api',api);
 
 //扩展模板截取方法
 app.locals.ellipsis=(str,start=0,len,flag=false)=>{

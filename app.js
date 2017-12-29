@@ -3,7 +3,7 @@
  * @Date:   2017-12-27T17:36:49+08:00
  * @Email:  524314430@qq.com
  * @Last modified by:   魏巍
- * @Last modified time: 2017-12-27T17:46:26+08:00
+ * @Last modified time: 2017-12-29T16:52:49+08:00
  */
 
 
@@ -15,6 +15,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+const tools = require('./tools');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -107,7 +108,6 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render('error');
@@ -117,5 +117,7 @@ app.use(function(err, req, res, next) {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
-
+app.listen(config.port, function () {
+ tools.open_url();
+});
 module.exports = app;

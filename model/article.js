@@ -4,11 +4,8 @@
  * @Email:  jswei30@gmail.com
  * @Filename: article.js
  * @Last modified by:   魏巍
- * @Last modified time: 2017-12-03T12:23:40+08:00
+ * @Last modified time: 2017-12-29T22:14:58+08:00
  */
-
-
-
 var mongoose = require('./db'),
 Colunm = require('../model/colunm'),
 helper = require('../model/helper');
@@ -76,12 +73,12 @@ ArticleSchema.statics.getArticleSee=(condition,callback)=>{
         return;
       }
   });
-  Article.findOne(condition,(e,a)=>{
+  Article.findOne(condition,(e,art)=>{
       if(e){
           callback(e,null,null,null);
           return;
       }
-      a.content = helper.decodeHtml(a.content);
+      art.content = helper.decodeHtml(art.content);
       Article.findOne({_id:{$lt:a._id},status:false},(e1,pre)=>{
         if(e1){
             callback(e1,null,null,null);
@@ -92,7 +89,7 @@ ArticleSchema.statics.getArticleSee=(condition,callback)=>{
               callback(e1,null,null,null);
               return;
           }
-          callback(null,a,pre,nex);
+          callback(null,art,pre,nex);
         }).limit(1).sort({_id:1});
       }).limit(1).sort({_id:-1});
   });
@@ -129,7 +126,6 @@ ArticleSchema.statics.getArticleRound=(condition,length,callback)=>{
     for (let i = 0; i < length; i++) {
     	let skip = Math.round(Math.random() * total);
       if(arr.findIndex((v,i)=>{return v==skip;})>-1){
-        //--i;
         continue;
       }else{
           arr.push(skip);

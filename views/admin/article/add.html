@@ -1,15 +1,15 @@
 <%include ../public/header.html%>
-<%include ../public/left.html%>
-<div class="widget  radius-bordered">
-        <div class="widget-header">
-            <span class="widget-caption">文章操作</span>
-        </div>
-        <div class="widget-body">
-            <form id="togglingForm" action="/admin/add_article" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">父级栏目<sup>*</sup></label>
-                    <div class="col-lg-4">
-                        <select class="span4 m-wrap" name="fid">
+  <%include ../public/left.html%>
+    <div class="widget  radius-bordered">
+      <div class="widget-header">
+        <span class="widget-caption">文章操作</span>
+      </div>
+      <div class="widget-body">
+        <form id="togglingForm" action="/admin/add_article" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+          <div class="form-group">
+            <label class="col-lg-2 control-label">父级栏目<sup>*</sup></label>
+            <div class="col-lg-4">
+              <select class="span4 m-wrap" name="fid">
                             <option value="0">顶级文章</option>
                             <%for(i in clist){%>
                                 <option value="<%=clist[i]._id%>" <%if(clist[i]._id==info.fid){%>selected='selected'<%}%>>
@@ -17,346 +17,373 @@
                                 </option>
                             <%}%>
                         </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">文章标题<sup>*</sup></label>
-                    <div class="col-lg-4">
-                        <input type="text" name="title" value="<%=info.title%>" class="form-control" id="title" placeholder="文章标题"/>
-                        <input type="hidden" name="id" value="<%=info._id%>">
-                        <input type="hidden" name="rid" value="<%=info.fid%>">
-                        <input type="hidden" name="p" value="<%=_p%>">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">发布者</label>
-                    <div class="col-lg-4">
-                        <input type="text" name="author" value="<%=info.author%>" class="form-control" placeholder="发布者"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">图片</label>
-                    <div class="col-lg-3">
-                        <div>
-                            <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="image" id="fileImg" size="16" value="上传" class="table_btn"/></div>
-                            <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
-                            <div class="btn btn-danger btn-xs" onclick="noMasterImg()"><i class="fa fa-trash-o" style="cursor:pointer;display:block"></i></div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <div>
-                          <%if(info.image!=''){%>
-                            <img src="{$info.image}" id="images_preview" width="380" height="auto">
-                            <input type="hidden" value="{$info.image}" name="image" id="reply_img">
-                          <%}else{%>
-                            <img src="" id="images_preview" width="380" height="auto" style="display:none;">
-                            <input type="hidden"  name="image" id="reply_img">
-                          <%}%>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">文章关键词</label>
-                    <div class="col-lg-4">
-                        <textarea name="keywords" class="form-control" rows="5" placeholder="文章关键词"><%=info.keywords%></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">文章说明</label>
-                    <div class="col-lg-4">
-                        <textarea name="description" class="form-control" rows="5" placeholder="文章说明"><%=info.description%></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">文章类型</label>
-                    <div class="col-lg-6">
-                        <div class="checkbox checkbox-inline">
-                            <label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">文章标题<sup>*</sup></label>
+            <div class="col-lg-4">
+              <input type="text" name="title" value="<%=info.title%>" class="form-control" id="title" placeholder="文章标题" />
+              <input type="hidden" name="id" value="<%=info._id%>">
+              <input type="hidden" name="rid" value="<%=info.fid%>">
+              <input type="hidden" name="p" value="<%=_p%>">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">发布者</label>
+            <div class="col-lg-4">
+              <input type="text" name="author" value="<%=info.author%>" class="form-control" placeholder="发布者" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">图片</label>
+            <div class="col-lg-3">
+              <div>
+                <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="image" id="fileImg" size="16" value="上传" class="table_btn" /></div>
+                <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
+                <div class="btn btn-danger btn-xs" onclick="noMasterImg()"><i class="fa fa-trash-o" style="cursor:pointer;display:block"></i></div>
+                <div style="clear:both;"></div>
+              </div>
+              <div>
+                <%if(info.image!=''){%>
+                  <img src="{$info.image}" id="images_preview" width="380" height="auto">
+                  <input type="hidden" value="{$info.image}" name="image" id="reply_img">
+                  <%}else{%>
+                    <img src="" id="images_preview" width="380" height="auto" style="display:none;">
+                    <input type="hidden" name="image" id="reply_img">
+                    <%}%>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">文章关键词</label>
+            <div class="col-lg-4">
+              <textarea name="keywords" class="form-control" rows="5" placeholder="文章关键词"><%=info.keywords%></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">文章说明</label>
+            <div class="col-lg-4">
+              <textarea name="description" class="form-control" rows="5" placeholder="文章说明"><%=info.description%></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">文章类型</label>
+            <div class="col-lg-6" style="padding-left:0;">
+              <div class="checkbox checkbox-inline">
+                <label>
                                 <input type="checkbox" name="com" value="1" class="colored-success" <%if(info.com){%>checked="checked"<%}%>>
                                 <span class="text">推荐</span>
                             </label>
-                        </div>
-                        <div class="checkbox hide">
-                            <label>
+              </div>
+              <div class="checkbox hide">
+                <label>
                                 <input type="checkbox" name="com" class="colored-success" >
                                 <span class="text">推荐</span>
                             </label>
-                        </div>
-                        <div class="checkbox checkbox-inline">
-                            <label>
+              </div>
+              <div class="checkbox checkbox-inline">
+                <label>
                                 <input type="checkbox" name="hot" value="1" class="colored-success" <%if(info.hot){%>checked="checked"<%}%>>
                                 <span class="text">最热</span>
                             </label>
-                        </div>
-                        <div class="checkbox hide">
-                            <label>
+              </div>
+              <div class="checkbox hide">
+                <label>
                                 <input type="checkbox" name="hot" class="colored-success" >
                                 <span class="text">最热</span>
                             </label>
-                        </div>
-                        <div class="checkbox checkbox-inline">
-                            <label>
+              </div>
+              <div class="checkbox checkbox-inline">
+                <label>
                                 <input type="checkbox" name="new" value="1" class="colored-success" <%if(info.new){%>checked="checked"<%}%>>
                                 <span class="text">最新</span>
                             </label>
-                        </div>
-                        <div class="checkbox hide">
-                            <label>
+              </div>
+              <div class="checkbox hide">
+                <label>
                                 <input type="checkbox" name="new" class="colored-success" >
                                 <span class="text">最新</span>
                             </label>
-                        </div>
-                        <div class="checkbox checkbox-inline">
-                            <label>
+              </div>
+              <div class="checkbox checkbox-inline">
+                <label>
                                 <input type="checkbox" name="head" value="1" class="colored-success" <%if(info.head){%>checked="checked"<%}%>>
                                 <span class="text">头条</span>
                             </label>
-                        </div>
-                        <div class="checkbox hide">
-                            <label>
+              </div>
+              <div class="checkbox hide">
+                <label>
                                 <input type="checkbox" name="head" class="colored-success" >
                                 <span class="text">头条</span>
                             </label>
-                        </div>
-                        <div class="checkbox checkbox-inline">
-                            <label>
+              </div>
+              <div class="checkbox checkbox-inline">
+                <label>
                                 <input type="checkbox" name="top" value="1" class="colored-success" <%if(info.top){%>checked="checked"<%}%>>
                                 <span class="text">置顶</span>
                             </label>
-                        </div>
-                        <div class="checkbox hide">
-                            <label>
+              </div>
+              <div class="checkbox hide">
+                <label>
                                 <input type="checkbox" name="top" class="colored-success" >
                                 <span class="text">置顶</span>
                             </label>
-                        </div>
-                        <div class="checkbox checkbox-inline">
-                            <label>
+              </div>
+              <div class="checkbox checkbox-inline">
+                <label>
                                 <input type="checkbox" name="img" value="1" class="colored-success" <%if(info.img){%>checked="checked"<%}%>>
                                 <span class="text">图文</span>
                             </label>
-                        </div>
-                        <div class="checkbox hide">
-                            <label>
+              </div>
+              <div class="checkbox hide">
+                <label>
                                 <input type="checkbox" name="img" class="colored-success" >
                                 <span class="text">图文</span>
                             </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">文章内容</label>
-                    <div class="col-lg-8">
-                         <textarea name="content" class="form-control"  placeholder="主要内容"><%=info.content%></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">排序</label>
-                    <div class="col-lg-2">
-                        <input name="sorts" value="<%=info.sorts%>" class="form-control" placeholder="文章排序"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">文章状态</label>
-                    <div class="col-lg-6">
-                        <div class="radio pull-left">
-                            <label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">文章内容</label>
+            <div class="col-lg-8">
+              <textarea name="content" class="form-control" placeholder="主要内容"><%=info.content%></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">排序</label>
+            <div class="col-lg-2">
+              <input name="sorts" value="<%=info.sorts%>" class="form-control" placeholder="文章排序" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">文章状态</label>
+            <div class="col-lg-6" style="padding-left:0;">
+              <div class="radio pull-left">
+                <label>
                                 <input name="status" type="radio" value="0" class="colored-success" <%if(info._id==null){%>checked="checked"<%}else if(!info.status){%>checked="checked"<%}%>>
                                 <span class="text">是</span>
                             </label>
-                        </div>
-                        <div class="radio pull-left">
-                            <label>
+              </div>
+              <div class="radio pull-left">
+                <label>
                                 <input name="status" type="radio" value="1" class="colored-danger" <%if(info.status){%>checked="checked"<%}%>>
                                 <span class="text">否</span>
                             </label>
-                        </div>
-                        <div class="radio hide">
-                            <label>
+              </div>
+              <div class="radio hide">
+                <label>
                                 <input name="status" type="radio" class="colored-blueberry">
                                 <span class="text"></span>
                             </label>
-                        </div>
-                    </div>
-                </div>
-                <hr class="wide" />
-                <div class="form-group">
-                    <div class="col-lg-4 col-lg-offset-2">
-                        <button type="submit" class="btn btn-danger col-lg-2">提交</button>
-                        <button type="button" class="btn btn-warning col-lg-2 ml10" onclick="window.history.go(-1);">返回</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+              </div>
+            </div>
+          </div>
+          <hr class="wide" />
+          <div class="form-group">
+            <div class="col-lg-4 col-lg-offset-2">
+              <button type="submit" class="btn btn-danger col-lg-2">提交</button>
+              <button type="button" class="btn btn-warning col-lg-2 ml10" onclick="window.history.go(-1);">返回</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-</div>
-<script src="/plug/beyond/js/validation/bootstrapValidator.js"></script>
-<script src="/plug/jquery.han2pin.min.js"></script>
-<script src="/plug/beyond/js/colorpicker/jquery.minicolors.js"></script>
-<link rel="stylesheet" href="/plug/Uploadify/uploadify.css" />
-<script type="text/javascript" src="/plug/Uploadify/jquery.uploadify.min.js"></script>
+    </div>
+    <script src="/plug/beyond/js/validation/bootstrapValidator.js"></script>
+    <script src="/plug/jquery.han2pin.min.js"></script>
+    <script src="/plug/beyond/js/colorpicker/jquery.minicolors.js"></script>
+    <link rel="stylesheet" href="/plug/Uploadify/uploadify.css" />
+    <script type="text/javascript" src="/plug/Uploadify/jquery.uploadify.min.js"></script>
 
-<!-- 编辑器 -->
-<link rel="stylesheet" href="/plug/simditor/styles/simditor.css">
-<script type="text/javascript" src="/plug/simditor/scripts/module.js"></script>
-<script type="text/javascript" src="/plug/simditor/scripts/hotkeys.js"></script>
-<script type="text/javascript" src="/plug/simditor/scripts/uploader.js"></script>
-<script type="text/javascript" src="/plug/simditor/scripts/simditor.js"></script>
-<script type="text/javascript" src="/plug/simditor/scripts/simditor-mark.js"></script>
-<!-- 表情 -->
-<link rel="stylesheet" type="text/css" href="/plug/simditor/emoji/styles/simditor-emoji.css" />
-<script src="/plug/simditor/emoji/lib/simditor-emoji.js"></script>
-<!-- html查看 -->
-<link rel="stylesheet" type="text/css" href="/plug/simditor/html/styles/simditor-html.css" />
-<script src="/plug/simditor/html/lib/beautify-html.js"></script>
-<script src="/plug/simditor/html/lib/simditor-html.js"></script>
-<!-- markdown -->
-<script type="text/javascript" src="/plug/simditor/markdown/lib/marked.js"></script>
-<script type="text/javascript" src="/plug/simditor/markdown/lib/to-markdown.js"></script>
-<script type="text/javascript" src="/plug/simditor/markdown/lib/simditor-markdown.js"></script>
-<link rel="stylesheet" href="/plug/simditor/markdown/styles/simditor-markdown.css"/>
-<!-- fullscreen -->
-<link rel="stylesheet" href="/plug/simditor/fullscreen/styles/simditor-fullscreen.css" />
-<script type="text/javascript" src="/plug/simditor/fullscreen/lib/simditor-fullscreen.js"></script>
-<!-- checklist -->
-<link rel="stylesheet" type="text/css" href="/plug/simditor/checklist/styles/simditor-checklist.css" />
-<script src="/plug/simditor/checklist/lib/simditor-checklist.js"></script>
-<script type="text/javascript">
-    $(function(){
-          var editor = new Simditor({
-            textarea: $('textarea[name="content"]'),
-            placeholder: '请在这里输入内容...',
-            defaultImage: '/plug/simditor/images/image.png',
-            toolbarFloat: true,
-            upload:{
-              url: '/uploadify/upload',
-              params: null,
-              fileKey: 'upload_file',
-              connectionCount: 3,
-              leaveConfirm: '正在上传图片你确定要离开吗?',
-            },
-            tabIndent: true,
-            toolbar:['title','bold','italic','underline','strikethrough','fontScale','color','mark',
-            '|','ol','ul','checklist','|','blockquote','code','table', 'link','image','emoji','|',
-            'hr','alignment','indent', 'outdent','|','html','markdown','fullscreen'
-            ],
-            emoji: {
-                imagePath: '/plug/simditor/emoji/images/emoji'
-            }
+    <!-- 编辑器 -->
+    <link rel="stylesheet" href="/plug/simditor/styles/simditor.css">
+    <script type="text/javascript" src="/plug/simditor/scripts/module.js"></script>
+    <script type="text/javascript" src="/plug/simditor/scripts/hotkeys.js"></script>
+    <script type="text/javascript" src="/plug/simditor/scripts/uploader.js"></script>
+    <script type="text/javascript" src="/plug/simditor/scripts/simditor.js"></script>
+    <script type="text/javascript" src="/plug/simditor/scripts/simditor-mark.js"></script>
+    <!-- 表情 -->
+    <link rel="stylesheet" type="text/css" href="/plug/simditor/emoji/styles/simditor-emoji.css" />
+    <script src="/plug/simditor/emoji/lib/simditor-emoji.js"></script>
+    <!-- html查看 -->
+    <link rel="stylesheet" type="text/css" href="/plug/simditor/html/styles/simditor-html.css" />
+    <script src="/plug/simditor/html/lib/beautify-html.js"></script>
+    <script src="/plug/simditor/html/lib/simditor-html.js"></script>
+    <!-- markdown -->
+    <script type="text/javascript" src="/plug/simditor/markdown/lib/marked.js"></script>
+    <script type="text/javascript" src="/plug/simditor/markdown/lib/to-markdown.js"></script>
+    <script type="text/javascript" src="/plug/simditor/markdown/lib/simditor-markdown.js"></script>
+    <link rel="stylesheet" href="/plug/simditor/markdown/styles/simditor-markdown.css" />
+    <!-- fullscreen -->
+    <link rel="stylesheet" href="/plug/simditor/fullscreen/styles/simditor-fullscreen.css" />
+    <script type="text/javascript" src="/plug/simditor/fullscreen/lib/simditor-fullscreen.js"></script>
+    <!-- checklist -->
+    <link rel="stylesheet" type="text/css" href="/plug/simditor/checklist/styles/simditor-checklist.css" />
+    <script src="/plug/simditor/checklist/lib/simditor-checklist.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var editor = new Simditor({
+          textarea: $('textarea[name="content"]'),
+          placeholder: '请在这里输入内容...',
+          defaultImage: '/plug/simditor/images/image.png',
+          toolbarFloat: true,
+          upload: {
+            url: '/uploadify/upload',
+            params: null,
+            fileKey: 'upload_file',
+            connectionCount: 3,
+            leaveConfirm: '正在上传图片你确定要离开吗?',
+          },
+          tabIndent: true,
+          toolbar: ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'mark',
+            '|', 'ol', 'ul', 'checklist', '|', 'blockquote', 'code', 'table', 'link', 'image', 'emoji', '|',
+            'hr', 'alignment', 'indent', 'outdent', '|', 'html', 'markdown', 'fullscreen'
+          ],
+          emoji: {
+            imagePath: '/plug/simditor/emoji/images/emoji'
+          }
         });
 
         $('#togglingForm').bootstrapValidator({
             message: '验证没有通过',
             feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
+              valid: 'glyphicon glyphicon-ok',
+              invalid: 'glyphicon glyphicon-remove',
+              validating: 'glyphicon glyphicon-refresh'
             },
-            submitHandler: function (validator, form, submitButton) {
-                var index = layer.load(2,{
-                    shade: [0.4,'#000'] //0.1透明度的白色背景
-                });
-                $.post(form.attr('action'),form.serialize(),function(data){
-                    layer.close(index);
-                    if(data.status==1){
-                        layer.alert(data.msg,{icon:6,end:function(){
-                            location.href = data.redirect;
-                        }});
-                    }else {
-                        layer.alert(data.msg,{icon:5});
+            submitHandler: function(validator, form, submitButton) {
+              var index = layer.load(2, {
+                shade: [0.4, '#000'] //0.1透明度的白色背景
+              });
+              $.post(form.attr('action'), form.serialize(), function(data) {
+                layer.close(index);
+                if (data.status == 1) {
+                  layer.alert(data.msg, {
+                    icon: 6,
+                    end: function() {
+                      location.href = data.redirect;
                     }
-                });
+                  });
+                } else {
+                  layer.alert(data.msg, {
+                    icon: 5
+                  });
+                }
+              });
             },
             fields: {
-                title: {
-                    validators: {
-                        notEmpty: {
-                            message: '请输入文章名称'
-                        }
-                    }
+              title: {
+                validators: {
+                  notEmpty: {
+                    message: '请输入文章名称'
+                  }
                 }
+              }
             }
-        })
-        .find('button[data-toggle]')
-        .on('click', function () {
+          })
+          .find('button[data-toggle]')
+          .on('click', function() {
             var $target = $($(this).attr('data-toggle'));
             $target.toggle();
             if (!$target.is(':visible')) {
-                $('#togglingForm').data('bootstrapValidator').disableSubmitButtons(false);
+              $('#togglingForm').data('bootstrapValidator').disableSubmitButtons(false);
             }
-        });
-    });
-    function imgView(pic_url){
-        if(pic_url == 'master'){
-            pic_url = $('#reply_img').val();
+          });
+      });
+
+      function imgView(pic_url) {
+        if (pic_url == 'master') {
+          pic_url = $('#reply_img').val();
         }
-        if(pic_url==''){
-            layer.alert('你还没有上传图片',{icon:5});
-            return false;
+        if (pic_url == '') {
+          layer.alert('你还没有上传图片', {
+            icon: 5
+          });
+          return false;
         }
         layer.open({
-            type: 1,
-            title: '查看图片',
-            skin: 'layui-layer-rim', //加上边框
-            area: ['500px', '400px'], //宽高
-            content: "<div style='max-width:500px; max-height:400px; overflow:auto;'>"+
-            "<img style='max-width:500px; max-height:400px; overflow:auto;' src='"+pic_url+"'/></div>",
+          type: 1,
+          title: '查看图片',
+          skin: 'layui-layer-rim', //加上边框
+          area: ['500px', '400px'], //宽高
+          content: "<div style='max-width:500px; max-height:400px; overflow:auto;'>" +
+            "<img style='max-width:500px; max-height:400px; overflow:auto;' src='" + pic_url + "'/></div>",
         });
-    }
+      }
 
-    //照片
-    $("#fileImg").uploadify({
-        fileTypeDesc    : '图片文件',
-        fileTypeExts    : '*.png;*.jpg;*.jpeg;*.gif;',
-        buttonText      : '选择图片',
-        buttonClass     : 'upload_button',
-        fileObjName     : 'image',          //上传文件接收名
-        swf             : '/plug/Uploadify/uploadify.swf',
-        uploader        : "Uploadify/uploadimg",
-        multi           : false,
-        onUploadSuccess : function(file, data, response) {
-            $("#reply_img").val(data);
-            $("#images_preview").attr('src',data);
-            $('#images_preview').show();
-            $('#img_b').show();
-            $('#img_c').show();
+      //照片
+      $("#fileImg").uploadify({
+        fileTypeDesc: '图片文件',
+        fileTypeExts: '*.png;*.jpg;*.jpeg;*.gif;',
+        buttonText: '选择图片',
+        buttonClass: 'upload_button',
+        fileObjName: 'image', //上传文件接收名
+        swf: '/plug/Uploadify/uploadify.swf',
+        uploader: "Uploadify/uploadimg",
+        multi: false,
+        onUploadSuccess: function(file, data, response) {
+          $("#reply_img").val(data);
+          $("#images_preview").attr('src', data);
+          $('#images_preview').show();
+          $('#img_b').show();
+          $('#img_c').show();
         }
-    });
-    function noMasterImg(){
+      });
+
+      function noMasterImg() {
         $src = $("#images_preview").attr('src');
-        if($src==''){
-            layer.alert('您好没有上传图片',{icon:5});
-            return false;
+        if ($src == '') {
+          layer.alert('您好没有上传图片', {
+            icon: 5
+          });
+          return false;
         }
-        $.post("{:Url('Uploadify/delmg')}",{src:$src},function(data){
-            if(data.status==1){
-                layer.msg(data.msg,{icon:1});
-                $("#reply_img").val('');
-                $('#images_preview').attr('src','');
-                $('#img_c').hide();
-                $('#images_preview').hide();
-            }else{
-                layer.alert(data.msg,{icon:5});
-            }
+        $.post("{:Url('Uploadify/delmg')}", {
+          src: $src
+        }, function(data) {
+          if (data.status == 1) {
+            layer.msg(data.msg, {
+              icon: 1
+            });
+            $("#reply_img").val('');
+            $('#images_preview').attr('src', '');
+            $('#img_c').hide();
+            $('#images_preview').hide();
+          } else {
+            layer.alert(data.msg, {
+              icon: 5
+            });
+          }
         });
-    }
-    function deleteImage(obj) {
+      }
+
+      function deleteImage(obj) {
         var url = $(obj).attr('data-path');
-        if(url==''){
-            layer.alert('删除图片不存在',{icon:2});
+        if (url == '') {
+          layer.alert('删除图片不存在', {
+            icon: 2
+          });
         }
         var index = layer.load(2, {
-            shade: [0.4,'#fff'] //0.1透明度的白色背景
+          shade: [0.4, '#fff'] //0.1透明度的白色背景
         });
-        $.post("{:Url('Uploadify/delmg')}",{src:url},function(data){
-            if(data.status==1){
-                layer.msg(data.msg,{icon:1,end:function () {
-                    layer.closeAll();
-                    $(obj).parent('span.imageDiv').remove();
-                }});
-            }else{
-                layer.msg(data.msg,{icon:5});
-            }
+        $.post("{:Url('Uploadify/delmg')}", {
+          src: url
+        }, function(data) {
+          if (data.status == 1) {
+            layer.msg(data.msg, {
+              icon: 1,
+              end: function() {
+                layer.closeAll();
+                $(obj).parent('span.imageDiv').remove();
+              }
+            });
+          } else {
+            layer.msg(data.msg, {
+              icon: 5
+            });
+          }
         });
-    }
-</script>
-<%include ../public/footer.html%>
+      }
+    </script>
+    <%include ../public/footer.html%>

@@ -1,321 +1,348 @@
 <%include ../public/header.html%>
-<%include ../public/left.html%>
-<!-- Page Body -->
-<div class="page-body">
-  <div class="row">
-    <form id="togglingForm" action="/admin/config" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
-        <div class="form-group">
-            <label class="col-md-2 col-lg-2 control-label">网站标题<sup>*</sup></label>
+  <%include ../public/left.html%>
+    <!-- Page Body -->
+    <div class="widget-body">
+      <div class="row">
+        <form id="togglingForm" action="/admin/config" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+          <div class="form-group">
+            <label class="col-md-2 col-lg-2 control-label">网站标题<sup class="text-danger">*</sup></label>
             <div class="col-md-6  col-lg-6">
-                <input type="text" name="title" value="<%if(config){%><%= config.title%><%}%>" class="form-control" id="name" placeholder="网站标题"/>
-                <input type="hidden" name="id" value="<%if(config){%><%= config._id%><%}%>">
+              <input type="text" name="title" value="<%if(config){%><%= config.title%><%}%>" class="form-control" id="name" placeholder="网站标题" />
+              <input type="hidden" name="id" value="<%if(config){%><%= config._id%><%}%>">
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 col-lg-2 control-label">网站地址<sup>*</sup></label>
+          </div>
+          <div class="form-group">
+            <label class="col-md-2 col-lg-2 control-label">网站地址<sup class="text-danger">*</sup></label>
             <div class="col-md-6  col-lg-6">
-                <input type="url" name="url" data-fv-uri="true" value="<%if(config){%><%= config.url%><%}else{%>http://<%}%>" data-bv-uri-message="请输入正确的网址" class="form-control" id="url" placeholder="网站域名"/>
+              <input type="url" name="url" data-fv-uri="true" value="<%if(config){%><%= config.url%><%}else{%>http://<%}%>" data-bv-uri-message="请输入正确的网址" class="form-control" id="url" placeholder="网站域名" />
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-lg-2 control-label">网站关键词</label>
             <div class="col-md-6 col-lg-6">
-                <textarea name="keywords" class="form-control" rows="5" placeholder="文档关键词"><%if(config){%><%= config.keywords%><%}%></textarea>
+              <textarea name="keywords" class="form-control" rows="5" placeholder="文档关键词"><%if(config){%><%= config.keywords%><%}%></textarea>
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">网站说明</label>
             <div class="col-md-6 col-lg-6">
-                <textarea name="description" class="form-control" rows="6" placeholder="网站说明"><%if(config){%><%= config.description%><%}%></textarea>
+              <textarea name="description" class="form-control" rows="6" placeholder="网站说明"><%if(config){%><%= config.description%><%}%></textarea>
             </div>
-        </div>
-       <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">网站LOGO</label>
             <div class="col-lg-4">
-                <div>
-                    <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="logo" id="fileImg" multiple="multiple" size="16" value="上传" class="table_btn"/></div>
-                    <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
-                    <div class="btn btn-danger btn-xs" onclick="noMasterImg()"><i class="fa fa-trash-o" style="cursor:pointer;display:block"></i></div>
-                    <div style="clear:both;"></div>
-                </div>
-                <div>
-                  <% if (config!=null) { %>
-                    <img src="<%if(config){%><%= config.logo%><%}%>" id="images_preview" width="380" height="auto">
-                    <input type="hidden" value="<%if(config){%><%= config.logo%><%}%>" name="logo" id="reply_img">
+              <div>
+                <div style="float:left; margin-top:8px;margin-right:6px;"><input type="button" name="logo" id="fileImg" multiple="multiple" size="16" value="上传" class="table_btn" /></div>
+                <div class="btn btn-warning btn-xs" onclick="imgView('master');return false;" id="img_b"><i class="fa fa-search-plus" style="cursor:pointer;display:block"></i></div>
+                <div class="btn btn-danger btn-xs" onclick="noMasterImg()"><i class="fa fa-trash-o" style="cursor:pointer;display:block"></i></div>
+                <div style="clear:both;"></div>
+              </div>
+              <div>
+                <% if (config!=null) { %>
+                  <img src="<%if(config){%><%= config.logo%><%}%>" id="images_preview" width="380" height="auto">
+                  <input type="hidden" value="<%if(config){%><%= config.logo%><%}%>" name="logo" id="reply_img">
                   <% } else {%>
-                      <img src="" id="images_preview" width="380" height="auto" style="display:none;">
-                      <input type="hidden"  name="logo" id="reply_img">
-                  <%}%>
-                </div>
+                    <img src="" id="images_preview" width="380" height="auto" style="display:none;">
+                    <input type="hidden" name="logo" id="reply_img">
+                    <%}%>
+              </div>
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">启用轮播</label>
-            <div class="col-lg-6">
-                <div class="radio pull-left">
-                    <label>
+            <div class="col-lg-6" style="padding-left:0;">
+              <div class="radio pull-left">
+                <label>
                         <input name="carousel" type="radio" value="0" class="colored-success" <% if(config!==null && config.carousel==0) { %> checked="checked" <%}%> <%if(config==null){%>checked="checked"<%}%>>
                         <span class="text">是</span>
                     </label>
-                </div>
-                <div class="radio pull-left">
-                    <label>
+              </div>
+              <div class="radio pull-left">
+                <label>
                         <input name="carousel" type="radio" value="1" class="colored-danger" <% if(config!=null && config.carousel==1) { %> checked="checked" <%}%>>
                         <span class="text">否</span>
                     </label>
-                </div>
-                <div class="radio hide">
-                    <label>
+              </div>
+              <div class="radio hide">
+                <label>
                         <input name="carousel" type="radio" class="colored-blueberry">
                         <span class="text"></span>
                     </label>
-                </div>
+              </div>
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">轮播个数</label>
             <div class="col-md-6 col-lg-3">
-                <input type="text" name="num" value="<%if(config){%><%= config.num%><%}%>" class="form-control" id="num" placeholder="轮播个数"/>
-                <div class="text-danger">
-                  *0代表全部,负数不显示,正数显示个数
-                </div>
+              <input type="text" name="num" value="<%if(config){%><%= config.num%><%}%>" class="form-control" id="num" placeholder="轮播个数" />
+              <div class="text-danger">
+                *0代表全部,负数不显示,正数显示个数
+              </div>
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">联系固话</label>
             <div class="col-md-6 col-lg-3">
-                <input type="text" name="tel" value="<%if(config){%><%= config.tel%><%}%>" class="form-control" id="tel" placeholder="联系固话"/>
+              <input type="text" name="tel" value="<%if(config){%><%= config.tel%><%}%>" class="form-control" id="tel" placeholder="联系固话" />
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">联系手机</label>
             <div class="col-md-6 col-lg-3">
-                <input type="text" name="phone" value="<%if(config){%><%= config.phone%><%}%>" class="form-control" id="phone" placeholder="联系手机"/>
+              <input type="text" name="phone" value="<%if(config){%><%= config.phone%><%}%>" class="form-control" id="phone" placeholder="联系手机" />
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">联系传真</label>
             <div class="col-md-6 col-lg-3">
-                <input type="text" name="fax" value="<%if(config){%><%= config.fax%><%}%>" class="form-control" id="fax" placeholder="联系传真"/>
+              <input type="text" name="fax" value="<%if(config){%><%= config.fax%><%}%>" class="form-control" id="fax" placeholder="联系传真" />
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">联系邮箱</label>
             <div class="col-md-6 col-lg-3">
-                <input type="text" name="email" value="<%if(config){%><%= config.email%><%}%>" class="form-control" id="email" placeholder="联系邮箱"/>
+              <input type="text" name="email" value="<%if(config){%><%= config.email%><%}%>" class="form-control" id="email" placeholder="联系邮箱" />
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">联系地址</label>
             <div class="col-md-6 col-lg-6">
-                <input type="text" name="address" value="<%if(config){%><%= config.address%><%}%>" class="form-control" id="address" placeholder="联系地址"/>
+              <input type="text" name="address" value="<%if(config){%><%= config.address%><%}%>" class="form-control" id="address" placeholder="联系地址" />
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">版权信息</label>
             <div class="col-md-6 col-lg-6">
-                <input type="text" name="copyright" value="<%if(config){%><%= config.copyright%><%}%>" class="form-control" id="copyright" placeholder="版权信息"/>
+              <input type="text" name="copyright" value="<%if(config){%><%= config.copyright%><%}%>" class="form-control" id="copyright" placeholder="版权信息" />
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">备案号</label>
             <div class="col-md-6 col-lg-6">
-                <input type="text" name="icp" value="<%if(config){%><%= config.icp%><%}%>" class="form-control" id="icp" placeholder="版权信息"/>
+              <input type="text" name="icp" value="<%if(config){%><%= config.icp%><%}%>" class="form-control" id="icp" placeholder="版权信息" />
             </div>
-        </div>
-        <div class="form-group">
-          <label class="col-md-2 col-lg-2 control-label">友情链接</label>
-          <div class="col-lg-6">
+          </div>
+          <div class="form-group">
+            <label class="col-md-2 col-lg-2 control-label">友情链接</label>
+            <div class="col-lg-6" style="padding-left:0;">
               <div class="radio pull-left">
-                  <label>
+                <label>
                       <input name="flink" type="radio" value="0" class="colored-success" <% if(config!=null && config.flink==0) { %> checked="checked" <%}%> <%if(config==null){%>checked="checked"<%}%>>
                       <span class="text">是</span>
                   </label>
               </div>
               <div class="radio pull-left">
-                  <label>
+                <label>
                       <input name="flink" type="radio" value="1" class="colored-danger" <% if(config !=null && config.flink==1) { %> checked="checked" <%}%>>
                       <span class="text">否</span>
                   </label>
               </div>
               <div class="radio hide">
-                  <label>
+                <label>
                       <input name="flink" type="radio" class="colored-blueberry">
                       <span class="text"></span>
                   </label>
               </div>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">启用分享</label>
-            <div class="col-lg-6">
-                <div class="radio pull-left">
-                    <label>
+            <div class="col-lg-6" style="padding-left:0;">
+              <div class="radio pull-left">
+                <label>
                         <input name="is_shard" type="radio" value="0" class="colored-success" <% if(config!=null && config.is_shard==0) { %> checked="checked" <%}%> <%if(config==null){%>checked="checked"<%}%>>
                         <span class="text">是</span>
                     </label>
-                </div>
-                <div class="radio pull-left">
-                    <label>
+              </div>
+              <div class="radio pull-left">
+                <label>
                         <input name="is_shard" type="radio" value="1" class="colored-danger" <% if(config!=null && config.is_shard==1) { %> checked="checked" <%}%>>
                         <span class="text">否</span>
                     </label>
-                </div>
-                <div class="radio hide">
-                    <label>
+              </div>
+              <div class="radio hide">
+                <label>
                         <input name="is_shard" type="radio" class="colored-blueberry">
                         <span class="text"></span>
                     </label>
-                </div>
+              </div>
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">分享代码</label>
             <div class="col-md-6 col-lg-6">
-                <textarea name="shard" class="form-control" rows="5" placeholder="分享代码"><%if(config){%><%= config.shade%><%}%></textarea>
+              <textarea name="shard" class="form-control" rows="5" placeholder="分享代码"><%if(config){%><%= config.shade%><%}%></textarea>
             </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="col-md-2 col-lg-2 control-label">统计代码</label>
             <div class="col-md-6 col-lg-6">
-                <textarea name="code" class="form-control" rows="5" placeholder="统计代码"><%if(config){%><%= config.code%><%}%></textarea>
+              <textarea name="code" class="form-control" rows="5" placeholder="统计代码"><%if(config){%><%= config.code%><%}%></textarea>
             </div>
-        </div>
-        <hr class="wide" />
-        <div class="form-group">
+          </div>
+          <hr class="wide" />
+          <div class="form-group">
             <div class="col-md-6 col-lg-6 col-lg-offset-2">
-                <button type="submit" class="btn btn-danger col-lg-2">确认修改</button>
+              <button type="submit" class="btn btn-danger col-lg-2">确认修改</button>
             </div>
-        </div>
-    </form>
-  </div>
-</div>
-<script src="/plug/beyond/js/validation/bootstrapValidator.js" charset="utf-8"></script>
-<link rel="stylesheet" href="/plug/Uploadify/uploadify.css" />
-<script type="text/javascript" src="/plug/Uploadify/jquery.uploadify.min.js"></script>
-<script type="text/javascript">
-    $(function(){
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="/plug/beyond/js/validation/bootstrapValidator.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/plug/Uploadify/uploadify.css" />
+    <script type="text/javascript" src="/plug/Uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
         $('#togglingForm').bootstrapValidator({
             message: '验证没有通过',
             feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
+              valid: 'glyphicon glyphicon-ok',
+              invalid: 'glyphicon glyphicon-remove',
+              validating: 'glyphicon glyphicon-refresh'
             },
-            submitHandler: function (validator, form, submitButton) {
-                var index = layer.load(2,{
-                    shade: [0.4,'#000'] //0.1透明度的白色背景
-                });
-                $.post(form.attr('action'),form.serialize(),function(data){
-                    layer.close(index);
-                    if(data.status==1){
-                        layer.alert(data.msg,{icon:6,end:function(){
-                            location.href = data.redirect;
-                        }});
-                    }else {
-                        layer.alert(data.msg,{icon:5});
+            submitHandler: function(validator, form, submitButton) {
+              var index = layer.load(2, {
+                shade: [0.4, '#000'] //0.1透明度的白色背景
+              });
+              $.post(form.attr('action'), form.serialize(), function(data) {
+                layer.close(index);
+                if (data.status == 1) {
+                  layer.alert(data.msg, {
+                    icon: 6,
+                    end: function() {
+                      location.href = data.redirect;
                     }
-                });
+                  });
+                } else {
+                  layer.alert(data.msg, {
+                    icon: 5
+                  });
+                }
+              });
             },
             fields: {
-                title: {
-                    validators: {
-                        notEmpty: {
-                            message: '请输入网站名称'
-                        }
-                    }
-                },
-                url:{
-                    validators: {
-                        notEmpty: {
-                            message: '请输入域名'
-                        }
-                    }
+              title: {
+                validators: {
+                  notEmpty: {
+                    message: '请输入网站名称'
+                  }
                 }
+              },
+              url: {
+                validators: {
+                  notEmpty: {
+                    message: '请输入域名'
+                  }
+                }
+              }
             }
-        })
-        .find('button[data-toggle]')
-        .on('click', function () {
+          })
+          .find('button[data-toggle]')
+          .on('click', function() {
             var $target = $($(this).attr('data-toggle'));
             $target.toggle();
             if (!$target.is(':visible')) {
-                $('#togglingForm').data('bootstrapValidator').disableSubmitButtons(false);
+              $('#togglingForm').data('bootstrapValidator').disableSubmitButtons(false);
             }
-        });
-    });
-    function imgView(pic_url){
-        if(pic_url == 'master'){
-            pic_url = $('#reply_img').val();
+          });
+      });
+
+      function imgView(pic_url) {
+        if (pic_url == 'master') {
+          pic_url = $('#reply_img').val();
         }
-        if(pic_url==''){
-            layer.alert('你还没有上传图片',{icon:5});
-            return false;
+        if (pic_url == '') {
+          layer.alert('你还没有上传图片', {
+            icon: 5
+          });
+          return false;
         }
         layer.open({
-            type: 1,
-            title: '查看图片',
-            skin: 'layui-layer-rim', //加上边框
-            area: ['500px', '400px'], //宽高
-            content: "<div style='max-width:500px; max-height:400px; overflow:auto;'><img style='max-width:500px; max-height:400px; overflow:auto;' src='"+pic_url+"'  /></div>"
+          type: 1,
+          title: '查看图片',
+          skin: 'layui-layer-rim', //加上边框
+          area: ['500px', '400px'], //宽高
+          content: "<div style='max-width:500px; max-height:400px; overflow:auto;'><img style='max-width:500px; max-height:400px; overflow:auto;' src='" + pic_url + "'  /></div>"
         });
-    }
+      }
 
-    //照片
-    $("#fileImg").uploadify({
-        fileTypeDesc    : '图片文件',
-        fileTypeExts    : '*.png;*.jpg;*.jpeg;*.gif;',
-        buttonText      : '选择图片',
-        buttonClass     : 'upload_button',
+      //照片
+      $("#fileImg").uploadify({
+        fileTypeDesc: '图片文件',
+        fileTypeExts: '*.png;*.jpg;*.jpeg;*.gif;',
+        buttonText: '选择图片',
+        buttonClass: 'upload_button',
         auto: true,
-        fileObjName     : 'image',          //上传文件接收名
-        swf             : '/plug/Uploadify/uploadify.swf',
-        uploader        : "/Uploadify/uploadimg",
-        multi           : false,
+        fileObjName: 'image', //上传文件接收名
+        swf: '/plug/Uploadify/uploadify.swf',
+        uploader: "/Uploadify/uploadimg",
+        multi: false,
         queueID: 'fileQueue',
-        onUploadSuccess : function(file, data, response) {
-            $("#reply_img").val(data);
-            $("#images_preview").attr('src',data);
-            $('#images_preview').show();
-            $('#img_b').show();
-            $('#img_c').show();
+        onUploadSuccess: function(file, data, response) {
+          $("#reply_img").val(data);
+          $("#images_preview").attr('src', data);
+          $('#images_preview').show();
+          $('#img_b').show();
+          $('#img_c').show();
         }
-    });
-    function noMasterImg(){
+      });
+
+      function noMasterImg() {
         $src = $("#images_preview").attr('src');
-        if($src==''){
-            layer.alert('您好没有上传图片',{icon:5});
-            return false;
+        if ($src == '') {
+          layer.alert('您好没有上传图片', {
+            icon: 5
+          });
+          return false;
         }
-        $.post("/Uploadify/delmg",{src:$src},function(data){
-            if(data.status==1){
-                layer.msg(data.msg,{icon:1});
-                $("#reply_img").val('');
-                $('#images_preview').attr('src','');
-                $('#img_c').hide();
-                $('#images_preview').hide();
-            }else{
-                layer.alert(data.msg,{icon:5});
-            }
+        $.post("/Uploadify/delmg", {
+          src: $src
+        }, function(data) {
+          if (data.status == 1) {
+            layer.msg(data.msg, {
+              icon: 1
+            });
+            $("#reply_img").val('');
+            $('#images_preview').attr('src', '');
+            $('#img_c').hide();
+            $('#images_preview').hide();
+          } else {
+            layer.alert(data.msg, {
+              icon: 5
+            });
+          }
         });
-    }
-    function deleteImage(obj) {
+      }
+
+      function deleteImage(obj) {
         var url = $(obj).attr('data-path');
-        if(url==''){
-            layer.alert('删除图片不存在',{icon:2});
+        if (url == '') {
+          layer.alert('删除图片不存在', {
+            icon: 2
+          });
         }
         var index = layer.load(2, {
-            shade: [0.4,'#fff'] //0.1透明度的白色背景
+          shade: [0.4, '#fff'] //0.1透明度的白色背景
         });
-        $.post("/Uploadify/delmg",{src:url},function(data){
-        	layer.close(index);
-            if(data.status==1){
-                layer.msg(data.msg,{icon:1,end:function () {
-                	$(obj).parent('span.imageDiv').remove();
-                }});
-            }else{
-                layer.msg(data.msg,{icon:5});
-            }
+        $.post("/Uploadify/delmg", {
+          src: url
+        }, function(data) {
+          layer.close(index);
+          if (data.status == 1) {
+            layer.msg(data.msg, {
+              icon: 1,
+              end: function() {
+                $(obj).parent('span.imageDiv').remove();
+              }
+            });
+          } else {
+            layer.msg(data.msg, {
+              icon: 5
+            });
+          }
         });
-    }
-</script>
-<%include ../public/footer.html%>
+      }
+    </script>
+    <%include ../public/footer.html%>
